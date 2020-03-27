@@ -1,8 +1,8 @@
 ---
 title: "Darwin Core mapping"
-subtitle: "For: Landsnails from Spain & Gran Canaria"
+subtitle: "For: Muskrat occurrences Flanders"
 author:
-- Ward Langeraert
+
 - Dimitri Brosens
 date: "`r Sys.Date()`"
 output:
@@ -43,7 +43,10 @@ library(rgbif)          # To use GBIF services
 Create a data frame `input_data` from the source data:
 
 ```{r}
-input_data <- read_excel(path = here("data", "raw", "GranCanaria_ES_TOTAL_v1.xlsx")) 
+
+input_data <- read.csv(path = here("data", "raw", "AgrDataGBIF.csv")) 
+#input_data <- read_csv("../data/raw/AgrDataGBIF.csv")
+
 ```
 
 Preview data:
