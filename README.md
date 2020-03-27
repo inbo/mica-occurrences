@@ -1,13 +1,12 @@
-# landsnails-occurrences
-Research Project Landsnails
+# Muskrat occurrences
 
-# Landsnails in Spain & Gran Canaria
+Mapping the aggregated muskrat dataset into Darwin Core for the Mica project
 
 
 ## Rationale
 
 
-This repository contains the functionality to standardize the data of the Landsnails of Spain dataset to a [Darwin Core Occurrence](https://www.gbif.org/dataset-classes) that can be harvested by [GBIF](http://www.gbif.org).
+This repository contains the functionality to standardize the data of the Flanders Muskrats dataset to a [Darwin Core Occurrence](https://www.gbif.org/dataset-classes) that can be harvested by [GBIF](http://www.gbif.org).
 
 ## Workflow
 
@@ -58,10 +57,9 @@ The repository structure is based on [Cookiecutter Data Science](http://drivenda
 
 ## Contributors
 
-Ward Langeraert
+
 Dimitri Brosens
 
-[List of contributors](https://github.com/BelgianBiodiversityPlatform/landsnails-occurrences/contributors)
 
 ## License
 
