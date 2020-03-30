@@ -247,19 +247,19 @@ occurrence %<>% mutate(rightsHolder = "INBO") # e.g. "INBO"
 ### datasetID
 
 ```{r}
-occurrence %<>% mutate(datasetID = "https://doi.org/10.15468/ny1f9n") # e.g. "https://doi.org/10.15468/xvuzfh"
+occurrence %<>% mutate(datasetID = "to complete") # e.g. "https://doi.org/10.15468/xvuzfh"
 ```
 
 ### institutionCode
 
 ```{r}
-occurrence %<>% mutate(institutionCode = "UGent") # e.g. "INBO"
+occurrence %<>% mutate(institutionCode = "INBO") # e.g. "INBO"
 ```
 
 ### datasetName
 
 ```{r}
-occurrence %<>% mutate(datasetName = "Land and freshwater molluscs of Gran Canaria (Spain)") # e.g. "Checklist of non-native freshwater fishes in Flanders, Belgium"
+occurrence %<>% mutate(datasetName = "Muskrat occurrences in Belgium, aggregated data") # e.g. "Checklist of non-native freshwater fishes in Flanders, Belgium"
 ```
 
 The following terms contain information about the taxon:
@@ -276,20 +276,18 @@ occurrence %<>% rename(taxonID = taxon_id)
 
 ```{r}
 occurrence %<>% rename(scientificName = scientificname)
-occurrence %<>% rename(specificEpithet = species)
-occurrence %<>% rename(infraspecificEpithet = subspecies)
 ```
 ### scientificNameAuthorship
 
 ```{r}
-occurrence %<>% rename(scientificNameAuthorship = author)
+occurrence %<>% mutate(scientificuthohip = "Linnaeus, 1766")
 ```
 
 ###identifiedBy
 rename column determinavit(det.)
 
 ```{r}
-occurrence %<>% rename(identifiedBy = 'determinavit (det.)')
+occurrence %<>% mutate(identifiedBy = 'check')
 ```
 
 
@@ -355,8 +353,6 @@ occurrence %<>% mutate(nomenclaturalCode = "ICZN") # e.g. "ICZN"
 ```{r}
 colnames(occurrence) <- str_remove(colnames(occurrence), "dwc_")
 
-occurrence %<>% select(-c(disposition, etiket_ref, collection, scientificName)) %<>% #remove collection columns
-            rename(scientificName = verbatimScientificName) 
 
 ```
 
@@ -370,8 +366,10 @@ View(occurrence)
 Save to CSV:
 
 ```{r}
-#write_csv(occurrence, here("data", "processed", "occurrence.csv"), na = "")
+write_csv(occurrence, here("data", "processed", "occurrence.csv")) 
+
+#write_csv(occurrence,(file = here("data", "processed", "occurrence.csv"))
 #write_csv(occurrence, here("data", "processed", "occurrence.csv"), append = FALSE, na = "")
-write.csv(occurrence, "../data/processed/occurrence.csv", append = FALSE, na = "",  row.names = FALSE, fileEncoding = "UTF-8")
+#write.csv(occurrence, "../data/processed/occurrence.csv", append = TRUE, na = "",  row.names = FALSE, fileEncoding = "UTF-8")
 ```
 
