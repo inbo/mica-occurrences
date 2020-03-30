@@ -75,11 +75,15 @@ input_data %<>% mutate(kingdom = "Animalia") %>%
 
 ```
 
+## Create occurrence ID
 
+based on ID's in RAW data
 
 ```{r}
 input_data %<>% 
-                mutate(X1 = paste0("INBO:MUSK:OCC:", X1))
+                mutate(X1 = paste0("INBO:MUSK:OCC:", X1))%>%
+                rename(occurrenceID = X1) %>%
+                head(input_data)
 ```
 
 
