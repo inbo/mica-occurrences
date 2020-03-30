@@ -70,11 +70,19 @@ input_data %<>% remove_empty("rows")
 
 ```{r}
 input_data %<>% mutate(kingdom = "Animalia") %>%
-                mutate(scientificName = "Ondatra zibethicus") %>%
-                paste0("Please delete this col! ", input_data$X1)
+                mutate(scientificName = "Ondatra zibethicus") 
 
 
 ```
+
+
+
+```{r}
+input_data %<>% 
+                mutate(X1 = paste0("INBO:MUSK:OCC:", X1))
+```
+
+
 
 Rename column scientificName (we don't want multiple times the same column header)
 
