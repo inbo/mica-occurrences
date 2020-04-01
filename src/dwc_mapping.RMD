@@ -388,7 +388,9 @@ View(occurrence)
 
 ```{r}
 
-presenceOnly <- filter(occurrence, individualCount > "0")
+presenceOnly <- filter(occurrence, individualCount > "0") %>%
+#andervalType <- occurrence %>% drop_na(Val_type)%>%
+#valtype <- filter(occurrence ,Val_type != NA) %>%
 View(presenceOnly)
 
 ```
