@@ -65,6 +65,25 @@ Clean data somewhat:
 input_data %<>% remove_empty("rows")
 ```
 
+# Simple 1-1 Map to DwC 
+rename original columns
+
+
+```{r}
+input_data %<>% 
+  rename(municipality = Gem)%>%
+  rename(decimalLatitude = Lat)%>%
+  rename(decimalLongitude = Long)%>%
+  rename(year = Jaar)%>%
+  rename(month = Maand)%>%
+  rename(eventDate = Datum)%>%
+  rename (individualCount = Ratten)%>%
+  rename (ownerInstitutionCode = Inst)%>%
+  rename (samplingEffort = Mandagen)
+  
+```
+
+
 ## Scientific names
 (kolom toevoegen)
 
@@ -82,25 +101,25 @@ based on ID's in RAW data
 ```{r}
 input_data %<>% 
                 mutate(X1 = paste0("INBO:MUSK:OCC:", X1))%>%
-                rename(occurrenceID = X1) %>%
-                head(input_data)
+                rename(occurrenceID = X1)
+               
 ```
 
 
 
 Rename column scientificName (we don't want multiple times the same column header)
 
-```{r}
-input_data %<>% 
-  rename(verbatimScientificName = scientificName)
-```
+#```{r}
+#input_data %<>% 
+#  rename(verbatimScientificName = scientificName)
+#```
 
 
 Use the [GBIF nameparser](https://www.gbif.org/tools/name-parser) to retrieve nomenclatural information for the scientific names in the dataset:
 
 ```{r}
 parsed_names <- input_data %>%
-  distinct(verbatimScientificName) %>%
+  distinct(scientificName) %>%
   pull() %>% # Create vector from dataframe
   parsenames() # An rgbif function
 ```
@@ -121,31 +140,32 @@ parsed_names %>%
 
 Correct names and reparse:
 
-```{r correct and reparse}
-input_data %<>% mutate(scientificname = recode(verbatimScientificName,
-  "Gibbulinella aff. dealbata" = "Gibbulinella dealbata",
-  "Hemicycla cf. gaudryi" = "Hemicycla gaudryi",
-  "Xerotricha aff. orbignii" = "Xerotricha orbignii",
-  "Napaeus cf. venegueraensis" = "Napaeus venegueraensis",
-  "Monilearia cf. praeposita" = "Monilearia praeposita",
-  "Gibbulinella aff. dewinteri" = "Gibbulinella dewinteri",
-  "Pomatias aff. laevigatus" = "Pomatias laevigatus",
-  "Physella cf. acuta" = "Physella acuta",
-  "Hemicycla psathyra cf. temperata" = "Hemicycla psathyra temperata"
-))
-```
+#```{r correct and reparse}
+#input_data %<>% mutate(scientificname = recode(verbatimScientificName,
+#  "Gibbulinella aff. dealbata" = "Gibbulinella dealbata",
+#  "Hemicycla cf. gaudryi" = "Hemicycla gaudryi",
+#  "Xerotricha aff. orbignii" = "Xerotricha orbignii",
+#  "Napaeus cf. venegueraensis" = "Napaeus venegueraensis",
+#  "Monilearia cf. praeposita" = "Monilearia praeposita",
+#  "Gibbulinella aff. dewinteri" = "Gibbulinella dewinteri",
+#  "Pomatias aff. laevigatus" = "Pomatias laevigatus",
+#  "Physella cf. acuta" = "Physella acuta",
+#  "Hemicycla psathyra cf. temperata" = "Hemicycla psathyra temperata"
+#))
+#```
 
 
 ```{r correct and reparse}
 # Redo parsing
 parsed_names <- input_data %>%
-  distinct(scientificname) %>%
+  distinct(scientificName) %>%
   pull() %>%
   parsenames()
 ```
 
 
 # Show names with nomenclatural issues again
+
 
 ```{r correct and reparse}
 parsed_names %>%
@@ -162,18 +182,18 @@ The nameparser function also provides information about the rank of the taxon (i
 input_data %<>% left_join(
   parsed_names %>%
   select (scientificname, rankmarker),
-  by = c("scientificname" = "scientificname"))
+  by = c("scientificName" = "scientificname"))
 ```
 
-```{r}
+#```{r}
 # Adjust rankmarker
-input_data %<>% mutate(rankmarker = recode(verbatimScientificName,
-  "Monilearia spec." = "genus",
-  "Hemicycla spec." = "genus",
-  "Napaeus spec." = "genus",
-  .default = rankmarker
-))
-```
+#input_data %<>% mutate(rankmarker = recode(verbatimScientificName,
+#  "Monilearia spec." = "genus",
+#  "Hemicycla spec." = "genus",
+#  "Napaeus spec." = "genus",
+#  .default = rankmarker
+#))
+#```
 
 ## Taxon IDs
 
@@ -184,7 +204,7 @@ vdigest <- Vectorize(digest) # Vectorize digest function to work with vectors
 input_data %<>% mutate(taxon_id = paste(
   "muskrat-occurrences", # e.g. "alien-fishes-checklist"
   "taxon",
-  vdigest(paste(verbatimScientificName, kingdom), algo = "md5"),
+  vdigest(paste(scientificName, kingdom), algo = "md5"),
   sep = ":"
 ))
 ```
@@ -289,6 +309,7 @@ rename column determinavit(det.)
 ```{r}
 occurrence %<>% mutate(identifiedBy = 'check')
 ```
+
 
 
 
