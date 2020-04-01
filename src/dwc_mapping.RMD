@@ -294,9 +294,9 @@ occurrence %<>% rename(taxonID = taxon_id)
 
 ### scientificName + (intra)specificEpithet
 
-```{r}
-occurrence %<>% rename(scientificName = scientificname)
-```
+#```{r}
+#occurrence %<>% rename(scientificName = scientificname)
+#```
 ### scientificNameAuthorship
 
 ```{r}
@@ -383,6 +383,18 @@ Preview data:
 occurrence %>% head()
 View(occurrence)
 ```
+
+# Create presence only occurrence file
+
+```{r}
+
+presenceOnly <- filter(occurrence, individualCount > "0")
+View(presenceOnly)
+
+```
+
+
+
 
 Save to CSV:
 
