@@ -310,6 +310,15 @@ rename column determinavit(det.)
 occurrence %<>% mutate(identifiedBy = 'check')
 ```
 
+```{r}
+occurrence %>%
+  mutate(georeferenceRemarks = case_when(
+    endsWith(Coor_prox, "Yes") ~ "centroid municipality",
+    endsWith(Coor_prox, "No") ~ "exact coordinate",
+    TRUE                      ~ NA_character_
+  ))
+
+```
 
 
 
