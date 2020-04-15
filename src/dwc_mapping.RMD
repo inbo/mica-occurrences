@@ -406,6 +406,7 @@ View(occurrence)
 ```
 
 # Create presence only occurrence file
+Foir now this is the one to be published
 
 ```{r}
 
@@ -422,7 +423,9 @@ View(presenceOnly)
 Save to CSV:
 
 ```{r}
-write_csv(occurrence, here("data", "processed", "occurrence.csv")) 
+write_csv(occurrence, here("data", "processed", "occurrenceAll.csv"))
+write_csv(presenceOnly, here("data", "processed", "occurrence.csv")) 
+
 
 #write_csv(occurrence,(file = here("data", "processed", "occurrence.csv"))
 #write_csv(occurrence, here("data", "processed", "occurrence.csv"), append = FALSE, na = "")
