@@ -86,7 +86,7 @@ input_data %<>%
 # remove obsolete columns (Bijvangst)
 
 ```{r}
-input_data %>%
+input_data %<>%
   select(-c(Bijvangst1, Bijvangst2, Bijvangst3))
 
 
@@ -270,7 +270,7 @@ occurrence %<>% mutate(license = "http://creativecommons.org/publicdomain/zero/1
 ### rightsHolder
 
 ```{r}
-occurrence %<>% mutate(rightsHolder = "INBO") # e.g. "INBO"
+occurrence %<>% mutate(rightsHolder = ownerInstitutionCode) # e.g. "INBO"
 ```
 
 ### datasetID
@@ -316,12 +316,12 @@ occurrence %<>% mutate(scientificuthohip = "Linnaeus, 1766")
 rename column determinavit(det.)
 
 ```{r}
-occurrence %<>% mutate(identifiedBy = 'check')
+occurrence %<>% mutate(recordedBy = ownerInstitutionCode)
 ```
 ### georeferenceRemarks
 
 ```{r}
-occurrence %>%
+occurrence %<>%
   mutate(georeferenceRemarks = case_when(
     endsWith(Coor_prox, "Yes") ~ "centroid municipality",
     endsWith(Coor_prox, "No") ~ "exact coordinate",
@@ -331,7 +331,7 @@ occurrence %>%
 ```
 ### coordinateUncertaintyInMeters
 ```{r}
-occurrence %>%
+occurrence %<>%
   mutate(coordinateUncertaintyInMeters = case_when(
     endsWith(Coor_prox, "Yes") ~ "13000",
     endsWith(Coor_prox, "No") ~ "30",
