@@ -83,6 +83,15 @@ input_data %<>%
   
 ```
 
+# remove obsolete columns (Bijvangst)
+
+```{r}
+input_data %>%
+  select(-c(Bijvangst1, Bijvangst2, Bijvangst3))
+
+
+```
+
 
 ## Scientific names
 (kolom toevoegen)
@@ -398,6 +407,8 @@ colnames(occurrence) <- str_remove(colnames(occurrence), "dwc_")
 
 ```
 
+
+
 Preview data:
 
 ```{r}
@@ -410,7 +421,7 @@ Foir now this is the one to be published
 
 ```{r}
 
-presenceOnly <- filter(occurrence, individualCount > "0") %>%
+presenceOnly <- filter(occurrence, individualCount > "0") 
 #andervalType <- occurrence %>% drop_na(Val_type)%>%
 #valtype <- filter(occurrence ,Val_type != NA) %>%
 View(presenceOnly)
