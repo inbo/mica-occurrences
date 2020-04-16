@@ -44,10 +44,10 @@ Create a data frame `input_data` from the source data:
 
 ```{r}
 
-input_data <- read_csv(file = here("data", "raw", "AgrDataGBIF.csv")) 
+input_data <- read_csv(file = here("data", "raw", "AgrDataGBIF.csv"),guess_max = 400000) 
 #input_data <- read_csv("../data/raw/AgrDataGBIF.csv")
-
 ```
+
 
 Preview data:
 
