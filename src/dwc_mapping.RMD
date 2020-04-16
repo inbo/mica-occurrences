@@ -422,12 +422,15 @@ Foir now this is the one to be published
 ```{r}
 
 presenceOnly <- filter(occurrence, individualCount > "0") 
+valtype <- filter(occurrence , is.na(Val_type)) 
 #andervalType <- occurrence %>% drop_na(Val_type)%>%
 #valtype <- filter(occurrence ,Val_type != 'is.na') %>%
 #  final <- occurrence[!(is.na(occurrence$Val_type)),]
 #valtype <- filter(occurrence, !is.na(valtype),)
 #finalData <- subset(occurrence,!(is.na(data["Val_type"])))
-
+vallekestype <- unique(occurrence$Val_aantal)
+View(valtype)
+View(vallekestype)
 
 ```
 
