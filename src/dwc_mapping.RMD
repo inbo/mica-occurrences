@@ -87,7 +87,7 @@ input_data %<>%
 
 ```{r}
 input_data %<>%
-  select(-c(Bijvangst1, Bijvangst2, Bijvangst3))
+  select(-c(Bijvangst_soort_1, Bijvangst_soort_2, Bijvangst_soort_3))
 
 
 ```
