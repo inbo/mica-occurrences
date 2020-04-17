@@ -86,8 +86,7 @@ input_data %<>%
 # remove obsolete columns (Bijvangst)
 
 ```{r}
-input_data %<>%
-  select(-c(Bijvangst_soort_1, Bijvangst_soort_2, Bijvangst_soort_3))
+input_data %<>%  select(-c(Bijvangst_soort_1, Bijvangst_soort_2, Bijvangst_soort_3, Bijvangst_aantal_1, Bijvangst_aantal_2, Bijvangst_aantal_3))
 
 
 ```
@@ -109,7 +108,7 @@ based on ID's in RAW data
 
 ```{r}
 input_data %<>% 
-                mutate(X1 = paste0("INBO:MUSK:OCC:", X1))%>%
+                mutate(X1 = paste0("INBO:MUSK:L:OCC:", X1))%>%
                 rename(occurrenceID = X1)
                
 ```
@@ -417,7 +416,7 @@ View(occurrence)
 ```
 
 # Create presence only occurrence file
-Foir now this is the one to be published
+For now this is the one to be published
 
 ```{r}
 
@@ -428,9 +427,9 @@ valtype <- filter(occurrence , is.na(Val_type))
 #  final <- occurrence[!(is.na(occurrence$Val_type)),]
 #valtype <- filter(occurrence, !is.na(valtype),)
 #finalData <- subset(occurrence,!(is.na(data["Val_type"])))
-vallekestype <- unique(occurrence$Val_aantal)
-View(valtype)
-View(vallekestype)
+#vallekestype <- unique(occurrence$Val_aantal)
+#View(valtype)
+#View(vallekestype)
 
 ```
 
