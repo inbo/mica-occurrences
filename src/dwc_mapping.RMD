@@ -318,6 +318,17 @@ rename column determinavit(det.)
 ```{r}
 occurrence %<>% mutate(recordedBy = ownerInstitutionCode)
 ```
+### samplingEffort
+
+```{r}
+occurrence %<>% 
+                mutate(samplingEffort = paste0(samplingEffort, " :daysOfwork"))
+                
+```
+
+
+
+
 ### georeferenceRemarks
 
 ```{r}
