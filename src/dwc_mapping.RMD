@@ -309,7 +309,7 @@ occurrence %<>% rename(taxonID = taxon_id)
 ### scientificNameAuthorship
 
 ```{r}
-occurrence %<>% mutate(scientificuthohip = "Linnaeus, 1766")
+occurrence %<>% mutate(scientificNameAuthorship = "Linnaeus, 1766")
 ```
 
 ### identifiedBy
