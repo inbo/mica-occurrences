@@ -79,7 +79,8 @@ input_data %<>%
   rename(eventDate = Datum)%>%
   rename (individualCount = Ratten)%>%
   rename (ownerInstitutionCode = Inst)%>%
-  rename (samplingEffort = Mandagen)
+  rename (samplingEffort = Mandagen) %>%
+  rename (samplingProtocol = Val_type)
   
 ```
 
@@ -340,6 +341,30 @@ occurrence %<>%
 
 
 ```
+### geodeticDatum
+
+```{r}
+
+occurrence %<>%
+  mutate(geodeticDatum = 'WGS84')
+
+```
+
+### locationID
+
+```{r}
+occurrence %<>%
+  mutate(VHAzone = paste0("INBO:MUSK:L:LOC:VHA", VHAzone))%>%
+                rename(locationID = VHAzone)
+```
+### CountryCode
+
+```{r}
+
+occurrence %<>%
+  mutate(coutryCode = 'BE')
+
+```
 
 
 ### kingdom
@@ -421,7 +446,7 @@ For now this is the one to be published
 ```{r}
 
 presenceOnly <- filter(occurrence, individualCount > "0") 
-valtype <- filter(occurrence , is.na(Val_type)) 
+valType <- filter(occurrence , is.na(samplingProtocol)) 
 #andervalType <- occurrence %>% drop_na(Val_type)%>%
 #valtype <- filter(occurrence ,Val_type != 'is.na') %>%
 #  final <- occurrence[!(is.na(occurrence$Val_type)),]
