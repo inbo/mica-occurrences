@@ -336,6 +336,8 @@ occurrence %<>%  mutate(samplingProtocol = recode(samplingProtocol
                       , "Ronde fuiken" = "round fikes"
                       , "Grondklemmen" = "ground trap"
                        ))
+
+
 ```
 
 
@@ -478,7 +480,7 @@ For now this is the one to be published
 ```{r}
 
 presenceOnly <- filter(occurrence, individualCount > "0") 
-valType <- filter(occurrence , is.na(samplingProtocol)) 
+valType <- filter(occurrence , !is.na(samplingProtocol)) 
 #andervalType <- occurrence %>% drop_na(Val_type)%>%
 #valtype <- filter(occurrence ,Val_type != 'is.na') %>%
 #  final <- occurrence[!(is.na(occurrence$Val_type)),]
