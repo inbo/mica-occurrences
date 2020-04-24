@@ -325,6 +325,11 @@ occurrence %<>%
                 mutate(samplingEffort = paste0(samplingEffort, " :daysOfwork"))
                 
 ```
+### samplingProtocol
+
+```{r}
+occurrence %<>% mutate(samplingProtocol = paste0(samplingProtocol,floor(Val_aantal) ))
+```
 
 
 
