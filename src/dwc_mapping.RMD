@@ -364,20 +364,38 @@ occurrence %<>%  mutate(StateProvince = recode(stateProvince
 
 ```{r}
 occurrence %<>%
-  mutate(eventdate2 = paste0(year,"-" ,month))
+ mutate(eventDate = if_else(is.na(year),
+                            NA_character_,
+                            if_else(is.na(month),
+                                    as.character(year),
+                                            paste(year, month, sep = "-"),
+                                            paste(year, month, sep = "-"))
+                            ))
+```
+
+
+
+```{r}
+#occurrence %<>%
+#  mutate(eventdate2 = paste0(year,"-" ,(!is.na(month))))
   
                
 ```
 
 ```{r}
-occurrence %<>%
-  mutate(eventDate = if_else(is.na(eventDate),
-                            eventdate2,
-                            as.character(eventDate))) 
+#occurrence %<>%
+#  mutate(eventDate = if_else(is.na(eventDate),
+#                            eventdate2,
+#                            as.character(eventDate))) 
   
 #View(occurrence) 
 ```
-
+```{r}
+occurrence %<>% mutate(eventDate = if_else(str_detect(string = eventDate,
+                                       pattern = "NA"),
+                            NA_character_,
+                            eventDate))
+```
 
 
 
