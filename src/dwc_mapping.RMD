@@ -322,7 +322,7 @@ occurrence %<>% mutate(recordedBy = ownerInstitutionCode)
 
 ```{r}
 occurrence %<>% 
-                mutate(samplingEffort = paste0(samplingEffort, " :daysOfwork"))
+                mutate(samplingEffort = paste0(round(samplingEffort, digits = 2), " :daysOfwork"))
                 
 ```
 ### samplingProtocol
