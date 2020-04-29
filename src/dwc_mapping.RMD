@@ -465,6 +465,14 @@ colnames(occurrence) <- str_remove(colnames(occurrence), "dwc_")
 
 ```
 
+remove obsolete columns
+
+```{r}
+occurrence %<>% select(-c(Coor_prox, Man_prox, Val_aantal, Grens))
+  
+    
+```
+
 
 
 Preview data:
