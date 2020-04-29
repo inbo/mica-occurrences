@@ -72,8 +72,8 @@ rename original columns
 ```{r}
 input_data %<>% 
   rename(municipality = Gem)%>%
-  rename(decimalLatitude = Lat)%>%
-  rename(decimalLongitude = Long)%>%
+  rename(decimalLongitude = Lat)%>%
+  rename(decimalLatitude = Long)%>%
   rename(year = Jaar)%>%
   rename(month = Maand)%>%
   rename(eventDate = Datum)%>%
@@ -81,7 +81,7 @@ input_data %<>%
   rename (ownerInstitutionCode = Inst)%>%
   rename (samplingEffort = Mandagen) %>%
   rename (samplingProtocol = Val_type) %>%
-  rename (StateProvince = Prov)
+  rename (stateProvince = Prov)
   
 ```
 
@@ -360,6 +360,25 @@ occurrence %<>%  mutate(StateProvince = recode(StateProvince
 
 
 ```
+### eventDate
+
+```{r}
+occurrence %<>%
+  mutate(eventdate2 = paste0(year,"-" ,month))
+  
+               
+```
+
+```{r}
+occurrence %>%
+ mutate(eventDate = if_else(is.na(eventDate),
+                            eventDate2,
+                            as.character(eventDate)))
+   
+```
+
+
+
 
 ### georeferenceRemarks
 
