@@ -404,8 +404,8 @@ occurrence %<>% mutate(eventDate = if_else(str_detect(string = eventDate,
 ```{r}
 occurrence %<>%
   mutate(georeferenceRemarks = case_when(
-    endsWith(Coor_prox, "Yes") ~ "centroid municipality",
-    endsWith(Coor_prox, "No") ~ "exact coordinate",
+    endsWith(Coor_prox, "Yes") ~ "coordinates are centroid of municipality",
+    endsWith(Coor_prox, "No") ~ "exact coordinates",
     TRUE                      ~ NA_character_
   ))
 
