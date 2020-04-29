@@ -344,11 +344,7 @@ occurrence %<>%  mutate(samplingProtocol = recode(samplingProtocol
 
 
 ```{r}
-occurrence %<>% mutate(samplingProtocol = paste0(samplingProtocol,floor(Val_aantal) )) 
-     
-  
-  
-  
+occurrence %<>% mutate(samplingProtocol = paste0(samplingProtocol, ": ",floor(Val_aantal) )) 
 
 ```
 ### StateProvince
