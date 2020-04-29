@@ -80,7 +80,8 @@ input_data %<>%
   rename (individualCount = Ratten)%>%
   rename (ownerInstitutionCode = Inst)%>%
   rename (samplingEffort = Mandagen) %>%
-  rename (samplingProtocol = Val_type)
+  rename (samplingProtocol = Val_type) %>%
+  rename (StateProvince = Prov)
   
 ```
 
@@ -322,7 +323,7 @@ occurrence %<>% mutate(recordedBy = ownerInstitutionCode)
 
 ```{r}
 occurrence %<>% 
-                mutate(samplingEffort = paste0(round(samplingEffort, digits = 2), " :daysOfwork"))
+                mutate(samplingEffort = paste0("daysOfwork: " ,round(samplingEffort, digits = 2)))
                 
 ```
 ### samplingProtocol
@@ -336,7 +337,7 @@ occurrence %<>%  mutate(samplingProtocol = recode(samplingProtocol
                       , "Ronde fuiken" = "round fikes"
                       , "Grondklemmen" = "ground trap"
                        ))
-
+                      
 
 ```
 
@@ -350,7 +351,19 @@ occurrence %<>% mutate(samplingProtocol = paste0(samplingProtocol,floor(Val_aant
   
 
 ```
+### StateProvince
 
+```{r}
+occurrence %<>%  mutate(StateProvince = recode(StateProvince
+                      , "Antwerpen" = "Antwerp"
+                      , "Vlaams Brabant" = "Flemish Brabant"
+                      , "West-Vlaanderen"= "West Flanders"
+                      , "Oost-Vlaanderen" = "East Flanders"
+                       ))
+
+
+
+```
 
 ### georeferenceRemarks
 
