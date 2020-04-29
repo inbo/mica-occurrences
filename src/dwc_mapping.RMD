@@ -210,13 +210,13 @@ input_data %<>% left_join(
 To link taxa with information in the extension(s), each taxon needs a unique and relatively stable `taxonID`. Here we create one in the form of `dataset_shortname:taxon:hash`, where `hash` is unique code based on scientific name and kingdom (that will remain the same as long as scientific name and kingdom remain the same):
 
 ```{r}
-vdigest <- Vectorize(digest) # Vectorize digest function to work with vectors
-input_data %<>% mutate(taxon_id = paste(
-  "muskrat-occurrences", # e.g. "alien-fishes-checklist"
-  "taxon",
-  vdigest(paste(scientificName, kingdom), algo = "md5"),
-  sep = ":"
-))
+#vdigest <- Vectorize(digest) # Vectorize digest function to work with vectors
+#input_data %<>% mutate(taxon_id = paste(
+#  "muskrat-occurrences", # e.g. "alien-fishes-checklist"
+#  "taxon",
+#  vdigest(paste(scientificName, kingdom), algo = "md5"),
+#  sep = ":"
+# ))
 ```
 
 ## Preview data
@@ -224,13 +224,13 @@ input_data %<>% mutate(taxon_id = paste(
 Show the number of taxa and distributions per kingdom and rank:
 
 ```{r}
-input_data %>%
-  group_by(kingdom, rankmarker) %>%
-  summarize(
-    `# taxa` = n_distinct(taxon_id),
-    `# distributions` = n()
-  ) %>%
-  adorn_totals("row")
+#input_data %>%
+#  group_by(kingdom, rankmarker) %>%
+#  summarize(
+#    `# taxa` = n_distinct(taxon_id),
+#    `# distributions` = n()
+#  ) %>%
+#  adorn_totals("row")
 ```
 
 Preview data:
@@ -299,7 +299,7 @@ The following terms contain information about the taxon:
 ```{r}
 #occurrence %<>% mutate(taxonID = taxon_id)
 #Better: rename old column
-occurrence %<>% rename(taxonID = taxon_id)
+#occurrence %<>% rename(taxonID = taxon_id)
 ```
 
 ### scientificName + (intra)specificEpithet
@@ -371,11 +371,11 @@ occurrence %<>%
 
 ```{r}
 occurrence %<>%
- mutate(eventDate = if_else(is.na(eventDate),
+  mutate(eventDate = if_else(is.na(eventDate),
                             eventdate2,
-                            as.character(eventDate))) %>%
+                            as.character(eventDate))) 
   
-View(occurrence) 
+#View(occurrence) 
 ```
 
 
