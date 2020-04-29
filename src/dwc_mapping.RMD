@@ -350,7 +350,7 @@ occurrence %<>% mutate(samplingProtocol = paste0(samplingProtocol, ": ",floor(Va
 ### StateProvince
 
 ```{r}
-occurrence %<>%  mutate(StateProvince = recode(StateProvince
+occurrence %<>%  mutate(StateProvince = recode(stateProvince
                       , "Antwerpen" = "Antwerp"
                       , "Vlaams Brabant" = "Flemish Brabant"
                       , "West-Vlaanderen"= "West Flanders"
@@ -370,11 +370,12 @@ occurrence %<>%
 ```
 
 ```{r}
-occurrence %>%
+occurrence %<>%
  mutate(eventDate = if_else(is.na(eventDate),
-                            eventDate2,
-                            as.character(eventDate)))
-   
+                            eventdate2,
+                            as.character(eventDate))) %>%
+  
+View(occurrence) 
 ```
 
 
