@@ -310,7 +310,7 @@ The following terms contain information about the taxon:
 ### scientificNameAuthorship
 
 ```{r}
-occurrence %<>% mutate(scientificNameAuthorship = "Linnaeus, 1766")
+occurrence %<>% mutate(scientificNameAuthorship = "(Linnaeus, 1766)")
 ```
 
 ### identifiedBy
@@ -515,12 +515,45 @@ colnames(occurrence) <- str_remove(colnames(occurrence), "dwc_")
 remove obsolete columns
 
 ```{r}
-occurrence %<>% select(-c(Coor_prox, Man_prox, Val_aantal, Grens))
+occurrence %<>% select(-c(Coor_prox, Man_prox, Val_aantal, Grens, month, year))
   
     
 ```
 
+remove NA
 
+```{r}
+#occurrence %<>% mutate(str_replace((samplingProtocol),"NA: NA", NA_character_))
+
+occurrence %<>% mutate( samplingProtocol  =   str_replace((samplingProtocol),"NA: NA", NA_character_)) %>%
+                mutate(eventDate = str_replace((eventDate),"NA", NA_character_)) %>%
+                mutate(samplingEffort = str_replace((samplingEffort),"NA", NA_character_)) %>%
+                mutate(locationID = str_replace((locationID),"NA", NA_character_)) %>%
+                mutate(municipality = str_replace((municipality),"NA", NA_character_)) 
+                
+                
+                
+  
+                
+
+```
+```{r}
+# occurrence %<>% mutate(eventDate = str_replace((eventDate),"NA", NA_character_))
+
+```
+```{r}
+#occurrence %<>% mutate(samplingEffort = str_replace((samplingEffort),"NA", NA_character_))
+
+```
+
+```{r}
+#occurrence %<>% mutate(locationID = str_replace((locationID),"NA", NA_character_))
+
+```
+```{r}
+#occurrence %<>% mutate(municipality = str_replace((municipality),"NA", NA_character_))
+
+```
 
 Preview data:
 
