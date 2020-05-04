@@ -257,6 +257,12 @@ The following terms contain information about the taxon:
 occurrence %<>% mutate(dwc_occurrenceID = paste0("INBO:MUSK:L:OCC:", X1))
 ```
 
+### recordedBy
+
+```{r}
+occurrence %<>% mutate(dwc_recordedBy = dwc_rightsHolder)
+```
+
 ### eventDate
 
 ```{r}
@@ -371,12 +377,7 @@ occurrence %<>% mutate(dwc_georeferenceRemarks = case_when(
 occurrence %<>% mutate(scientificNameAuthorship = "(Linnaeus, 1766)")
 ```
 
-### identifiedBy
-rename column determinavit(det.)
 
-```{r}
-occurrence %<>% mutate(recordedBy = ownerInstitutionCode)
-```
 
 
 ### kingdom
