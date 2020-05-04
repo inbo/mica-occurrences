@@ -236,7 +236,7 @@ Show the number of taxa and distributions per kingdom and rank:
 Preview data:
 
 ```{r}
-View(input_data)
+#View(input_data)
 ```
 
 # Occurrence core
@@ -296,7 +296,7 @@ occurrence %<>% mutate(institutionCode = "INBO") # e.g. "INBO"
 ### datasetName
 
 ```{r}
-occurrence %<>% mutate(datasetName = "MICA - Pre-project muskrat *captures* in Flanders, Belgium") # e.g. "Checklist of non-native freshwater fishes in Flanders, Belgium"
+occurrence %<>% mutate(datasetName = "Muskrat occurrences in Belgium, aggregated data") # e.g. "Checklist of non-native freshwater fishes in Flanders, Belgium"
 ```
 
 The following terms contain information about the taxon:
@@ -330,7 +330,8 @@ occurrence %<>% mutate(recordedBy = ownerInstitutionCode)
 
 ```{r}
 occurrence %<>% 
-                mutate(samplingEffort = paste0("daysOfwork: " ,round(samplingEffort, digits = 2)))
+                mutate(samplingEffort = paste0("daysOfwork: " ,round(samplingEffort, digits = 2 ))) # %<>%
+             #   mutate(samplingEffort = paste0(samplingEffort, " | numerOfTraps: " ,floor(Val_aantal) ))
                 
 ```
 ### samplingProtocol
@@ -596,7 +597,7 @@ presenceOnly <- filter(occurrence, individualCount > "0")
 #View(vallekestype)
 
 nAtest <- filter(occurrence ,locationID != 'is.na')
-View(nAtest)
+#View(nAtest)
 ```
 
 
