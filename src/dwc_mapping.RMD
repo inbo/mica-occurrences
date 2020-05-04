@@ -69,7 +69,6 @@ input_data %<>%
   rename(decimalLongitude = Lat)%>%
   rename(decimalLatitude = Long)%>%
   rename (individualCount = Ratten)%>%
-#  rename (samplingEffort = Mandagen) %>%
   rename (stateProvince = Prov)
 ```
 
@@ -284,6 +283,15 @@ occurrence %<>% mutate(dwc_samplingProtocol = recode(Val_type,
 ))
 ```
 
+### samplingEffort
+ 
+```{r}
+occurrence %<>% mutate(dwc_samplingEffort = case_when(
+  !is.na(Mandagen) ~ paste("daysOfWork:", round(Mandagen, digits = 2)),
+  !is.na(Val_aantal) ~ paste("numberOfTraps:", floor(Val_aantal)),
+  TRUE ~ ""
+))
+```
 ### scientificName + (intra)specificEpithet
 
 #```{r}
@@ -302,26 +310,7 @@ rename column determinavit(det.)
 ```{r}
 occurrence %<>% mutate(recordedBy = ownerInstitutionCode)
 ```
-### samplingEffort
- 
-```{r}
-#occurrence %<>% 
-#                mutate(samplingEffort = paste0("daysOfwork: " ,round(samplingEffort, digits = 2 )))  %<>%
-#                mutate(samplingEffort = paste0(samplingEffort, " | numberOfTraps: " ,floor(Val_aantal) ))
-                
-```
 
-```{r}
-occurrence %<>% mutate(samplingEffort = case_when(
-  !is.na(Mandagen) ~ paste0("daysOfWork:", round(Mandagen,digits = 2 )),
-  !is.na(Val_aantal) ~paste0("numberOfTraps:", floor(Val_aantal))
-  , TRUE ~ ""))
-
-#occurrence %<>% mutate(samplingEffort = case_when(
-#   !is.na(Val_aantal) ~paste0("numberOfTraps:", floor(Val_aantal))
-#   , TRUE ~ ""))
-
-```
 
 
 ### StateProvince
