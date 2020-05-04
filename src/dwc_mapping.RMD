@@ -69,7 +69,6 @@ input_data %<>%
   rename(decimalLongitude = Lat)%>%
   rename(decimalLatitude = Long)%>%
   rename (individualCount = Ratten)%>%
-  rename (stateProvince = Prov)
 ```
 
 # Remove obsolete columns (Bijvangst)
@@ -301,6 +300,17 @@ occurrence %<>% mutate(dwc_locationID = case_when(
   TRUE ~ NA_character_
 ))
 ```
+
+### stateProvince
+
+```{r}
+occurrence %<>%  mutate(dwc_stateProvince = recode(Prov,
+  "Antwerpen" = "Antwerp",
+  "Vlaams Brabant" = "Flemish Brabant",
+  "West-Vlaanderen"= "West Flanders",
+  "Oost-Vlaanderen" = "East Flanders"
+))
+```
 ### scientificName + (intra)specificEpithet
 
 #```{r}
@@ -322,19 +332,7 @@ occurrence %<>% mutate(recordedBy = ownerInstitutionCode)
 
 
 
-### StateProvince
 
-```{r}
-occurrence %<>%  mutate(StateProvince = recode(stateProvince
-                      , "Antwerpen" = "Antwerp"
-                      , "Vlaams Brabant" = "Flemish Brabant"
-                      , "West-Vlaanderen"= "West Flanders"
-                      , "Oost-Vlaanderen" = "East Flanders"
-                       ))
-
-
-
-```
 
 ### georeferenceRemarks
 
