@@ -314,6 +314,21 @@ The following terms contain information about the taxon:
 #```{r}
 #occurrence %<>% rename(scientificName = scientificname)
 #```
+
+### event
+```{r}
+occurrence %<>% mutate(type = "event")
+
+```
+
+### basisOfRecord
+
+```{r}
+occurrence %<>% mutate(basisOfRecord = "humanObservation")
+
+```
+
+
 ### scientificNameAuthorship
 
 ```{r}
