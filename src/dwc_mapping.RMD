@@ -66,14 +66,12 @@ Rename original columns
 
 ```{r}
 input_data %<>% 
-  rename(municipality = Gem)%>%
   rename(decimalLongitude = Lat)%>%
   rename(decimalLatitude = Long)%>%
   rename(year = Jaar)%>%
   rename(month = Maand)%>%
   rename(eventDate = Datum)%>%
   rename (individualCount = Ratten)%>%
-  rename (ownerInstitutionCode = Inst)%>%
 #  rename (samplingEffort = Mandagen) %>%
   rename (samplingProtocol = Val_type) %>%
   rename (stateProvince = Prov)
@@ -241,14 +239,9 @@ occurrence %<>% mutate(dwc_license = "http://creativecommons.org/publicdomain/ze
 ### rightsHolder
 
 ```{r}
-occurrence %<>% mutate(rightsHolder = ownerInstitutionCode) %<>%
-   mutate(rightsHolder = recode(rightsHolder,
-  "Gem"  = "municipality",
-  .default    = "",
-  .missing    = ""
+occurrence %<>% mutate(dwc_rightsHolder = recode(Inst,
+  "Gem" = "municipality"
 ))
-
-
 ```
 
 ### datasetID
