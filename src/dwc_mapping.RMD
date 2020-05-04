@@ -66,9 +66,7 @@ Rename original columns
 
 ```{r}
 input_data %<>% 
-  rename(decimalLongitude = Lat)%>%
-  rename(decimalLatitude = Long)%>%
-  rename (individualCount = Ratten)%>%
+  rename (individualCount = Ratten)
 ```
 
 # Remove obsolete columns (Bijvangst)
@@ -310,13 +308,57 @@ occurrence %<>% mutate(dwc_countryCode = "BE")
 ### stateProvince
 
 ```{r}
-occurrence %<>%  mutate(dwc_stateProvince = recode(Prov,
+occurrence %<>% mutate(dwc_stateProvince = recode(Prov,
   "Antwerpen" = "Antwerp",
   "Vlaams Brabant" = "Flemish Brabant",
   "West-Vlaanderen"= "West Flanders",
   "Oost-Vlaanderen" = "East Flanders"
 ))
 ```
+
+### decimalLatitude
+
+```{r}
+occurrence %<>% mutate(dwc_decimalLatitude = Lat)
+```
+
+### decimalLongitude
+
+```{r}
+occurrence %<>% mutate(dwc_decimalLongitude = Long)
+```
+
+### geodeticDatum
+
+```{r}
+occurrence %<>% mutate(dwc_geodeticDatum = "WGS84")
+```
+
+### coordinateUncertaintyInMeters
+
+```{r}
+occurrence %<>% mutate(dwc_coordinateUncertaintyInMeters = case_when(
+  endsWith(Coor_prox, "Yes") ~ "13000",
+  endsWith(Coor_prox, "No") ~ "30",
+  TRUE ~ NA_character_
+))
+```
+
+### georeferenceRemarks
+
+```{r}
+occurrence %<>% mutate(dwc_georeferenceRemarks = case_when(
+  endsWith(Coor_prox, "Yes") ~ "coordinates are centroid of municipality",
+  endsWith(Coor_prox, "No") ~ "exact coordinates",
+  TRUE ~ NA_character_
+))
+```
+
+
+
+```
+
+
 ### scientificName + (intra)specificEpithet
 
 #```{r}
@@ -334,42 +376,6 @@ rename column determinavit(det.)
 
 ```{r}
 occurrence %<>% mutate(recordedBy = ownerInstitutionCode)
-```
-
-
-
-
-
-### georeferenceRemarks
-
-```{r}
-occurrence %<>%
-  mutate(georeferenceRemarks = case_when(
-    endsWith(Coor_prox, "Yes") ~ "coordinates are centroid of municipality",
-    endsWith(Coor_prox, "No") ~ "exact coordinates",
-    TRUE                      ~ NA_character_
-  ))
-
-```
-### coordinateUncertaintyInMeters
-```{r}
-occurrence %<>%
-  mutate(coordinateUncertaintyInMeters = case_when(
-    endsWith(Coor_prox, "Yes") ~ "13000",
-    endsWith(Coor_prox, "No") ~ "30",
-    TRUE                      ~ NA_character_
-  ))
-
-
-
-```
-### geodeticDatum
-
-```{r}
-
-occurrence %<>%
-  mutate(geodeticDatum = 'WGS84')
-
 ```
 
 
