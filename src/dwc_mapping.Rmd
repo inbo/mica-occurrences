@@ -331,13 +331,13 @@ occurrence %<>% mutate(dwc_municipality = recode(Gem,
 ### decimalLatitude
 
 ```{r}
-occurrence %<>% mutate(dwc_decimalLatitude = Lat)
+occurrence %<>% mutate(dwc_decimalLatitude = Long) # Long, because flipped in source data
 ```
 
 ### decimalLongitude
 
 ```{r}
-occurrence %<>% mutate(dwc_decimalLongitude = Long)
+occurrence %<>% mutate(dwc_decimalLongitude = Lat) # Long, because flipped in source data
 ```
 
 ### geodeticDatum
