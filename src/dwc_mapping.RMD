@@ -301,6 +301,12 @@ occurrence %<>% mutate(dwc_locationID = case_when(
 ))
 ```
 
+### countryCode
+
+```{r}
+occurrence %<>% mutate(dwc_countryCode = "BE")
+```
+
 ### stateProvince
 
 ```{r}
@@ -363,16 +369,6 @@ occurrence %<>%
 
 occurrence %<>%
   mutate(geodeticDatum = 'WGS84')
-
-```
-
-
-### CountryCode
-
-```{r}
-
-occurrence %<>%
-  mutate(coutryCode = 'BE')
 
 ```
 
