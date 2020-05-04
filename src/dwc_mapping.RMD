@@ -271,7 +271,14 @@ occurrence %<>% mutate(license = "http://creativecommons.org/publicdomain/zero/1
 ### rightsHolder
 
 ```{r}
-occurrence %<>% mutate(rightsHolder = ownerInstitutionCode) # e.g. "INBO"
+occurrence %<>% mutate(rightsHolder = ownerInstitutionCode) %<>%
+   mutate(rightsHolder = recode(rightsHolder,
+  "Gem"  = "municipality",
+  .default    = "",
+  .missing    = ""
+))
+
+
 ```
 
 ### datasetID
@@ -289,7 +296,7 @@ occurrence %<>% mutate(institutionCode = "INBO") # e.g. "INBO"
 ### datasetName
 
 ```{r}
-occurrence %<>% mutate(datasetName = "Muskrat occurrences in Belgium, aggregated data") # e.g. "Checklist of non-native freshwater fishes in Flanders, Belgium"
+occurrence %<>% mutate(datasetName = "MICA - Pre-project muskrat *captures* in Flanders, Belgium") # e.g. "Checklist of non-native freshwater fishes in Flanders, Belgium"
 ```
 
 The following terms contain information about the taxon:
@@ -520,14 +527,23 @@ occurrence %<>% select(-c(Coor_prox, Man_prox, Val_aantal, Grens, month, year, o
     
 ```
 
+
+
+
+```{r}
+occurrence %<>%  mutate(municipality = recode(municipality
+                      , "HÃ©lÃ©cine" = "Heylissem"
+                      , "CrisnÃ©e" = "Gerstenhoven"  ))
+```
+
 remove NA
 
 ```{r}
 #occurrence %<>% mutate(str_replace((samplingProtocol),"NA: NA", NA_character_))
 
 occurrence %<>% mutate( samplingProtocol  =   str_replace((samplingProtocol),"NA: NA", NA_character_)) %>%
-occurrence %<>% mutate( samplingProtocol  =   str_replace((samplingProtocol),"NA", NA_character_)) %>%
-occurrence %<>%                mutate(eventDate = str_replace((eventDate),"NA", NA_character_)) %>%
+                mutate( samplingProtocol  =   str_replace((samplingProtocol),"NA", NA_character_)) %>%
+                mutate(eventDate = str_replace((eventDate),"NA", NA_character_)) %>%
                 mutate(samplingEffort = str_replace((samplingEffort),"NA", NA_character_)) %>%
                 mutate(locationID = str_replace((locationID),"NA", NA_character_)) %>%
                 mutate(municipality = str_replace((municipality),"NA", NA_character_)) 
@@ -587,8 +603,8 @@ View(nAtest)
 Save to CSV:
 
 ```{r}
-write_csv(occurrence, here("data", "processed", "occurrenceAll.csv"))
-write_csv(presenceOnly, here("data", "processed", "occurrence.csv")) 
+write_csv(occurrence, here("data", "processed", "occurrences_with_absence.csv"), na = "" )
+write_csv(presenceOnly, here("data", "processed", "occurrence.csv"), na = "") 
 
 
 #write_csv(occurrence,(file = here("data", "processed", "occurrence.csv"))
