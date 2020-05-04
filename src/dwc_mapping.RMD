@@ -515,7 +515,7 @@ colnames(occurrence) <- str_remove(colnames(occurrence), "dwc_")
 remove obsolete columns
 
 ```{r}
-occurrence %<>% select(-c(Coor_prox, Man_prox, Val_aantal, Grens, month, year))
+occurrence %<>% select(-c(Coor_prox, Man_prox, Val_aantal, Grens, month, year, ownerInstitutionCode))
   
     
 ```
@@ -526,7 +526,7 @@ remove NA
 #occurrence %<>% mutate(str_replace((samplingProtocol),"NA: NA", NA_character_))
 
 occurrence %<>% mutate( samplingProtocol  =   str_replace((samplingProtocol),"NA: NA", NA_character_)) %>%
-                mutate( samplingProtocol  =   str_replace((samplingProtocol),"NA", NA_character_)) %>%
+              #  mutate( samplingProtocol  =   str_replace((samplingProtocol),"NA", NA_character_)) %>%
                 mutate(eventDate = str_replace((eventDate),"NA", NA_character_)) %>%
                 mutate(samplingEffort = str_replace((samplingEffort),"NA", NA_character_)) %>%
                 mutate(locationID = str_replace((locationID),"NA", NA_character_)) %>%
@@ -579,11 +579,9 @@ valType <- filter(occurrence , !is.na(samplingProtocol))
 #View(valtype)
 #View(vallekestype)
 
-nAtest <- filter(occurrence ,samplingProtocol != 'is.na')
+nAtest <- filter(occurrence ,locationID != 'is.na')
 View(nAtest)
 ```
-
-
 
 
 Save to CSV:
