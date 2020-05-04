@@ -2,7 +2,6 @@
 title: "Darwin Core mapping"
 subtitle: "For: Muskrat occurrences Flanders"
 author:
-
 - Dimitri Brosens
 date: "`r Sys.Date()`"
 output:
@@ -18,8 +17,6 @@ output:
 #    toc: yes
 #    toc_depth: 3
 ---
-
-# Setup 
 
 ```{r setup, include = FALSE}
 knitr::opts_chunk$set(echo = TRUE, warning = FALSE, message = TRUE)
@@ -43,11 +40,9 @@ library(rgbif)          # To use GBIF services
 Create a data frame `input_data` from the source data:
 
 ```{r}
-
-input_data <- read_csv(file = here("data", "raw", "AgrDataGBIF.csv"),guess_max = 400000) 
+input_data <- read_csv(file = here::here("data", "raw", "AgrDataGBIF.csv"), guess_max = 400000)
 #input_data <- read_csv("../data/raw/AgrDataGBIF.csv")
 ```
-
 
 Preview data:
 
@@ -55,7 +50,7 @@ Preview data:
 input_data %>% head(n = 5)
 ```
 
-# Process source data
+# Preprocessing
 
 ## Tidy data
 
@@ -65,9 +60,9 @@ Clean data somewhat:
 input_data %<>% remove_empty("rows")
 ```
 
-# Simple 1-1 Map to DwC 
-rename original columns
+# Simple 1-1 Map to DwC
 
+Rename original columns
 
 ```{r}
 input_data %<>% 
@@ -82,26 +77,12 @@ input_data %<>%
 #  rename (samplingEffort = Mandagen) %>%
   rename (samplingProtocol = Val_type) %>%
   rename (stateProvince = Prov)
-  
 ```
 
-# remove obsolete columns (Bijvangst)
+# Remove obsolete columns (Bijvangst)
 
 ```{r}
-input_data %<>%  select(-c(Bijvangst_soort_1, Bijvangst_soort_2, Bijvangst_soort_3, Bijvangst_aantal_1, Bijvangst_aantal_2, Bijvangst_aantal_3))
-
-
-```
-
-
-## Scientific names
-(kolom toevoegen)
-
-```{r}
-input_data %<>% mutate(kingdom = "Animalia") %>%
-                mutate(scientificName = "Ondatra zibethicus") 
-
-
+input_data %<>% select(-c(Bijvangst_soort_1, Bijvangst_soort_2, Bijvangst_soort_3, Bijvangst_aantal_1, Bijvangst_aantal_2, Bijvangst_aantal_3))
 ```
 
 ## Create occurrence ID
@@ -115,34 +96,28 @@ input_data %<>%
                
 ```
 
+## Scientific names (not applicable)
 
+Add columns:
 
-Rename column scientificName (we don't want multiple times the same column header)
-
-#```{r}
-#input_data %<>% 
-#  rename(verbatimScientificName = scientificName)
-#```
-
+```{r}
+input_data %<>%
+  mutate(kingdom = "Animalia") %>%
+  mutate(scientificName = "Ondatra zibethicus")
+```
 
 Use the [GBIF nameparser](https://www.gbif.org/tools/name-parser) to retrieve nomenclatural information for the scientific names in the dataset:
 
-```{r}
+```{r eval = FALSE}
 parsed_names <- input_data %>%
   distinct(scientificName) %>%
   pull() %>% # Create vector from dataframe
   parsenames() # An rgbif function
 ```
 
-Preview data:
-
-```{r}
-parsed_names %>% head(n = 62)
-```
-
 Show scientific names with nomenclatural issues, i.e. not of `type = SCIENTIFIC` or that could not be fully parsed. Note: these are not necessarily incorrect.
 
-```{r}
+```{r eval = FALSE}
 parsed_names %>%
   select(scientificname, type, parsed, parsedpartially, rankmarker) %>%
   filter(!(type == "SCIENTIFIC" & parsed == "TRUE" & parsedpartially == "FALSE"))
@@ -150,8 +125,8 @@ parsed_names %>%
 
 Correct names and reparse:
 
-#```{r correct and reparse}
-#input_data %<>% mutate(scientificname = recode(verbatimScientificName,
+```{r correct and reparse, eval = FALSE}
+#input_data %<>% mutate(scientificName = recode(verbatimScientificName,
 #  "Gibbulinella aff. dealbata" = "Gibbulinella dealbata",
 #  "Hemicycla cf. gaudryi" = "Hemicycla gaudryi",
 #  "Xerotricha aff. orbignii" = "Xerotricha orbignii",
@@ -162,61 +137,52 @@ Correct names and reparse:
 #  "Physella cf. acuta" = "Physella acuta",
 #  "Hemicycla psathyra cf. temperata" = "Hemicycla psathyra temperata"
 #))
-#```
 
-
-```{r correct and reparse}
 # Redo parsing
 parsed_names <- input_data %>%
-  distinct(scientificName) %>%
+  distinct(scientific_name) %>%
   pull() %>%
   parsenames()
-```
-
 
 # Show names with nomenclatural issues again
-
-
-```{r correct and reparse}
 parsed_names %>%
   select(scientificname, type, parsed, parsedpartially, rankmarker) %>%
   filter(!(type == "SCIENTIFIC" & parsed == "TRUE" & parsedpartially == "FALSE"))
 ```
 
-## Taxon ranks
+## Taxon ranks (not applicable)
 
 The nameparser function also provides information about the rank of the taxon (in `rankmarker`). Here we join this information with our checklist. Cleaning these ranks will done in the Taxon Core mapping:
 
-
-```{r}
+```{r eval = FALSE}
 input_data %<>% left_join(
   parsed_names %>%
-  select (scientificname, rankmarker),
+  select(scientificname, rankmarker),
   by = c("scientificName" = "scientificname"))
 ```
 
-#```{r}
+```{r eval = FALSE}
 # Adjust rankmarker
 #input_data %<>% mutate(rankmarker = recode(verbatimScientificName,
 #  "Monilearia spec." = "genus",
 #  "Hemicycla spec." = "genus",
 #  "Napaeus spec." = "genus",
 #  .default = rankmarker
-#))
-#```
+))
+```
 
-## Taxon IDs
+## Taxon IDs (not applicable)
 
 To link taxa with information in the extension(s), each taxon needs a unique and relatively stable `taxonID`. Here we create one in the form of `dataset_shortname:taxon:hash`, where `hash` is unique code based on scientific name and kingdom (that will remain the same as long as scientific name and kingdom remain the same):
 
-```{r}
+```{r eval = FALSE}
 #vdigest <- Vectorize(digest) # Vectorize digest function to work with vectors
 #input_data %<>% mutate(taxon_id = paste(
 #  "muskrat-occurrences", # e.g. "alien-fishes-checklist"
 #  "taxon",
 #  vdigest(paste(scientificName, kingdom), algo = "md5"),
 #  sep = ":"
-# ))
+#))
 ```
 
 ## Preview data
@@ -236,7 +202,7 @@ Show the number of taxa and distributions per kingdom and rank:
 Preview data:
 
 ```{r}
-#View(input_data)
+input_data %>% head()
 ```
 
 # Occurrence core
