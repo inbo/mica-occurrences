@@ -292,6 +292,15 @@ occurrence %<>% mutate(dwc_samplingEffort = case_when(
   TRUE ~ ""
 ))
 ```
+
+### locationID
+
+```{r}
+occurrence %<>% mutate(dwc_locationID = case_when(
+  !is.na(VHAzone) ~ paste0("INBO:MUSK:L:LOC:VHA", VHAzone),
+  TRUE ~ NA_character_
+))
+```
 ### scientificName + (intra)specificEpithet
 
 #```{r}
@@ -359,13 +368,7 @@ occurrence %<>%
 
 ```
 
-### locationID
 
-```{r}
-occurrence %<>%
-  mutate(VHAzone = paste0("INBO:MUSK:L:LOC:VHA", VHAzone))%>%
-                rename(locationID = VHAzone)
-```
 ### CountryCode
 
 ```{r}
