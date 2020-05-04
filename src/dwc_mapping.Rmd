@@ -198,14 +198,13 @@ occurrence %<>% mutate(dwc_type = "Event")
 ### language
 
 ```{r}
-occurrence %<>% mutate(dwc_language = "en") # e.g. "en"
+occurrence %<>% mutate(dwc_language = "en")
 ```
 
 ### license
 
 ```{r}
-occurrence %<>% mutate(dwc_license = "http://creativecommons.org/publicdomain/zero/1.0/") 
-# e.g. "http://creativecommons.org/publicdomain/zero/1.0/"
+occurrence %<>% mutate(dwc_license = "http://creativecommons.org/publicdomain/zero/1.0/")
 ```
 
 ### rightsHolder
@@ -219,19 +218,19 @@ occurrence %<>% mutate(dwc_rightsHolder = recode(Inst,
 ### datasetID
 
 ```{r}
-occurrence %<>% mutate(dwc_datasetID = "to complete") # e.g. "https://doi.org/10.15468/xvuzfh"
+occurrence %<>% mutate(dwc_datasetID = "") # e.g. "https://doi.org/10.15468/xvuzfh"
 ```
 
 ### institutionCode
 
 ```{r}
-occurrence %<>% mutate(dwc_institutionCode = "INBO") # e.g. "INBO"
+occurrence %<>% mutate(dwc_institutionCode = "INBO")
 ```
 
 ### datasetName
 
 ```{r}
-occurrence %<>% mutate(dwc_datasetName = "Muskrat occurrences in Belgium, aggregated data") # e.g. "Checklist of non-native freshwater fishes in Flanders, Belgium"
+occurrence %<>% mutate(dwc_datasetName = "MICA - Pre-project muskrat captures in Flanders, Belgium")
 ```
 
 ### basisOfRecord
@@ -393,7 +392,7 @@ occurrence %<>% mutate(dwc_scientificNameAuthorship = "(Linnaeus, 1766)")
 ### nomenclaturalCode
 
 ```{r}
-occurrence %<>% mutate(dwc_nomenclaturalCode = "ICZN") # e.g. "ICZN"
+occurrence %<>% mutate(dwc_nomenclaturalCode = "ICZN")
 ```
 
 ## Post-processing
