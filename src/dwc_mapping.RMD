@@ -79,7 +79,7 @@ input_data %<>% select(-c(Bijvangst_soort_1, Bijvangst_soort_2, Bijvangst_soort_
 
 Add columns:
 
-```{r}
+```{r eval = FALSE}
 input_data %<>%
   mutate(kingdom = "Animalia") %>%
   mutate(scientificName = "Ondatra zibethicus")
@@ -360,79 +360,33 @@ occurrence %<>% mutate(dwc_georeferenceRemarks = case_when(
 ))
 ```
 
-
-
-```
-
-
-### scientificName + (intra)specificEpithet
-
-#```{r}
-#occurrence %<>% rename(scientificName = scientificname)
-#```
-
-### scientificNameAuthorship
-
-```{r}
-occurrence %<>% mutate(scientificNameAuthorship = "(Linnaeus, 1766)")
-```
-
-
-
-
 ### kingdom
 
-Inspect values:
-
 ```{r}
-occurrence %>%
-  group_by(kingdom) %>%
-  count()
+occurrence %<>% mutate(dwc_kingdom = "Animalia")
 ```
 
-Map values:
+### scientificName
 
+```{r}
+occurrence %<>% mutate(dwc_scientificName = "Ondatra zibethicus")
+```
 
 ### taxonRank
 
-Inspect values:
-
 ```{r}
-occurrence %>%
-  group_by(rankmarker) %>%
-  count()
+occurrence %<>% mutate(dwc_taxonRank = "species")
 ```
 
-Map values by recoding to the [GBIF rank vocabulary](http://rs.gbif.org/vocabulary/gbif/rank_2015-04-24.xml):
 
 ```{r}
-occurrence %<>% mutate(taxonRank = recode(rankmarker,
-  "infrasp."  = "subspecies",
-  "sp."       = "species",
-  "var."      = "variety",
-  "f."        = "form",
-  "genus"     = "genus",
-  "subgenus"  = "subgenus",
-  "family"    = "family",
-  "class"     = "class",
-  .default    = "",
-  .missing    = ""
-))
-```
-
-Inspect mapped values: 
-
-```{r}
-occurrence %>%
-  group_by(rankmarker, taxonRank) %>%
-  count()
-occurrence %<>% select(-rankmarker)
+occurrence %<>% mutate(dwc_scientificNameAuthorship = "(Linnaeus, 1766)")
 ```
 
 ### nomenclaturalCode
 
 ```{r}
-occurrence %<>% mutate(nomenclaturalCode = "ICZN") # e.g. "ICZN"
+occurrence %<>% mutate(dwc_nomenclaturalCode = "ICZN") # e.g. "ICZN"
 ```
 
 ## Post-processing
