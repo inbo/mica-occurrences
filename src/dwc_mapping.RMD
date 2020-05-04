@@ -337,9 +337,14 @@ occurrence %<>% mutate(recordedBy = ownerInstitutionCode)
 
 ```{r}
 occurrence %<>% mutate(samplingEffort = case_when(
-  !is.na(Mandagen) ~ paste0("daysOfWork:", round(Mandagen, digits = 2 ))
-  !is.na(val_aantal) ~paste0("numberOfTraps:", floor(Val_aantal)
-  TRUE ~ "")))
+  !is.na(Mandagen) ~ paste0("daysOfWork:", round(Mandagen,digits = 2 )),
+  !is.na(Val_aantal) ~paste0("numberOfTraps:", floor(Val_aantal))
+  , TRUE ~ ""))
+
+#occurrence %<>% mutate(samplingEffort = case_when(
+#   !is.na(Val_aantal) ~paste0("numberOfTraps:", floor(Val_aantal))
+#   , TRUE ~ ""))
+
 ```
 
 
@@ -532,7 +537,7 @@ colnames(occurrence) <- str_remove(colnames(occurrence), "dwc_")
 remove obsolete columns
 
 ```{r}
-occurrence %<>% select(-c(Coor_prox, Man_prox, Val_aantal, Grens, month, year, ownerInstitutionCode))
+occurrence %<>% select(-c(Coor_prox, Man_prox, Val_aantal, Grens, month, year, ownerInstitutionCode, Mandagen))
   
     
 ```
