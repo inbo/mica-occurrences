@@ -79,7 +79,7 @@ input_data %<>%
   rename(eventDate = Datum)%>%
   rename (individualCount = Ratten)%>%
   rename (ownerInstitutionCode = Inst)%>%
-  rename (samplingEffort = Mandagen) %>%
+#  rename (samplingEffort = Mandagen) %>%
   rename (samplingProtocol = Val_type) %>%
   rename (stateProvince = Prov)
   
@@ -327,13 +327,22 @@ rename column determinavit(det.)
 occurrence %<>% mutate(recordedBy = ownerInstitutionCode)
 ```
 ### samplingEffort
-
+ 
 ```{r}
-occurrence %<>% 
-                mutate(samplingEffort = paste0("daysOfwork: " ,round(samplingEffort, digits = 2 ))) # %<>%
-             #   mutate(samplingEffort = paste0(samplingEffort, " | numerOfTraps: " ,floor(Val_aantal) ))
+#occurrence %<>% 
+#                mutate(samplingEffort = paste0("daysOfwork: " ,round(samplingEffort, digits = 2 )))  %<>%
+#                mutate(samplingEffort = paste0(samplingEffort, " | numberOfTraps: " ,floor(Val_aantal) ))
                 
 ```
+
+```{r}
+occurrence %<>% mutate(samplingEffort = case_when(
+  !is.na(Mandagen) ~ paste0("daysOfWork:", round(Mandagen, digits = 2 ))
+  !is.na(val_aantal) ~paste0("numberOfTraps:", floor(Val_aantal)
+  TRUE ~ "")))
+```
+
+
 ### samplingProtocol
 
 
@@ -352,7 +361,7 @@ occurrence %<>%  mutate(samplingProtocol = recode(samplingProtocol
 
 
 ```{r}
-occurrence %<>% mutate(samplingProtocol = paste0(samplingProtocol, ": ",floor(Val_aantal) )) 
+# occurrence %<>% mutate(samplingProtocol = paste0(samplingProtocol, ": ",floor(Val_aantal) )) 
 
 ```
 ### StateProvince
@@ -545,7 +554,7 @@ remove NA
 occurrence %<>% mutate( samplingProtocol  =   str_replace((samplingProtocol),"NA: NA", NA_character_)) %>%
                 mutate( samplingProtocol  =   str_replace((samplingProtocol),"NA", NA_character_)) %>%
                 mutate(eventDate = str_replace((eventDate),"NA", NA_character_)) %>%
-                mutate(samplingEffort = str_replace((samplingEffort),"NA", NA_character_)) %>%
+                mutate(samplingEffort = str_replace((samplingEffort),"NA", "")) %>%
                 mutate(locationID = str_replace((locationID),"NA", NA_character_)) %>%
                 mutate(municipality = str_replace((municipality),"NA", NA_character_)) 
                 
