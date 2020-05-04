@@ -275,10 +275,12 @@ occurrence %<>% mutate(dwc_eventDate = case_when(
 ```{r}
 occurrence %<>% mutate(dwc_samplingProtocol = recode(Val_type,
   "Conibearklemmen" = "connibear clamp",
+  "Grondklemmen" = "ground trap",
+  "Fuiken" = "fyke",
   "Klepfuiken" = "valve trap",
   "Lokaasklemmen"= "bait trap",
   "Ronde fuiken" = "round fikes",
-  "Grondklemmen" = "ground trap"
+  "Schijn" = ""
 ))
 ```
 
