@@ -375,6 +375,7 @@ occurrence %<>% mutate(dwc_scientificName = "Ondatra zibethicus")
 occurrence %<>% mutate(dwc_taxonRank = "species")
 ```
 
+### scientificNameAuthorship
 
 ```{r}
 occurrence %<>% mutate(dwc_scientificNameAuthorship = "(Linnaeus, 1766)")
