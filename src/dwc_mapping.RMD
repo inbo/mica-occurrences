@@ -60,15 +60,6 @@ Clean data somewhat:
 input_data %<>% remove_empty("rows")
 ```
 
-# Simple 1-1 Map to DwC
-
-Rename original columns
-
-```{r}
-input_data %<>% 
-  rename (individualCount = Ratten)
-```
-
 # Remove obsolete columns (Bijvangst)
 
 ```{r}
@@ -261,6 +252,12 @@ occurrence %<>% mutate(dwc_occurrenceID = paste0("INBO:MUSK:L:OCC:", X1))
 
 ```{r}
 occurrence %<>% mutate(dwc_recordedBy = dwc_rightsHolder)
+```
+
+### individualCount
+
+```{r}
+occurrence %<>% mutate(dwc_individualCount = Ratten)
 ```
 
 ### eventDate
