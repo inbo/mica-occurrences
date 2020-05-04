@@ -319,6 +319,15 @@ occurrence %<>% mutate(dwc_stateProvince = recode(Prov,
 ))
 ```
 
+### Municipality
+
+```{r}
+occurrence %<>% mutate(dwc_municipality = recode(Gem,
+  "HÃ©lÃ©cine" = "Heylissem",
+  "CrisnÃ©e" = "Gerstenhoven"
+))
+```
+
 ### decimalLatitude
 
 ```{r}
@@ -408,9 +417,6 @@ occurrence %<>% select(-c(Coor_prox, Man_prox, Val_aantal, Grens, month, year, o
 
 
 ```{r}
-occurrence %<>%  mutate(municipality = recode(municipality
-                      , "HÃ©lÃ©cine" = "Heylissem"
-                      , "CrisnÃ©e" = "Gerstenhoven"  ))
 ```
 
 remove NA
