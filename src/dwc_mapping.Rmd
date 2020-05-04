@@ -312,9 +312,14 @@ occurrence %<>% mutate(dwc_countryCode = "BE")
 ```{r}
 occurrence %<>% mutate(dwc_stateProvince = recode(Prov,
   "Antwerpen" = "Antwerp",
-  "Vlaams Brabant" = "Flemish Brabant",
-  "West-Vlaanderen"= "West Flanders",
-  "Oost-Vlaanderen" = "East Flanders"
+  "Brussels Hoofdstedelijk Gewest" = "Brussels-Capital Region",
+  "Henegouwen" = "Hainaut",
+  "Limburg" = "Limburg",
+  "Luik" = "Liège",
+  "Oost-Vlaanderen" = "East Flanders",
+  "Vlaams-Brabant" = "Flemish Brabant",
+  "Waals-Brabant" = "Walloon Brabant",
+  "West-Vlaanderen"= "West Flanders"
 ))
 ```
 
