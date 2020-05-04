@@ -205,11 +205,11 @@ Preview data:
 input_data %>% head()
 ```
 
-# Occurrence core
+# Darwin Core mapping
 
-## Pre-processing
+## Create occurrence core
 
-Create a dataframe occurrence data only (ignoring multiple distribution rows):
+Create a dataframe with occurrence data:
 
 ```{r}
 occurrence <- input_data
@@ -219,7 +219,11 @@ occurrence <- input_data
 
 Map the data to [Darwin Core Occurrence](http://rs.gbif.org/core/dwc_occurrence_2015-07-02.xml).
 
-Start with record-level terms which contain metadata about the dataset (which is generally the same for all records).
+### type
+
+```{r}
+occurrence %<>% mutate(dwc_type = "Event")
+```
 
 ### language
 
@@ -280,12 +284,6 @@ The following terms contain information about the taxon:
 #```{r}
 #occurrence %<>% rename(scientificName = scientificname)
 #```
-
-### event
-```{r}
-occurrence %<>% mutate(type = "event")
-
-```
 
 ### basisOfRecord
 
