@@ -228,13 +228,13 @@ occurrence %<>% mutate(dwc_type = "Event")
 ### language
 
 ```{r}
-occurrence %<>% mutate(language = "en") # e.g. "en"
+occurrence %<>% mutate(dwc_language = "en") # e.g. "en"
 ```
 
 ### license
 
 ```{r}
-occurrence %<>% mutate(license = "http://creativecommons.org/publicdomain/zero/1.0/") 
+occurrence %<>% mutate(dwc_license = "http://creativecommons.org/publicdomain/zero/1.0/") 
 # e.g. "http://creativecommons.org/publicdomain/zero/1.0/"
 ```
 
@@ -254,19 +254,21 @@ occurrence %<>% mutate(rightsHolder = ownerInstitutionCode) %<>%
 ### datasetID
 
 ```{r}
-occurrence %<>% mutate(datasetID = "to complete") # e.g. "https://doi.org/10.15468/xvuzfh"
+occurrence %<>% mutate(dwc_datasetID = "to complete") # e.g. "https://doi.org/10.15468/xvuzfh"
 ```
 
 ### institutionCode
 
 ```{r}
-occurrence %<>% mutate(institutionCode = "INBO") # e.g. "INBO"
+occurrence %<>% mutate(dwc_institutionCode = "INBO") # e.g. "INBO"
 ```
 
 ### datasetName
 
 ```{r}
-occurrence %<>% mutate(datasetName = "Muskrat occurrences in Belgium, aggregated data") # e.g. "Checklist of non-native freshwater fishes in Flanders, Belgium"
+occurrence %<>% mutate(dwc_datasetName = "Muskrat occurrences in Belgium, aggregated data") # e.g. "Checklist of non-native freshwater fishes in Flanders, Belgium"
+```
+
 ```
 
 The following terms contain information about the taxon:
