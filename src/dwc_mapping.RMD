@@ -526,8 +526,8 @@ remove NA
 #occurrence %<>% mutate(str_replace((samplingProtocol),"NA: NA", NA_character_))
 
 occurrence %<>% mutate( samplingProtocol  =   str_replace((samplingProtocol),"NA: NA", NA_character_)) %>%
-              #  mutate( samplingProtocol  =   str_replace((samplingProtocol),"NA", NA_character_)) %>%
-                mutate(eventDate = str_replace((eventDate),"NA", NA_character_)) %>%
+occurrence %<>% mutate( samplingProtocol  =   str_replace((samplingProtocol),"NA", NA_character_)) %>%
+occurrence %<>%                mutate(eventDate = str_replace((eventDate),"NA", NA_character_)) %>%
                 mutate(samplingEffort = str_replace((samplingEffort),"NA", NA_character_)) %>%
                 mutate(locationID = str_replace((locationID),"NA", NA_character_)) %>%
                 mutate(municipality = str_replace((municipality),"NA", NA_character_)) 
@@ -569,9 +569,9 @@ For now this is the one to be published
 ```{r}
 
 presenceOnly <- filter(occurrence, individualCount > "0") 
-valType <- filter(occurrence , !is.na(samplingProtocol)) 
+#valType <- filter(occurrence , !is.na(samplingProtocol)) 
 #andervalType <- occurrence %>% drop_na(Val_type)%>%
-#valtype <- filter(occurrence ,Val_type != 'is.na') %>%
+#val_Type <- filter(occurrence ,ValType != 'is.na') %>%
 #  final <- occurrence[!(is.na(occurrence$Val_type)),]
 #valtype <- filter(occurrence, !is.na(valtype),)
 #finalData <- subset(occurrence,!(is.na(data["Val_type"])))
