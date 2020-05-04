@@ -251,7 +251,7 @@ occurrence %<>% mutate(dwc_datasetName = "Muskrat occurrences in Belgium, aggreg
 ### basisOfRecord
 
 ```{r}
-occurrence %<>% mutate(dwc_basisOfRecord = "humanObservation")
+occurrence %<>% mutate(dwc_basisOfRecord = "HumanObservation")
 ```
 
 The following terms contain information about the taxon:
