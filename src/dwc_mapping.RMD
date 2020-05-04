@@ -83,17 +83,6 @@ input_data %<>%
 input_data %<>% select(-c(Bijvangst_soort_1, Bijvangst_soort_2, Bijvangst_soort_3, Bijvangst_aantal_1, Bijvangst_aantal_2, Bijvangst_aantal_3))
 ```
 
-## Create occurrence ID
-
-based on ID's in RAW data
-
-```{r}
-input_data %<>% 
-                mutate(X1 = paste0("INBO:MUSK:L:OCC:", X1))%>%
-                rename(occurrenceID = X1)
-               
-```
-
 ## Scientific names (not applicable)
 
 Add columns:
@@ -270,12 +259,10 @@ occurrence %<>% mutate(dwc_basisOfRecord = "humanObservation")
 
 The following terms contain information about the taxon:
 
-### taxonID
+### occurrenceID
 
 ```{r}
-#occurrence %<>% mutate(taxonID = taxon_id)
-#Better: rename old column
-#occurrence %<>% rename(taxonID = taxon_id)
+occurrence %<>% mutate(dwc_occurrenceID = paste0("INBO:MUSK:L:OCC:", X1))
 ```
 
 ### scientificName + (intra)specificEpithet
