@@ -70,7 +70,6 @@ input_data %<>%
   rename(decimalLatitude = Long)%>%
   rename (individualCount = Ratten)%>%
 #  rename (samplingEffort = Mandagen) %>%
-  rename (samplingProtocol = Val_type) %>%
   rename (stateProvince = Prov)
 ```
 
@@ -273,6 +272,17 @@ occurrence %<>% mutate(dwc_eventDate = case_when(
 ))
 ```
 
+### samplingProtocol
+
+```{r}
+occurrence %<>% mutate(dwc_samplingProtocol = recode(Val_type,
+  "Conibearklemmen" = "connibear clamp",
+  "Klepfuiken" = "valve trap",
+  "Lokaasklemmen"= "bait trap",
+  "Ronde fuiken" = "round fikes",
+  "Grondklemmen" = "ground trap"
+))
+```
 
 ### scientificName + (intra)specificEpithet
 
@@ -314,27 +324,6 @@ occurrence %<>% mutate(samplingEffort = case_when(
 ```
 
 
-### samplingProtocol
-
-
-```{r}
-occurrence %<>%  mutate(samplingProtocol = recode(samplingProtocol
-                      , "Conibearklemmen" = "connibearclamp"
-                      , "Klepfuiken" = "valve trap"
-                      , "Lokaasklemmen"= "bait trap"
-                      , "Ronde fuiken" = "round fikes"
-                      , "Grondklemmen" = "ground trap"
-                       ))
-                      
-
-```
-
-
-
-```{r}
-# occurrence %<>% mutate(samplingProtocol = paste0(samplingProtocol, ": ",floor(Val_aantal) )) 
-
-```
 ### StateProvince
 
 ```{r}
