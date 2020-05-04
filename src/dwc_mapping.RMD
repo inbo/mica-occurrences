@@ -262,6 +262,10 @@ occurrence %<>% mutate(dwc_institutionCode = "INBO") # e.g. "INBO"
 occurrence %<>% mutate(dwc_datasetName = "Muskrat occurrences in Belgium, aggregated data") # e.g. "Checklist of non-native freshwater fishes in Flanders, Belgium"
 ```
 
+### basisOfRecord
+
+```{r}
+occurrence %<>% mutate(dwc_basisOfRecord = "humanObservation")
 ```
 
 The following terms contain information about the taxon:
@@ -279,14 +283,6 @@ The following terms contain information about the taxon:
 #```{r}
 #occurrence %<>% rename(scientificName = scientificname)
 #```
-
-### basisOfRecord
-
-```{r}
-occurrence %<>% mutate(basisOfRecord = "humanObservation")
-
-```
-
 
 ### scientificNameAuthorship
 
