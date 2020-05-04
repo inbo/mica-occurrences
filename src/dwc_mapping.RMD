@@ -398,100 +398,41 @@ occurrence %<>% mutate(dwc_nomenclaturalCode = "ICZN") # e.g. "ICZN"
 
 ## Post-processing
 
+Only keep the Darwin Core columns:
+
+```{r}
+occurrence %<>% select(starts_with("dwc_"))
+```
+
+Drop the `dwc_` prefix:
 
 ```{r}
 colnames(occurrence) <- str_remove(colnames(occurrence), "dwc_")
-
-
-```
-
-remove obsolete columns
-
-```{r}
-occurrence %<>% select(-c(Coor_prox, Man_prox, Val_aantal, Grens, month, year, ownerInstitutionCode, Mandagen))
-  
-    
-```
-
-
-
-
-```{r}
-```
-
-remove NA
-
-```{r}
-#occurrence %<>% mutate(str_replace((samplingProtocol),"NA: NA", NA_character_))
-
-occurrence %<>% mutate( samplingProtocol  =   str_replace((samplingProtocol),"NA: NA", NA_character_)) %>%
-                mutate( samplingProtocol  =   str_replace((samplingProtocol),"NA", NA_character_)) %>%
-                mutate(eventDate = str_replace((eventDate),"NA", NA_character_)) %>%
-                mutate(samplingEffort = str_replace((samplingEffort),"NA", "")) %>%
-                mutate(locationID = str_replace((locationID),"NA", NA_character_)) %>%
-                mutate(municipality = str_replace((municipality),"NA", NA_character_)) 
-                
-                
-                
-  
-                
-
-```
-```{r}
-# occurrence %<>% mutate(eventDate = str_replace((eventDate),"NA", NA_character_))
-
-```
-```{r}
-#occurrence %<>% mutate(samplingEffort = str_replace((samplingEffort),"NA", NA_character_))
-
-```
-
-```{r}
-#occurrence %<>% mutate(locationID = str_replace((locationID),"NA", NA_character_))
-
-```
-```{r}
-#occurrence %<>% mutate(municipality = str_replace((municipality),"NA", NA_character_))
-
 ```
 
 Preview data:
 
 ```{r}
 occurrence %>% head()
-View(occurrence)
 ```
 
-# Create presence only occurrence file
-For now this is the one to be published
+Filter data on presence only data, as this is the one to be published:
 
 ```{r}
-
-presenceOnly <- filter(occurrence, individualCount > "0") 
+occurrence_presence_only <- filter(occurrence, individualCount > 0)
 #valType <- filter(occurrence , !is.na(samplingProtocol)) 
 #andervalType <- occurrence %>% drop_na(Val_type)%>%
 #val_Type <- filter(occurrence ,ValType != 'is.na') %>%
-#  final <- occurrence[!(is.na(occurrence$Val_type)),]
+#final <- occurrence[!(is.na(occurrence$Val_type)),]
 #valtype <- filter(occurrence, !is.na(valtype),)
 #finalData <- subset(occurrence,!(is.na(data["Val_type"])))
 #vallekestype <- unique(occurrence$Val_aantal)
-#View(valtype)
-#View(vallekestype)
-
-nAtest <- filter(occurrence ,locationID != 'is.na')
-#View(nAtest)
+#nAtest <- filter(occurrence ,locationID != 'is.na')
 ```
-
 
 Save to CSV:
 
 ```{r}
-write_csv(occurrence, here("data", "processed", "occurrences_with_absence.csv"), na = "" )
-write_csv(presenceOnly, here("data", "processed", "occurrence.csv"), na = "") 
-
-
-#write_csv(occurrence,(file = here("data", "processed", "occurrence.csv"))
-#write_csv(occurrence, here("data", "processed", "occurrence.csv"), append = FALSE, na = "")
-#write.csv(occurrence, "../data/processed/occurrence.csv", append = TRUE, na = "",  row.names = FALSE, fileEncoding = "UTF-8")
+write_csv(occurrence, here::here("data", "processed", "occurrences_with_absence.csv"), na = "" )
+write_csv(occurrence_presence_only, here::here("data", "processed", "occurrence.csv"), na = "") 
 ```
-
