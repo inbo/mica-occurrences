@@ -68,9 +68,6 @@ Rename original columns
 input_data %<>% 
   rename(decimalLongitude = Lat)%>%
   rename(decimalLatitude = Long)%>%
-  rename(year = Jaar)%>%
-  rename(month = Maand)%>%
-  rename(eventDate = Datum)%>%
   rename (individualCount = Ratten)%>%
 #  rename (samplingEffort = Mandagen) %>%
   rename (samplingProtocol = Val_type) %>%
@@ -265,6 +262,18 @@ The following terms contain information about the taxon:
 occurrence %<>% mutate(dwc_occurrenceID = paste0("INBO:MUSK:L:OCC:", X1))
 ```
 
+### eventDate
+
+```{r}
+occurrence %<>% mutate(dwc_eventDate = case_when(
+  !is.na(Datum) ~ as.character(Datum),
+  !is.na(Maand) ~ as.character(paste(Jaar, sprintf("%02d", Maand), sep = "-")),
+  !is.na(Jaar) ~ as.character(Jaar),
+  TRUE ~ NA_character_
+))
+```
+
+
 ### scientificName + (intra)specificEpithet
 
 #```{r}
@@ -339,44 +348,6 @@ occurrence %<>%  mutate(StateProvince = recode(stateProvince
 
 
 ```
-### eventDate
-
-```{r}
-occurrence %<>%
- mutate(eventDate = if_else(is.na(year),
-                            NA_character_,
-                            if_else(is.na(month),
-                                    as.character(year),
-                                            paste(year, month, sep = "-"),
-                                            paste(year, month, sep = "-"))
-                            ))
-```
-
-
-
-```{r}
-#occurrence %<>%
-#  mutate(eventdate2 = paste0(year,"-" ,(!is.na(month))))
-  
-               
-```
-
-```{r}
-#occurrence %<>%
-#  mutate(eventDate = if_else(is.na(eventDate),
-#                            eventdate2,
-#                            as.character(eventDate))) 
-  
-#View(occurrence) 
-```
-```{r}
-occurrence %<>% mutate(eventDate = if_else(str_detect(string = eventDate,
-                                       pattern = "NA"),
-                            NA_character_,
-                            eventDate))
-```
-
-
 
 ### georeferenceRemarks
 
