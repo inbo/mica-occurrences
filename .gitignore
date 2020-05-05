@@ -47,6 +47,7 @@ docs/
 .pdf
 literature
 maps
+data/processed
 
 # Mac OS X
 .DS_Store
