@@ -1,0 +1,444 @@
+---
+title: "Darwin Core mapping"
+subtitle: "For: Muskrat occurrences Flanders"
+author:
+- Dimitri Brosens
+date: "`r Sys.Date()`"
+output:
+  html_document:
+    df_print: paged
+    number_sections: yes
+    toc: yes
+    toc_depth: 3
+    toc_float: yes
+#  pdf_document:
+#    df_print: kable
+#    number_sections: yes
+#    toc: yes
+#    toc_depth: 3
+---
+
+```{r setup, include = FALSE}
+knitr::opts_chunk$set(echo = TRUE, warning = FALSE, message = FALSE)
+```
+
+Load libraries:
+
+```{r}
+library(tidyverse)      # To do data science
+library(tidylog)        # To provide feedback on dplyr functions
+library(magrittr)       # To use %<>% pipes
+library(here)           # To find files
+library(janitor)        # To clean input data
+library(readxl)         # To read Excel files
+library(digest)         # To generate hashes
+library(rgbif)          # To use GBIF services
+```
+
+# Read source data
+
+Create a data frame `input_data` from the source data:
+
+```{r}
+input_data <- read_csv(file = here::here("data", "raw", "AgrDataGBIF.csv"), guess_max = 400000)
+#input_data <- read_csv("../data/raw/AgrDataGBIF.csv")
+```
+
+Preview data:
+
+```{r}
+input_data %>% head(n = 5)
+```
+
+# Preprocessing
+
+## Tidy data
+
+Clean data somewhat:
+
+```{r}
+input_data %<>% remove_empty("rows")
+```
+
+# Remove obsolete columns (Bijvangst)
+
+```{r}
+input_data %<>% select(-c(Bijvangst_soort_1, Bijvangst_soort_2, Bijvangst_soort_3, Bijvangst_aantal_1, Bijvangst_aantal_2, Bijvangst_aantal_3))
+```
+
+## Scientific names (not applicable)
+
+Add columns:
+
+```{r eval = FALSE}
+input_data %<>%
+  mutate(kingdom = "Animalia") %>%
+  mutate(scientificName = "Ondatra zibethicus")
+```
+
+Use the [GBIF nameparser](https://www.gbif.org/tools/name-parser) to retrieve nomenclatural information for the scientific names in the dataset:
+
+```{r eval = FALSE}
+parsed_names <- input_data %>%
+  distinct(scientificName) %>%
+  pull() %>% # Create vector from dataframe
+  parsenames() # An rgbif function
+```
+
+Show scientific names with nomenclatural issues, i.e. not of `type = SCIENTIFIC` or that could not be fully parsed. Note: these are not necessarily incorrect.
+
+```{r eval = FALSE}
+parsed_names %>%
+  select(scientificname, type, parsed, parsedpartially, rankmarker) %>%
+  filter(!(type == "SCIENTIFIC" & parsed == "TRUE" & parsedpartially == "FALSE"))
+```
+
+Correct names and reparse:
+
+```{r correct and reparse, eval = FALSE}
+#input_data %<>% mutate(scientificName = recode(verbatimScientificName,
+#  "Gibbulinella aff. dealbata" = "Gibbulinella dealbata",
+#  "Hemicycla cf. gaudryi" = "Hemicycla gaudryi",
+#  "Xerotricha aff. orbignii" = "Xerotricha orbignii",
+#  "Napaeus cf. venegueraensis" = "Napaeus venegueraensis",
+#  "Monilearia cf. praeposita" = "Monilearia praeposita",
+#  "Gibbulinella aff. dewinteri" = "Gibbulinella dewinteri",
+#  "Pomatias aff. laevigatus" = "Pomatias laevigatus",
+#  "Physella cf. acuta" = "Physella acuta",
+#  "Hemicycla psathyra cf. temperata" = "Hemicycla psathyra temperata"
+#))
+
+# Redo parsing
+parsed_names <- input_data %>%
+  distinct(scientific_name) %>%
+  pull() %>%
+  parsenames()
+
+# Show names with nomenclatural issues again
+parsed_names %>%
+  select(scientificname, type, parsed, parsedpartially, rankmarker) %>%
+  filter(!(type == "SCIENTIFIC" & parsed == "TRUE" & parsedpartially == "FALSE"))
+```
+
+## Taxon ranks (not applicable)
+
+The nameparser function also provides information about the rank of the taxon (in `rankmarker`). Here we join this information with our checklist. Cleaning these ranks will done in the Taxon Core mapping:
+
+```{r eval = FALSE}
+input_data %<>% left_join(
+  parsed_names %>%
+  select(scientificname, rankmarker),
+  by = c("scientificName" = "scientificname"))
+```
+
+```{r eval = FALSE}
+# Adjust rankmarker
+#input_data %<>% mutate(rankmarker = recode(verbatimScientificName,
+#  "Monilearia spec." = "genus",
+#  "Hemicycla spec." = "genus",
+#  "Napaeus spec." = "genus",
+#  .default = rankmarker
+))
+```
+
+## Taxon IDs (not applicable)
+
+To link taxa with information in the extension(s), each taxon needs a unique and relatively stable `taxonID`. Here we create one in the form of `dataset_shortname:taxon:hash`, where `hash` is unique code based on scientific name and kingdom (that will remain the same as long as scientific name and kingdom remain the same):
+
+```{r eval = FALSE}
+#vdigest <- Vectorize(digest) # Vectorize digest function to work with vectors
+#input_data %<>% mutate(taxon_id = paste(
+#  "muskrat-occurrences", # e.g. "alien-fishes-checklist"
+#  "taxon",
+#  vdigest(paste(scientificName, kingdom), algo = "md5"),
+#  sep = ":"
+#))
+```
+
+## Preview data
+
+Show the number of taxa and distributions per kingdom and rank:
+
+```{r}
+#input_data %>%
+#  group_by(kingdom, rankmarker) %>%
+#  summarize(
+#    `# taxa` = n_distinct(taxon_id),
+#    `# distributions` = n()
+#  ) %>%
+#  adorn_totals("row")
+```
+
+Preview data:
+
+```{r}
+input_data %>% head()
+```
+
+# Darwin Core mapping
+
+## Create occurrence core
+
+Create a dataframe with occurrence data:
+
+```{r}
+occurrence <- input_data
+```
+
+## Term mapping
+
+Map the data to [Darwin Core Occurrence](http://rs.gbif.org/core/dwc_occurrence_2015-07-02.xml).
+
+### type
+
+```{r}
+occurrence %<>% mutate(dwc_type = "Event")
+```
+
+### language
+
+```{r}
+occurrence %<>% mutate(dwc_language = "en")
+```
+
+### license
+
+```{r}
+occurrence %<>% mutate(dwc_license = "http://creativecommons.org/publicdomain/zero/1.0/")
+```
+
+### rightsHolder
+
+```{r}
+occurrence %<>% mutate(dwc_rightsHolder = recode(Inst,
+  "Gem" = "municipality"
+))
+```
+
+### datasetID
+
+```{r}
+occurrence %<>% mutate(dwc_datasetID = "") # e.g. "https://doi.org/10.15468/xvuzfh"
+```
+
+### institutionCode
+
+```{r}
+occurrence %<>% mutate(dwc_institutionCode = "INBO")
+```
+
+### datasetName
+
+```{r}
+occurrence %<>% mutate(dwc_datasetName = "MICA - Pre-project muskrat captures in Flanders, Belgium")
+```
+
+### basisOfRecord
+
+```{r}
+occurrence %<>% mutate(dwc_basisOfRecord = "HumanObservation")
+```
+
+The following terms contain information about the taxon:
+
+### occurrenceID
+
+```{r}
+occurrence %<>% mutate(dwc_occurrenceID = paste0("INBO:MUSK:L:OCC:", X1))
+```
+
+### recordedBy
+
+```{r}
+occurrence %<>% mutate(dwc_recordedBy = dwc_rightsHolder)
+```
+
+### individualCount
+
+```{r}
+occurrence %<>% mutate(dwc_individualCount = Ratten)
+```
+
+### eventDate
+
+```{r}
+occurrence %<>% mutate(dwc_eventDate = case_when(
+  !is.na(Datum) ~ as.character(Datum),
+  !is.na(Maand) ~ as.character(paste(Jaar, sprintf("%02d", Maand), sep = "-")),
+  !is.na(Jaar) ~ as.character(Jaar),
+  TRUE ~ NA_character_
+))
+```
+
+### samplingProtocol
+
+```{r}
+occurrence %<>% mutate(dwc_samplingProtocol = recode(Val_type,
+  "Conibearklemmen" = "connibear clamp",
+  "Grondklemmen" = "ground trap",
+  "Fuiken" = "fyke",
+  "Klepfuiken" = "valve trap",
+  "Lokaasklemmen"= "bait trap",
+  "Ronde fuiken" = "round fikes",
+  "Schijn" = ""
+))
+```
+
+### samplingEffort
+ 
+```{r}
+occurrence %<>% mutate(dwc_samplingEffort = case_when(
+  !is.na(Mandagen) ~ paste("daysOfWork:", round(Mandagen, digits = 2)),
+  !is.na(Val_aantal) ~ paste("numberOfTraps:", floor(Val_aantal)),
+  TRUE ~ ""
+))
+```
+
+### locationID
+
+```{r}
+occurrence %<>% mutate(dwc_locationID = case_when(
+  !is.na(VHAzone) ~ paste0("INBO:MUSK:L:LOC:VHA", VHAzone),
+  TRUE ~ NA_character_
+))
+```
+
+### countryCode
+
+```{r}
+occurrence %<>% mutate(dwc_countryCode = "BE")
+```
+
+### stateProvince
+
+```{r}
+occurrence %<>% mutate(dwc_stateProvince = recode(Prov,
+  "Antwerpen" = "Antwerp",
+  "Brussels Hoofdstedelijk Gewest" = "Brussels-Capital Region",
+  "Henegouwen" = "Hainaut",
+  "Limburg" = "Limburg",
+  "Luik" = "Liège",
+  "Oost-Vlaanderen" = "East Flanders",
+  "Vlaams-Brabant" = "Flemish Brabant",
+  "Waals-Brabant" = "Walloon Brabant",
+  "West-Vlaanderen"= "West Flanders"
+))
+```
+
+### Municipality
+
+```{r}
+occurrence %<>% mutate(dwc_municipality = recode(Gem,
+  "HÃ©lÃ©cine" = "Heylissem",
+  "CrisnÃ©e" = "Gerstenhoven"
+))
+```
+
+### decimalLatitude
+
+```{r}
+occurrence %<>% mutate(dwc_decimalLatitude = Long) # Long, because flipped in source data
+```
+
+### decimalLongitude
+
+```{r}
+occurrence %<>% mutate(dwc_decimalLongitude = Lat) # Long, because flipped in source data
+```
+
+### geodeticDatum
+
+```{r}
+occurrence %<>% mutate(dwc_geodeticDatum = "WGS84")
+```
+
+### coordinateUncertaintyInMeters
+
+```{r}
+occurrence %<>% mutate(dwc_coordinateUncertaintyInMeters = case_when(
+  endsWith(Coor_prox, "Yes") ~ "13000",
+  endsWith(Coor_prox, "No") ~ "30",
+  TRUE ~ NA_character_
+))
+```
+
+### georeferenceRemarks
+
+```{r}
+occurrence %<>% mutate(dwc_georeferenceRemarks = case_when(
+  endsWith(Coor_prox, "Yes") ~ "coordinates are centroid of municipality",
+  endsWith(Coor_prox, "No") ~ "exact coordinates",
+  TRUE ~ NA_character_
+))
+```
+
+### kingdom
+
+```{r}
+occurrence %<>% mutate(dwc_kingdom = "Animalia")
+```
+
+### scientificName
+
+```{r}
+occurrence %<>% mutate(dwc_scientificName = "Ondatra zibethicus")
+```
+
+### taxonRank
+
+```{r}
+occurrence %<>% mutate(dwc_taxonRank = "species")
+```
+
+### scientificNameAuthorship
+
+```{r}
+occurrence %<>% mutate(dwc_scientificNameAuthorship = "(Linnaeus, 1766)")
+```
+
+### nomenclaturalCode
+
+```{r}
+occurrence %<>% mutate(dwc_nomenclaturalCode = "ICZN")
+```
+
+## Post-processing
+
+Only keep the Darwin Core columns:
+
+```{r}
+occurrence %<>% select(starts_with("dwc_"))
+```
+
+Drop the `dwc_` prefix:
+
+```{r}
+colnames(occurrence) <- str_remove(colnames(occurrence), "dwc_")
+```
+
+Preview data:
+
+```{r}
+occurrence %>% head()
+```
+
+Filter data on presence only data, as this is the one to be published:
+
+```{r}
+occurrence_presence_only <- filter(occurrence, individualCount > 0)
+#valType <- filter(occurrence , !is.na(samplingProtocol)) 
+#andervalType <- occurrence %>% drop_na(Val_type)%>%
+#val_Type <- filter(occurrence ,ValType != 'is.na') %>%
+#final <- occurrence[!(is.na(occurrence$Val_type)),]
+#valtype <- filter(occurrence, !is.na(valtype),)
+#finalData <- subset(occurrence,!(is.na(data["Val_type"])))
+#vallekestype <- unique(occurrence$Val_aantal)
+#nAtest <- filter(occurrence ,locationID != 'is.na')
+```
+
+Save to CSV:
+
+```{r}
+write_csv(occurrence, here::here("data", "processed", "occurrences_with_absence.csv"), na = "" )
+write_csv(occurrence_presence_only, here::here("data", "processed", "occurrence.csv"), na = "") 
+```
