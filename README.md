@@ -11,7 +11,7 @@ This repository contains the functionality to standardize the data of _MICA - Pr
 ## Published dataset
 
 * [Dataset on the IPT](http://ipt.inbo.be/resource?r=mica-legacy-occurrences)
-* [Dataset on GBIF](<!-- Add the DOI of the dataset on GBIF here -->)
+* [Dataset on GBIF](https://doi.org/10.15468/pequ4z)
 
 ## Repo structure
 
