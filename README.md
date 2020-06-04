@@ -1,8 +1,8 @@
-# MICA - Pre-project muskrat captures in Flanders, Belgium
+# Muskrat captures in Flanders, Belgium
 
 ## Rationale
 
-This repository contains the functionality to standardize the data of _MICA - Pre-project muskrat captures in Flanders, Belgium_ to a [Darwin Core Occurrence](https://www.gbif.org/dataset-classes) that can be harvested by [GBIF](http://www.gbif.org).
+This repository contains the functionality to standardize the data of _Muskrat captures in Flanders, Belgium_ to a [Darwin Core Occurrence](https://www.gbif.org/dataset-classes) that can be harvested by [GBIF](http://www.gbif.org).
 
 ## Workflow
 
