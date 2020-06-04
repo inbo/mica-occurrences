@@ -41,12 +41,7 @@ vignettes/*.pdf
 # pkgdown site
 docs/
 
-# Big files and presentations
-.docx
-7. Biodiversity Informatics 2019.pptx
-.pdf
-literature
-maps
+# Data
 data/processed
 
 # Mac OS X
