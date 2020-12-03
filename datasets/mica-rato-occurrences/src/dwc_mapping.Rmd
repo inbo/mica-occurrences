@@ -46,7 +46,7 @@ some columns renamed to DwC term
 File exported to csv
 
 ```{r}
-input_interim <- read_csv(here::here("datasets", "muskrat-rato-occurrences", "data", "interim", "RATO_data_RAW_Refine.csv"))
+input_interim <- read_csv(here::here("datasets", "mica-rato-occurrences", "data", "interim", "RATO_data_RAW_Refine.csv"))
 ```
 
 Preview data:
@@ -111,7 +111,7 @@ In order to add the decimal coordinates into the original df we create an x_y da
 x_y <- as.data.frame(st_coordinates(input_interim))
 x_y %>% head(n = 5)
 
-write_csv(x_y, here::here("datasets", "muskrat-rato-occurrences", "data", "interim", "x_y.csv"), na = "")
+write_csv(x_y, here::here("datasets", "mica-rato-occurrences", "data", "interim", "x_y.csv"), na = "")
 ```
 
 # Create extra dataframe to work with 
@@ -483,5 +483,5 @@ occurrence %>% head()
 Save to CSV:
 
 ```{r}
-write_csv(occurrence, here::here("datasets", "muskrat-rato-occurrences", "data", "processed", " occurrence.csv"), na = "")
+write_csv(occurrence, here::here("datasets", "mica-rato-occurrences", "data", "processed", " occurrence.csv"), na = "")
 ```
