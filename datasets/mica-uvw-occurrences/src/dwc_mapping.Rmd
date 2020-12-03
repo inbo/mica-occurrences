@@ -46,7 +46,9 @@ some columns renamed to DwC term
 File exported to csv
 
 ```{r}
-input_interim <- read_csv(here:here("datasets", "mica-uvw-occurrences", "data", "raw", "2020_11_18_Vangstgegevens muskus- en beverratten_NL_2019.csv"))                        
+#input_interim <- read_csv2(file = here:here("datasets", "mica-uvw-occurrences", "data", "raw", "2020_11_18_Vangstgegevens #muskus- en beverratten_NL_2019.csv"))  
+
+input_interim <- read_csv2(file = here::here("datasets", "mica-uvw-occurrences", "data", "raw", "2020_11_18_Vangstgegevens muskus- en beverratten_NL_2019.csv"))
 ```
 
 Preview data:
@@ -110,7 +112,7 @@ In order to add the decimal coordinates into the original df we create an x_y da
 x_y <- st_coordinates(input_interim)
 x_y %>% head(n = 5)
 
-write_csv(x_y, here::here("datasets", "mica-uvw-occurrences", "data", "interim/x_y.csv"), na = "")
+#write_csv(x_y, here::here("datasets", "mica-uvw-occurrences", "data", "interim/x_y.csv"), na = "")
 ```
 
 # Create extra dataframe to work with 
@@ -176,7 +178,7 @@ Start with record-level terms which contain metadata about the dataset (which is
 ### datasetID
 
 ```{r}
-occurrence %<>% mutate(datasetID = "my_doi") # e.g. "to compplete"
+occurrence %<>% mutate(datasetID = "https://doi.org/10.15468/qjds4c") # e.g. "to complete"
 ```
 
 ### type
@@ -213,7 +215,7 @@ occurrence %<>% mutate(accessRights = "http://www.inbo.be/en/norms-for-data-use"
 ### datasetID
 
 ```{r}
-occurrence %<>% mutate(datasetID = "insert doi") 
+occurrence %<>% mutate(datasetID = "https://doi.org/10.15468/qjds4c") 
 ```
 
 ### institutionCode
@@ -225,7 +227,7 @@ occurrence %<>% mutate(institutionCode = "Unie Van Waterschappen") # e.g. "INBO"
 ### datasetName
 
 ```{r}
-occurrence %<>% mutate(datasetName = "Mica - Muskrat and Coypu occurrences collected by UVW in the Netherlands") # e.g. "Checklist of non-native freshwater fishes in Flanders, Belgium"
+occurrence %<>% mutate(datasetName = "MICA - Muskrat and Coypu occurrences collected by UVW in the Netherlands") # e.g. "Checklist of non-native freshwater fishes in Flanders, Belgium"
 ```
 
 The following terms contain information about the taxon:
@@ -511,4 +513,7 @@ Save to CSV:
 
 ```{r}
 write_csv(occurrence, here::here("datasets/mica-uvw-occurrences", "data", "processed", "occurrence.csv"), na = "")
+
+
+
 ```
