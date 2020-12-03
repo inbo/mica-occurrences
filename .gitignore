@@ -42,7 +42,7 @@ vignettes/*.pdf
 docs/
 
 # Data
-data/processed
+datasets/*/data/processed
 
 # Mac OS X
 .DS_Store
