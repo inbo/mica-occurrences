@@ -1,0 +1,149 @@
+# Dataset: https://ipt.inbo.be/resource?r=mica-rato-occurrences
+# DOI: https://doi.org/10.15468/5fps96
+# 
+# Scope: dwc-occurrence
+# Author: Dimitri Brosens, Peter Desmet
+# Syntax version: 0.1
+
+# id:
+#   regex: 'MICA:RATO:[A-Z0-9]+'
+
+type:
+  allowed: Event
+      
+language:
+  allowed: en
+
+license:
+  allowed: http://creativecommons.org/publicdomain/zero/1.0/
+
+rightsHolder:
+  allowed: RATO
+
+accessRights:
+  allowed: http://www.inbo.be/en/norms-for-data-use
+
+datasetID:
+  allowed: ''
+
+institutionCode:
+  allowed: INBO
+
+datasetName:
+  allowed: MICA - Muskrat occurrences collected by RATO in East Flanders, Belgium
+
+basisOfRecord:
+  allowed: HumanObservation
+    
+# informationwithheld: Not in this dataset
+
+# dataGeneralizations: Not in this dataset
+
+occurrenceID:
+  regex: 'MICA:RATO:[A-Z0-9]+'
+
+recordedBy:
+  allowed: RATO
+
+individualCount:
+  empty: true
+  numberformat: x
+  min: 0
+
+occurrenceStatus:
+  empty: true
+  allowed:
+    - absent
+    - present
+  if:
+    - individualCount:
+        allowed: '0'
+      allowed: absent
+
+occurrenceRemarks:
+  empty: true
+  allowed:
+    - Catch
+    - Identified
+    - No catch
+    - Traces
+
+samplingProtocol:
+  empty: true
+  delimitedvalues:
+    delimiter: ', '
+    empty: false
+
+samplingEffort:
+  empty: true
+  delimitedvalues:
+    delimiter: ' | '
+    empty: false
+    regex: '([A-Za-z\- ]+\:\d+( \| )?)+'
+
+eventDate:
+  dateformat:
+    - '%Y-%m-%d'
+    - '%Y-%m'
+    - '%Y'    
+  mindate: 2018-01-12
+  maxdate: 2020-08-26
+
+continent:
+  allowed: Europe
+
+countryCode:
+  allowed: BE
+
+municipality:
+  empty: true
+
+verbatimLatitude:
+  numberformat: x
+  min: 21829 # SE Belgium
+  max: 246072 # NW Belgium
+
+verbatimLongitude:
+  numberformat: x
+  min: 22344 # NW Belgium
+  max: 297889 # SE Belgium
+
+verbatimCoordinateSystem:
+  allowed: Lambert coordinates
+
+verbatimSRS:
+  allowed: Belgian Datum 1972
+
+decimalLatitude:
+  numberformat: '.5'
+  min: 50.61 # SE Belgium
+  max: 51.38 # NW Belgium
+
+decimalLongitude:
+  numberformat: '.5'
+  min: 3.30 # NW Belgium
+  max: 4.33 # SE Belgium
+
+geodeticDatum:
+  allowed: WGS84
+
+coordinateUncertaintyInMeters:
+  allowed: '30'
+  
+identifiedBy:
+  allowed: RATO
+
+scientificName:
+  allowed: Ondatra zibethicus
+
+kingdom:
+  allowed: Animalia
+
+scientificNameAuthorship:
+  allowed: Linnaeus, 1766
+
+taxonRank:
+  allowed: species
+
+nomenclaturalCode:
+  allowed: ICZN
