@@ -1,6 +1,6 @@
 ---
 title: "Darwin Core Mapping"
-subtitle: "For: MICA - Muskrat occurrences collected by UVW in the Netherlands"
+subtitle: "For: MICA - Muskrat and Coypu occurrences collected by UVW in The Netherlands"
 author: "Dimitri Brosens"
 date: "`r Sys.Date()`"
 output:
@@ -175,12 +175,6 @@ Start with record-level terms which contain metadata about the dataset (which is
 
 # Event
 
-### datasetID
-
-```{r}
-occurrence %<>% mutate(datasetID = "https://doi.org/10.15468/qjds4c") # e.g. "to complete"
-```
-
 ### type
 
 ```{r}
@@ -215,7 +209,7 @@ occurrence %<>% mutate(accessRights = "http://www.inbo.be/en/norms-for-data-use"
 ### datasetID
 
 ```{r}
-occurrence %<>% mutate(datasetID = "https://doi.org/10.15468/qjds4c") 
+occurrence %<>% mutate(datasetID = "https://doi.org/10.15468/qjds4c")
 ```
 
 ### institutionCode
