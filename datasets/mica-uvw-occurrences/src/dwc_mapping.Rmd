@@ -45,8 +45,6 @@ Obsolete columns removed
 some columns renamed to DwC term
 File exported to csv
 
-
-
 ```{r}
 input_interim <- read_csv(here:here("datasets", "mica-uvw-occurrences", "data", "raw", "2020_11_18_Vangstgegevens muskus- en beverratten_NL_2019.csv"))                        
 ```
@@ -67,12 +65,11 @@ Clean data somewhat:
 input_interim %<>% remove_empty("rows")
 ```
 
-
 ```{r}
 input_interim %>% head(n = 5)
 ```
 
-# georefernce source data
+# Georeference source data
 
 ## Lambert to Decimals
 
@@ -85,26 +82,24 @@ The original X,Y will be used for creating decimalLatitude and decimalLongitude
 input_interim %<>% mutate(verbatimLongitude = Longitude) %>%
                    mutate(verbatimLatitude = Latitude)
 ```
+
 ### Create a spacial dataframe
 
 Create spatial dataframe and define the CRS (31370 is Belgian Lambert 72)(crs = 28992 is the Dutch system used here)
 We indicate the x,y columns as coordinates and define the coordinate system
-
 
 ```{r}
 input_interim = st_as_sf(input_interim, coords = c("Longitude","Latitude"), crs = 28992 , agr = "constant" )
 input_interim %>% head(n = 5)
 ```
 
-
-## TRansform the data in WGS84
+## Transform the data in WGS84
 
 Now we transform the Lambert 72 in WGS84
 
 ```{r}
 input_interim <- st_transform(input_interim, crs = 4326)
 input_interim %>% head(n = 5)
-
 ```
 
 ### Create a dataframe with column decimalLatitude & decimalLongitude
@@ -117,16 +112,16 @@ x_y %>% head(n = 5)
 
 write_csv(x_y, here::here("datasets", "mica-uvw-occurrences", "data", "interim/x_y.csv"), na = "")
 ```
-# create extra dataframe to work with 
+
+# Create extra dataframe to work with 
 
 ```{r}
 input_interim_df <- input_interim
 ```
 
+# Remove geometry from dataframe 'input_interim_df'
 
-# remove geometry from dataframe 'input_interim_df'
-
-we remove all geometry from the spacial dataframe, to create a normal df
+We remove all geometry from the spacial dataframe, to create a normal df
 
 ```{r}
 ##input_interim_df <- st_geometry(NULL)
@@ -134,32 +129,25 @@ we remove all geometry from the spacial dataframe, to create a normal df
 st_geometry(input_interim_df) <- NULL
 
 input_interim_df %>% head(n = 5)
-
 ```
 
+### Bind columns x_y and input_interim_df
 
-### bind columns X_y and input_interim_df
-
-join both df's to have the decimalLat & Lon
+Join both df's to have the decimalLat & Lon
 
 ```{r}
-
 input_interim_df = bind_cols(input_interim_df,x_y, .id = NULL)
 
 input_interim_df %>% head(n = 5)
-
 ```
 
 ### Integrate x-y coordinates in original dataframe
 
 We can safely substitute input_interim 
 
-
 ```{r}
 input_interim <- input_interim_df
 ```
-
-
 
 # Occurrence core
 
@@ -171,13 +159,11 @@ Create a dataframe occurrence data only
 occurrence <- input_interim
 ```
 
-## remove obsolete columns
+## Remove obsolete columns
 
 ```{r}
-##occurrence %<>% select(-c(kind_nl,day, month, year))
+#occurrence %<>% select(-c(kind_nl,day, month, year))
 ```
-
-
 
 # Term mapping
 
@@ -199,7 +185,6 @@ occurrence %<>% mutate(datasetID = "my_doi") # e.g. "to compplete"
 occurrence %<>% mutate(type = "Event")
 ```
 
-
 ### language
 
 ```{r}
@@ -218,6 +203,7 @@ occurrence %<>% mutate(license = "http://creativecommons.org/publicdomain/zero/1
 ```{r}
 occurrence %<>% mutate(rightsHolder = "Unie Van Waterschappen") # e.g. "INBO"
 ```
+
 ### accessRights
 
 ```{r}
@@ -244,11 +230,12 @@ occurrence %<>% mutate(datasetName = "Mica - Muskrat and Coypu occurrences colle
 
 The following terms contain information about the taxon:
 
-### basis of Record
+### basisOfRecord
 
 ```{r}
 occurrence %<>% mutate(basisOfRecord = "HumanObservation")
 ```
+
 ### informationWithHeld
 
 ### dataGeneralizations
@@ -260,16 +247,13 @@ occurrence %<>% mutate(basisOfRecord = "HumanObservation")
 ```{r}
 occurrence %<>% rename(occurrenceID = 'Id') 
 #                mutate(occurrenceID = str_c("UVW:", occurrenceID))
-  
 ```
-
 
 ### recordedBy
 
 ```{r}
 occurrence %<>% mutate(recordedBy = WaterAuthorityName)
 ```
-
 
 ### individualCount
 
@@ -292,7 +276,6 @@ occurrence %<>% mutate(sex = recode(Gender,
                                    ))
 ```
 
-
 ### lifeStage
 
 ```{r}
@@ -304,74 +287,34 @@ occurrence %<>% mutate(lifeStage = recode(Age,
                                    ))
 ```
 
-
-
 ### behavior
-
 
 ### occurrenceRemarks
 
 ```{r}
 # occurrence %<>% rename(occurrenceRemarks = 'action_en')
 ```
-## samplingProtocol
 
-```{r}
-# occurrence %<>% rename(samplingProtocol = 'materials_en') %>%
- 
+### samplingProtocol
 
- # extract follow ups to new column
-# mutate(follow_up = str_extract(samplingProtocol, "Follow-up=[0-9]*")) %>%
- # remove follow ups from samplingProtocol
-# mutate(samplingProtocol = str_remove(samplingProtocol, "Follow-up=[0-9]*")) %>%
- # remove leading ", " if present
-# mutate(samplingProtocol = str_remove(samplingProtocol, "^,\\s")) %>%
- # remove trailing ", " if present
-# mutate(samplingProtocol = str_remove(samplingProtocol, ",\\s$"))%>%
- # rename follow up
-# rename(samplingEffort = "follow_up") 
- # replace follow-up with times visited
- # mutate(samplingEffort = str_replace(samplingEffort, "Follow-up=*", "times-visited="))
-```
 ### samplingEffort
-
-```{r}
-# occurrence %<>%
-# extract follow ups to new column
-# mutate(samplingEffort = str_replace(samplingEffort, "Follow-up=*", "times-visited=")) 
-
-
-```
-
 
 ### eventDate
 
-
-```{r}
-# occurrence %<>% rename(eventDate = 'CreatedOn')
-
-
-
-```
 ```{r}
 occurrence %<>% mutate(eventDate = dmy_hm(CreatedOn)) 
 ```
+
 ```{r}
 occurrence %<>% mutate(year = year(eventDate)) %<>%
                 mutate(month = month(eventDate)) %<>%
                 mutate(day = day(eventDate)) %<>%
                 mutate(eventDate = date(eventDate))
-                
 ```
-
-
 
 # Location
 
-
-
 ```{r}
-
 occurrence %<>% rename(decimalLongitude = X) %>%
                 rename(decimalLatitude = Y) %>%
                 mutate(geodeticDatum = "WGS84") %>%
@@ -379,22 +322,16 @@ occurrence %<>% rename(decimalLongitude = X) %>%
                 mutate(verbatimCoordinateSystem = "Rijksdriehoekscoördinaten") %>%
                 mutate(countryCode = "NL")  %>%            
                 mutate(continent = "Europe")
-
-
 ```
 
-
 ```{r}
-
 head(occurrence, n = 5)
 occurrence %<>%
    mutate(verbatimLongitude = round(verbatimLongitude, digits = 0 )) %>%
    mutate(verbatimLatitude = round(verbatimLatitude, digits = 0)) %>%
    mutate(decimalLongitude = round(decimalLongitude, digits = 5)) %>%
-   mutate(decimalLatitude = round(decimalLatitude, digits = 5)) 
-   
+   mutate(decimalLatitude = round(decimalLatitude, digits = 5))
 ```
-
 
 ```{r}
 occurrence %<>%   
@@ -402,7 +339,6 @@ occurrence %<>%
    mutate(decimalLongitude = as.character(format(decimalLongitude, nsmall = 5))) %>%
    mutate(verbatimLatitude = as.character(format(verbatimLatitude, nsmall = 0))) %>%
    mutate(verbatimLongitude = as.character(format(verbatimLongitude, nsmall = 0)))
-
 ```
 
 ### continent
@@ -426,31 +362,23 @@ municipality already in source file
 #  mutate(municipality = str_remove(municipality,"\\(BE\\)"))
 ```
 
-###LocationID
+### locationID
 
 ```{r}
 occurrence %<>% mutate(locationID = SubAreaName)
 ```
 
-
-
-
-
-
-### verbatimcoordinates
+### verbatimCoordinates
 
 ```{r}
 occurrence %<>% mutate(locationID = HourSquareName)
 ```
 
-
-
 ### verbatimLatitude
 
 ### verbatimLongitude
 
-### verbatimcoordinatesystem
-
+### verbatimCoordinateSystem
 
 ```{r}
 #occurrence %<>% mutate(verbatimcoordinatesystem = "Amersfoort/RD new") # 
@@ -462,15 +390,18 @@ occurrence %<>% mutate(locationID = HourSquareName)
 occurrence %<>% mutate(verbatimSRS = "EPSG:28992")
 ```
 
-## decimalLatitude
-## decimalLongitude
-## geodeticDatum
-## coordinateUncertaintyInMeters
-## georeferenceRemarks
+### decimalLatitude
 
-# Occurrence
+### decimalLongitude
 
-###identifiedBy
+### geodeticDatum
+
+### coordinateUncertaintyInMeters
+
+### georeferenceRemarks
+
+### identifiedBy
+
 ```{r}
 occurrence %<>% mutate(identifiedBy = WaterAuthorityName)
 ```
@@ -488,17 +419,16 @@ occurrence %<>% mutate(scientificName = recode(CatchTypeName
                    , "Muskusrat moer oud (>1jr)" = "Ondatra zibethicus"
                    , "Muskusrat moer jong (<1jr)" = "Ondatra zibethicus"
                                        ))
-            
-
-
 ```
+
 ### kingdom
+
 ```{r}
 occurrence %<>% mutate(kingdom = "Animalia")
 ```
 
-
 ### scientificNameAuthorship
+
 ```{r}
 occurrence %<>% mutate(scientificNameAuthorship = recode(CatchTypeName
                   ,"Muskusrat" = "Linnaeus, 1766"
@@ -510,8 +440,8 @@ occurrence %<>% mutate(scientificNameAuthorship = recode(CatchTypeName
                   ,"Muskusrat moer jong (<1jr)" = "Linnaeus, 1766"
                                        ))
 ```
-#verbatimScientificName
 
+### verbatimScientificName
 
 ```{r}
 occurrence %<>% mutate(verbatimScientificName = recode(CatchTypeName
@@ -524,11 +454,12 @@ occurrence %<>% mutate(verbatimScientificName = recode(CatchTypeName
                   , "Muskusrat moer jong (<1jr)" = "Muskusrat"
                                        ))
 ```
-#taxonRank
+
+# taxonRank
+
 ```{r}
 occurrence %<>% mutate(taxonRank = "species")
 ```
-
 
 # nomenclaturalCode
 
@@ -536,8 +467,7 @@ occurrence %<>% mutate(taxonRank = "species")
 occurrence %<>% mutate(nomenclaturalCode = "ICZN") # e.g. "ICZN"
 ```
 
-
-### OccurrenceStatus present/absent
+### occurrenceStatus
 
 ```{r}
 occurrence %<>% 
@@ -546,12 +476,9 @@ occurrence %<>%
                               individualCount == 0 ~ "absent"
                                  )
                                 )
-
 ```
 
-
 ## Post-processing
-
 
 ```{r}
 colnames(occurrence) <- str_remove(colnames(occurrence), "dwc_")
@@ -559,8 +486,7 @@ occurrence %<>% select(-c(CatchTypeName, Gender, Age, HourSquareName, CreatedOn,
           ##  rename(scientificName = verbatimScientificName) 
 ```
 
-
-define the order of the output columns
+Define the order of the output columns
 
 ```{r}
 col_order <- c( "type","language","license","rightsHolder","accessRights","datasetID"
@@ -575,12 +501,10 @@ col_order <- c( "type","language","license","rightsHolder","accessRights","datas
 occurrence <- occurrence[, col_order]
 ```
 
-
 Preview data:
 
 ```{r}
 occurrence %>% head()
-
 ```
 
 Save to CSV:
