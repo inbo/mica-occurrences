@@ -108,7 +108,7 @@ input_interim %>% head(n = 5)
 In order to add the decimal coordinates into the original df we create an x_y dataframe
 
 ```{r}
-x_y <- st_coordinates(input_interim)
+x_y <- as.data.frame(st_coordinates(input_interim))
 x_y %>% head(n = 5)
 
 write_csv(x_y, here::here("datasets", "muskrat-rato-occurrences", "data", "interim", "x_y.csv"), na = "")
