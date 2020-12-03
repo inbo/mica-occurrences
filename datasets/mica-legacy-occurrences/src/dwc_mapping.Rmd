@@ -1,6 +1,6 @@
 ---
 title: "Darwin Core mapping"
-subtitle: "For: Muskrat occurrences Flanders"
+subtitle: "For: Muskrat captures in Flanders, Belgium"
 author:
 - Dimitri Brosens
 date: "`r Sys.Date()`"
