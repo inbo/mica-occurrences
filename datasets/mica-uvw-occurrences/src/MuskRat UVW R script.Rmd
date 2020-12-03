@@ -1,0 +1,607 @@
+---
+title: "Darwin Core Mapping"
+subtitle: "For: Muskrat occurrences from Rato, East Flanders"
+author: "Dimitri Brosens"
+date: "9-9-2020"
+date: "`r Sys.Date()`"
+output:
+  html_document:
+    df_print: paged
+    number_sections: yes
+    toc: yes
+    toc_depth: 3
+    toc_float: yes
+#  pdf_document:
+#    df_print: kable
+#    number_sections: yes
+#    toc: yes
+#    toc_depth: 3
+---
+
+
+# Setup 
+
+```{r setup, include = FALSE}
+knitr::opts_chunk$set(echo = TRUE, warning = FALSE, message = TRUE)
+```
+
+Load libraries:
+
+```{r message = FALSE}
+library(tidyverse)      # To do data science
+library(tidylog)        # To provide feedback on dplyr functions
+library(magrittr)       # To use %<>% pipes
+library(here)           # To find files
+library(janitor)        # To clean input data
+library(readxl)         # To read Excel files
+library(digest)         # To generate hashes
+library(rgbif)          # To use GBIF services
+library(sp)             # coordinate transformation
+library(leaflet)        # coordinate transformation
+library(widgetframe)    # coordinate transformation
+library(sf)             # coordinate transformation
+library(lubridate)      # date transformation
+```
+
+# Read source data
+
+Create a data frame `input_data` from the source data:
+The source data was corrected in Excel
+Muskrat occurrences opened in openRefine
+Obsolete columns removed
+some columns renamed to DwC term
+File exported to csv
+
+
+
+```{r}
+
+##input_data <- read_delim(file = here::here("data", "raw", "RATO_gegevens_backoffice2020.txt"), ";" , escape_double = FALSE , trim_ws = TRUE, guess_max = 5000  )
+input_interim <- read_csv2(file = here::here("data", "RAW", "2020_11_18_Vangstgegevens muskus- en beverratten_NL_2019.csv"))                        
+
+```
+
+Preview data:
+
+```{r}
+input_interim %>% head(n = 5)
+```
+
+# Process source data
+
+## Tidy data
+
+Clean data somewhat:
+
+```{r}
+input_interim %<>% remove_empty("rows")
+```
+
+
+```{r}
+input_interim %>% head(n = 5)
+```
+
+# georefernce source data
+
+## Lambert to Decimals
+
+### Keep original x,Y as verbatimcoordinates
+
+We want to keep the original verbatim Coordinates
+The original X,Y will be used for creating decimalLatitude and decimalLongitude
+
+```{r}
+input_interim %<>% mutate(verbatimLongitude = Longitude) %>%
+                   mutate(verbatimLatitude = Latitude)
+```
+### Create a spacial dataframe
+
+Create spatial dataframe and define the CRS (31370 is Belgian Lambert 72)(crs = 28992 is the Dutch system used here)
+We indicate the x,y columns as coordinates and define the coordinate system
+
+
+```{r}
+input_interim = st_as_sf(input_interim, coords = c("Longitude","Latitude"), crs = 28992 , agr = "constant" )
+input_interim %>% head(n = 5)
+```
+
+
+## TRansform the data in WGS84
+
+Now we transform the Lambert 72 in WGS84
+
+```{r}
+input_interim <- st_transform(input_interim, crs = 4326)
+input_interim %>% head(n = 5)
+
+```
+
+### Create a dataframe with column decimalLatitude & decimalLongitude
+
+In order to add the decimal coordinates into the original df we create an x_y dataframe
+
+```{r}
+x_y <- st_coordinates(input_interim)
+x_y %>% head(n = 5)
+
+write.csv(x_y, "../data/interim/x_y.csv", append = FALSE, na = "",  row.names = FALSE, fileEncoding = "UTF-8")
+```
+# create extra dataframe to work with 
+
+```{r}
+input_interim_df <- input_interim
+```
+
+
+# remove geometry from dataframe 'input_interim_df'
+
+we remove all geometry from the spacial dataframe, to create a normal df
+
+```{r}
+##input_interim_df <- st_geometry(NULL)
+
+st_geometry(input_interim_df) <- NULL
+
+input_interim_df %>% head(n = 5)
+
+```
+
+
+### bind columns X_y and input_interim_df
+
+join both df's to have the decimalLat & Lon
+
+```{r}
+
+input_interim_df = bind_cols(input_interim_df,x_y, .id = NULL)
+
+input_interim_df %>% head(n = 5)
+
+```
+
+### Integrate x-y coordinates in original dataframe
+
+We can safely substitute input_interim 
+
+
+```{r}
+input_interim <- input_interim_df
+```
+
+
+
+# Occurrence core
+
+## Pre-processing
+
+Create a dataframe occurrence data only 
+
+```{r}
+occurrence <- input_interim
+```
+
+## remove obsolete columns
+
+```{r}
+##occurrence %<>% select(-c(kind_nl,day, month, year))
+```
+
+
+
+# Term mapping
+
+Map the data to [Darwin Core Occurrence](http://rs.gbif.org/core/dwc_occurrence_2015-07-02.xml).
+
+Start with record-level terms which contain metadata about the dataset (which is generally the same for all records).
+
+# Event
+
+### datasetID
+
+```{r}
+occurrence %<>% mutate(datasetID = "my_doi") # e.g. "to compplete"
+```
+
+### type
+
+```{r}
+occurrence %<>% mutate(type = "Event")
+```
+
+
+### language
+
+```{r}
+occurrence %<>% mutate(language = "en") # e.g. "en"
+```
+
+### license
+
+```{r}
+occurrence %<>% mutate(license = "http://creativecommons.org/publicdomain/zero/1.0/") 
+# e.g. "http://creativecommons.org/publicdomain/zero/1.0/"
+```
+
+### rightsHolder
+
+```{r}
+occurrence %<>% mutate(rightsHolder = "Unie Van Waterschappen") # e.g. "INBO"
+```
+### accessRights
+
+```{r}
+occurrence %<>% mutate(accessRights = "http://www.inbo.be/en/norms-for-data-use") 
+```
+
+### datasetID
+
+```{r}
+occurrence %<>% mutate(datasetID = "insert doi") 
+```
+
+### institutionCode
+
+```{r}
+occurrence %<>% mutate(institutionCode = "Unie Van Waterschappen") # e.g. "INBO"
+```
+
+### datasetName
+
+```{r}
+occurrence %<>% mutate(datasetName = "Mica - Muskrat and Coypu occurrences collected by UVW in the Netherlands") # e.g. "Checklist of non-native freshwater fishes in Flanders, Belgium"
+```
+
+The following terms contain information about the taxon:
+
+### basis of Record
+
+```{r}
+occurrence %<>% mutate(basisOfRecord = "HumanObservation")
+```
+### informationWithHeld
+
+### dataGeneralizations
+
+### occurrenceID
+
+**This need to be fixed**
+
+```{r}
+occurrence %<>% rename(occurrenceID = 'Id') 
+#                mutate(occurrenceID = str_c("UVW:", occurrenceID))
+  
+```
+
+
+### recordedBy
+
+```{r}
+occurrence %<>% mutate(recordedBy = WaterAuthorityName)
+```
+
+
+### individualCount
+
+```{r}
+occurrence %<>% rename(individualCount='NumberOfCatches') 
+```
+
+### oragnismQuantity
+
+### organismQuentityType
+
+### sex
+
+```{r}
+occurrence %<>% mutate(sex = recode(Gender,
+"Muskusrat" = "Muskusrat",
+                   "jong"  = "juvenile",
+                   "oud" = "adult",
+                   "Onbekend" = "",
+                                   ))
+```
+
+
+### lifeStage
+
+```{r}
+occurrence %<>% mutate(lifeStage = recode(Age,
+"Muskusrat" = "Muskusrat",
+                   "moer"  = "female",
+                   "ram" = "male",
+                   "Onbekend" = "",
+                                   ))
+```
+
+
+
+### behavior
+
+
+### occurrenceRemarks
+
+```{r}
+# occurrence %<>% rename(occurrenceRemarks = 'action_en')
+```
+## samplingProtocol
+
+```{r}
+# occurrence %<>% rename(samplingProtocol = 'materials_en') %>%
+ 
+
+ # extract follow ups to new column
+# mutate(follow_up = str_extract(samplingProtocol, "Follow-up=[0-9]*")) %>%
+ # remove follow ups from samplingProtocol
+# mutate(samplingProtocol = str_remove(samplingProtocol, "Follow-up=[0-9]*")) %>%
+ # remove leading ", " if present
+# mutate(samplingProtocol = str_remove(samplingProtocol, "^,\\s")) %>%
+ # remove trailing ", " if present
+# mutate(samplingProtocol = str_remove(samplingProtocol, ",\\s$"))%>%
+ # rename follow up
+# rename(samplingEffort = "follow_up") 
+ # replace follow-up with times visited
+ # mutate(samplingEffort = str_replace(samplingEffort, "Follow-up=*", "times-visited="))
+```
+### samplingEffort
+
+```{r}
+# occurrence %<>%
+# extract follow ups to new column
+# mutate(samplingEffort = str_replace(samplingEffort, "Follow-up=*", "times-visited=")) 
+
+
+```
+
+
+### eventDate
+
+
+```{r}
+# occurrence %<>% rename(eventDate = 'CreatedOn')
+
+
+
+```
+```{r}
+occurrence %<>% mutate(eventDate = dmy_hm(CreatedOn)) 
+```
+```{r}
+occurrence %<>% mutate(year = year(eventDate)) %<>%
+                mutate(month = month(eventDate)) %<>%
+                mutate(day = day(eventDate)) %<>%
+                mutate(eventDate = date(eventDate))
+                
+```
+
+
+
+# Location
+
+
+
+```{r}
+
+occurrence %<>% rename(decimalLongitude = X) %>%
+                rename(decimalLatitude = Y) %>%
+                mutate(geodeticDatum = "WGS84") %>%
+                mutate(coordinateUncertaintyInMeters = "30") %>%
+                mutate(verbatimCoordinateSystem = "Rijksdriehoekscoördinaten") %>%
+                mutate(countryCode = "NL")  %>%            
+                mutate(continent = "Europe")
+
+
+```
+
+
+```{r}
+
+head(occurrence, n = 5)
+occurrence %<>%
+   mutate(verbatimLongitude = round(verbatimLongitude, digits = 0 )) %>%
+   mutate(verbatimLatitude = round(verbatimLatitude, digits = 0)) %>%
+   mutate(decimalLongitude = round(decimalLongitude, digits = 5)) %>%
+   mutate(decimalLatitude = round(decimalLatitude, digits = 5)) 
+   
+```
+
+
+```{r}
+occurrence %<>%   
+   mutate(decimalLatitude = as.character(format(decimalLatitude, nsmall = 5))) %>%
+   mutate(decimalLongitude = as.character(format(decimalLongitude, nsmall = 5))) %>%
+   mutate(verbatimLatitude = as.character(format(verbatimLatitude, nsmall = 0))) %>%
+   mutate(verbatimLongitude = as.character(format(verbatimLongitude, nsmall = 0)))
+
+```
+
+### continent
+
+```{r}
+##occurrence %<>% mutate(continent = "Europe") # e.g. "Belgium = BE"
+```
+
+### countryCode
+
+```{r}
+#occurrence %<>% mutate(countryCode = "NL") # e.g. "Belgium = BE"
+```
+
+### municipality
+
+municipality already in source file
+
+```{r}
+#occurrence %<>%
+#  mutate(municipality = str_remove(municipality,"\\(BE\\)"))
+```
+
+###LocationID
+
+```{r}
+occurrence %<>% mutate(locationID = SubAreaName)
+```
+
+
+
+
+
+
+### verbatimcoordinates
+
+```{r}
+occurrence %<>% mutate(locationID = HourSquareName)
+```
+
+
+
+### verbatimLatitude
+
+### verbatimLongitude
+
+### verbatimcoordinatesystem
+
+
+```{r}
+#occurrence %<>% mutate(verbatimcoordinatesystem = "Amersfoort/RD new") # 
+```
+
+### verbatimSRS
+
+```{r}
+occurrence %<>% mutate(verbatimSRS = "EPSG:28992")
+```
+
+## decimalLatitude
+## decimalLongitude
+## geodeticDatum
+## coordinateUncertaintyInMeters
+## georeferenceRemarks
+
+# Occurrence
+
+###identifiedBy
+```{r}
+occurrence %<>% mutate(identifiedBy = WaterAuthorityName)
+```
+
+### scientificName 
+
+```{r}
+head(occurrence, n=5)
+occurrence %<>% mutate(scientificName = recode(CatchTypeName
+                   , "Beverrat ram oud (>1jr)"  = "Myocastor coypus"
+                   , "Muskusrat" = "Ondatra zibethicus"
+                   , "Beverrat"  = "Myocastor coypus"
+                   , "Muskusrat ram oud (>1jr)" = "Ondatra zibethicus"
+                   , "Muskusrat ram jong (<1jr)" = "Ondatra zibethicus"
+                   , "Muskusrat moer oud (>1jr)" = "Ondatra zibethicus"
+                   , "Muskusrat moer jong (<1jr)" = "Ondatra zibethicus"
+                                       ))
+            
+
+
+```
+### kingdom
+```{r}
+occurrence %<>% mutate(kingdom = "Animalia")
+```
+
+
+### scientificNameAuthorship
+```{r}
+occurrence %<>% mutate(scientificNameAuthorship = recode(CatchTypeName
+                  ,"Muskusrat" = "Linnaeus, 1766"
+                  ,"Beverrat"  = "Molina, 1782"
+                  ,"Beverrat ram oud (>1jr)"  = "Molina, 1782"
+                  ,"Muskusrat ram oud (>1jr)" = "Linnaeus, 1766"
+                  ,"Muskusrat ram jong (<1jr)" = "Linnaeus, 1766"
+                  ,"Muskusrat moer oud (>1jr)" = "Linnaeus, 1766"
+                  ,"Muskusrat moer jong (<1jr)" = "Linnaeus, 1766"
+                                       ))
+```
+#verbatimScientificName
+
+
+```{r}
+occurrence %<>% mutate(verbatimScientificName = recode(CatchTypeName
+                  , "Muskusrat" = "Muskusrat"
+                  , "Beverrat"  = "Beverrat"
+                  , "Beverrat ram oud (>1jr)"  =   "Beverrat"
+                  , "Muskusrat ram oud (>1jr)" =   "Muskusrat"
+                  , "Muskusrat ram jong (<1jr)" =  "Muskusrat"
+                  , "Muskusrat moer oud (>1jr)" =  "Muskusrat"
+                  , "Muskusrat moer jong (<1jr)" = "Muskusrat"
+                                       ))
+```
+#taxonRank
+```{r}
+occurrence %<>% mutate(taxonRank = "species")
+```
+
+
+# nomenclaturalCode
+
+```{r}
+occurrence %<>% mutate(nomenclaturalCode = "ICZN") # e.g. "ICZN"
+```
+
+
+### OccurrenceStatus present/absent
+
+```{r}
+occurrence %<>% 
+    ##select(individualCount) %>%
+    mutate(occurrenceStatus = case_when(individualCount > 0 ~ "present",
+                              individualCount == 0 ~ "absent"
+                                 )
+                                )
+
+```
+
+
+## Post-processing
+
+
+```{r}
+colnames(occurrence) <- str_remove(colnames(occurrence), "dwc_")
+occurrence %<>% select(-c(CatchTypeName, Gender, Age, HourSquareName, CreatedOn, year, month, day))  #remove collection columns
+          ##  rename(scientificName = verbatimScientificName) 
+```
+
+
+define the order of the output columns
+
+```{r}
+col_order <- c( "type","language","license","rightsHolder","accessRights","datasetID"
+               ,"institutionCode","datasetName","basisOfRecord","occurrenceID","recordedBy"
+               ,"individualCount","occurrenceStatus","eventDate","locationID", "continent","countryCode"
+               ,"verbatimLatitude","verbatimLongitude","verbatimCoordinateSystem","verbatimSRS"
+               ,"decimalLatitude","decimalLongitude","geodeticDatum","coordinateUncertaintyInMeters"
+               ,"identifiedBy","scientificName","kingdom","scientificNameAuthorship","taxonRank","nomenclaturalCode"
+               ) 
+               # still needed for this dataset 
+               # removed for this dataset,"occurrenceRemarks","municipality","samplingProtocol","samplingEffort"
+occurrence <- occurrence[, col_order]
+```
+
+
+Preview data:
+
+```{r}
+occurrence %>% head()
+
+```
+
+Save to CSV:
+
+```{r}
+write_csv(occurrence, "../data/processed/occurrence.csv", na = "")
+```
+
+
+```{r}
+#write_csv(occurrence, here("data", "processed", "occurrence.csv"), na = "")
+#write_csv(occurrence, here("data", "processed", "occurrence.csv"), append = FALSE, na = "")
+
+```

@@ -1,0 +1,126 @@
+# Dataset: https://ipt.inbo.be/resource?r=mica-uvw-occurrences
+# DOI: 
+# 
+# Scope: dwc-occurrence
+# Author: Dimitri Brosens, Peter Desmet
+# Syntax version: 0.1
+
+type:
+  allowed: Event
+
+language:
+  allowed: en
+
+license:
+  allowed: http://creativecommons.org/publicdomain/zero/1.0/
+
+rightsHolder:
+  allowed: Unie Van Waterschappen
+
+accessRights:
+  allowed: http://www.inbo.be/en/norms-for-data-use
+
+datasetID:
+  allowed: ''
+
+institutionCode:
+  allowed: Unie Van Waterschappen
+
+datasetName:
+  allowed: MICA - Muskrat occurrences collected by UVW in the Netherlands
+
+basisOfRecord:
+  allowed: HumanObservation
+
+# informationwithheld: Not in this dataset
+
+# dataGeneralizations: Not in this dataset
+
+occurrenceID:
+  empty: false
+
+recordedBy:
+  empty: false
+
+individualCount:
+  empty: true
+  numberformat: x
+
+occurrenceStatus:
+  empty: true
+  allowed:
+    - absent
+    - present
+  if:
+    - individualCount:
+        allowed: '0'
+      allowed: absent
+
+eventDate:
+  dateformat:
+    - '%Y-%m-%d'
+  mindate: 2018-01-12
+  maxdate: 2020-08-26
+
+locationID:
+  regex: '\d{2}-\d{2}'
+
+continent:
+  allowed: Europe
+
+countryCode:
+  allowed: NL
+
+verbatimLatitude:
+  numberformat: x
+  min: 289000 # SE Holland
+  max: 629000 # NW Holland
+
+verbatimLongitude:
+  numberformat: x
+  min: -7000 # NW Holland
+  max: 300000 # SE Holland
+
+verbatimCoordinateSystem:
+  allowed: Rijksdriehoekscoördinaten
+
+verbatimSRS:
+  allowed: 'EPSG:28992'
+
+decimalLatitude:
+  numberformat: '.5'
+  min: 50.80
+  max: 53.51
+
+decimalLongitude:
+  numberformat: '.5'
+  min: 3.31
+  max: 7.23
+
+geodeticDatum:
+  allowed: WGS84
+
+coordinateUncertaintyInMeters:
+  allowed: '30'
+
+identifiedBy:
+  empty: false
+
+scientificName:
+  allowed:
+  - Ondatra zibethicus
+  - Myocastor coypus
+
+kingdom:
+  allowed: Animalia
+
+scientificNameAuthorship:
+  allowed: 
+   - Linnaeus, 1766
+   - Molina, 1782
+
+taxonRank:
+  allowed: species
+
+nomenclaturalCode:
+  allowed: ICZN
