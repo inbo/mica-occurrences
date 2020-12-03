@@ -35,7 +35,7 @@ library(rgbif)          # To use GBIF services
 Create a data frame `input_data` from the source data:
 
 ```{r}
-input_data <- read_csv("../data/raw/AgrDataGBIF.csv"), guess_max = 400000)
+input_data <- read_csv(here::here("datasets", "mica-legacy-occurrences", "data", "raw", "AgrDataGBIF.csv"), guess_max = 400000)
 ```
 
 Preview data:
@@ -433,6 +433,6 @@ occurrence_presence_only <- filter(occurrence, individualCount > 0)
 Save to CSV:
 
 ```{r}
-write_csv(occurrence, "../data/processed/occurrences_with_absence.csv", na = "" )
-write_csv(occurrence_presence_only, "../data/processed/occurrence.csv", na = "")
+write_csv(occurrence, here::here("datasets", "mica-legacy-occurrences", "data", "processed", "occurrences_with_absence.csv"), na = "")
+write_csv(occurrence_presence_only, here::here("datasets", "mica-legacy-occurrences", "data", "processed", "occurrences.csv"), na = "")
 ```
