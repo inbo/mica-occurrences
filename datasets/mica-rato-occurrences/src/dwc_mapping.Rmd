@@ -175,7 +175,7 @@ Start with record-level terms which contain metadata about the dataset (which is
 ### datasetID
 
 ```{r}
-occurrence %<>% mutate(datasetID = "https://doi.org/10.15468/5fps96") # e.g. "https://doi.org/10.15468/xvuzfh"
+occurrence %<>% mutate(datasetID = "https://doi.org/10.15468/5fps96")
 ```
 
 ### type
