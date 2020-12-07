@@ -79,7 +79,7 @@ input_interim %>% head(n = 5)
 # Georeference source data
 
 ## split column Standort (includes decimal Lan & long)
-still need to check this
+Use separate for this
 
 ```{r}
 input_interim %<>% 
@@ -96,10 +96,11 @@ head(input_interim, n = 5)
 
 We want to keep the original verbatim Coordinates
 The original X,Y will be used for creating decimalLatitude and decimalLongitude
+For this dataset this is part is obsolete (but fun to do!)
 
 ```{r}
-input_interim %<>% mutate(verbatimLongitude = Longitude) %>%
-                   mutate(verbatimLatitude = Latitude)
+input_interim %<>% mutate(verbatimLongitude = decimalLongitude) %>%
+                   mutate(verbatimLatitude = decimalLatitude)
 ```
 
 ### Create a spacial dataframe
@@ -108,7 +109,7 @@ Create spatial dataframe and define the CRS (31370 is Belgian Lambert 72)(crs = 
 We indicate the x,y columns as coordinates and define the coordinate system
 
 ```{r}
-input_interim = st_as_sf(input_interim, coords = c("Longitude","Latitude"), crs = 28992 , agr = "constant" )
+input_interim = st_as_sf(input_interim, coords = c("decimalLongitude","decimalLatitude"), crs = 4326 , agr = "constant" )
 input_interim %>% head(n = 5)
 ```
 
@@ -195,7 +196,7 @@ Start with record-level terms which contain metadata about the dataset (which is
 ### datasetID
 
 ```{r}
-occurrence %<>% mutate(datasetID = "https://doi.org/10.15468/qjds4c") # e.g. "to complete"
+occurrence %<>% mutate(datasetID = "https://doi.orgXXXXXXX") # e.g. "to complete"
 ```
 
 ### type
@@ -220,7 +221,7 @@ occurrence %<>% mutate(license = "http://creativecommons.org/publicdomain/zero/1
 ### rightsHolder
 
 ```{r}
-occurrence %<>% mutate(rightsHolder = "Unie Van Waterschappen") # e.g. "INBO"
+occurrence %<>% mutate(rightsHolder = "ITAW") # e.g. "INBO"
 ```
 
 ### accessRights
@@ -232,19 +233,19 @@ occurrence %<>% mutate(accessRights = "http://www.inbo.be/en/norms-for-data-use"
 ### datasetID
 
 ```{r}
-occurrence %<>% mutate(datasetID = "https://doi.org/10.15468/qjds4c") 
+##occurrence %<>% mutate(datasetID = "https:/to complete") 
 ```
 
 ### institutionCode
 
 ```{r}
-occurrence %<>% mutate(institutionCode = "Unie Van Waterschappen") # e.g. "INBO"
+occurrence %<>% mutate(institutionCode = "ITAW") # e.g. "INBO"
 ```
 
 ### datasetName
 
 ```{r}
-occurrence %<>% mutate(datasetName = "MICA - Muskrat and Coypu occurrences collected by UVW in the Netherlands") # e.g. "Checklist of non-native freshwater fishes in Flanders, Belgium"
+occurrence %<>% mutate(datasetName = "MICA - Muskrat and Coypu occurrences collected by ITAW in Germany") # e.g. "Checklist of non-native freshwater fishes in Flanders, Belgium"
 ```
 
 The following terms contain information about the taxon:
@@ -264,20 +265,20 @@ occurrence %<>% mutate(basisOfRecord = "HumanObservation")
 **This need to be fixed**
 
 ```{r}
-occurrence %<>% rename(occurrenceID = 'Id') 
+occurrence %<>% rename(occurrenceID = 'ID') 
 #                mutate(occurrenceID = str_c("UVW:", occurrenceID))
 ```
 
 ### recordedBy
 
 ```{r}
-occurrence %<>% mutate(recordedBy = WaterAuthorityName)
+occurrence %<>% mutate(recordedBy = 'ITAW')
 ```
 
 ### individualCount
 
 ```{r}
-occurrence %<>% rename(individualCount='NumberOfCatches') 
+occurrence %<>% rename(individualCountNotSure= Vangë) 
 ```
 
 ### organismQuantity
@@ -285,25 +286,21 @@ occurrence %<>% rename(individualCount='NumberOfCatches')
 ### organismQuentityType
 
 ### sex
+no sex available in this dataset
 
 ```{r}
-occurrence %<>% mutate(sex = recode(Gender,
-"Muskusrat" = "Muskusrat",
-                   "jong"  = "juvenile",
-                   "oud" = "adult",
-                   "Onbekend" = "",
-                                   ))
+#occurrence %<>% mutate(sex = recode(Gender, ***))
 ```
 
 ### lifeStage
 
 ```{r}
-occurrence %<>% mutate(lifeStage = recode(Age,
-"Muskusrat" = "Muskusrat",
-                   "moer"  = "female",
-                   "ram" = "male",
-                   "Onbekend" = "",
-                                   ))
+#occurrence %<>% mutate(lifeStage = recode(Age,
+#"Muskusrat" = "Muskusrat",
+#                   "moer"  = "female",
+#                   "ram" = "male",
+#                   "Onbekend" = "",
+#                                   ))
 ```
 
 ### behavior
@@ -321,7 +318,7 @@ occurrence %<>% mutate(lifeStage = recode(Age,
 ### eventDate
 
 ```{r}
-occurrence %<>% mutate(eventDate = dmy_hm(CreatedOn)) 
+occurrence %<>% mutate(eventDate = ymd(Datum)) 
 ```
 
 ```{r}
@@ -339,25 +336,25 @@ occurrence %<>% rename(decimalLongitude = X) %>%
                 mutate(geodeticDatum = "WGS84") %>%
                 mutate(coordinateUncertaintyInMeters = "30") %>%
                 mutate(verbatimCoordinateSystem = "Rijksdriehoekscoördinaten") %>%
-                mutate(countryCode = "NL")  %>%            
+                mutate(countryCode = "DE")  %>%            
                 mutate(continent = "Europe")
 ```
 
 ```{r}
 head(occurrence, n = 5)
-occurrence %<>%
-   mutate(verbatimLongitude = round(verbatimLongitude, digits = 0 )) %>%
-   mutate(verbatimLatitude = round(verbatimLatitude, digits = 0)) %>%
-   mutate(decimalLongitude = round(decimalLongitude, digits = 5)) %>%
-   mutate(decimalLatitude = round(decimalLatitude, digits = 5))
+#occurrence %<>%
+#   mutate(verbatimLongitude = round(verbatimLongitude, digits = 0 )) %>%
+#   mutate(verbatimLatitude = round(verbatimLatitude, digits = 0)) %>%
+#   mutate(decimalLongitude = round(decimalLongitude, digits = 5)) %>%
+#   mutate(decimalLatitude = round(decimalLatitude, digits = 5))
 ```
 
 ```{r}
 occurrence %<>%   
    mutate(decimalLatitude = as.character(format(decimalLatitude, nsmall = 5))) %>%
    mutate(decimalLongitude = as.character(format(decimalLongitude, nsmall = 5))) %>%
-   mutate(verbatimLatitude = as.character(format(verbatimLatitude, nsmall = 0))) %>%
-   mutate(verbatimLongitude = as.character(format(verbatimLongitude, nsmall = 0)))
+   mutate(verbatimLatitude = as.character(format(verbatimLatitude, nsmall = 5))) %>%
+   mutate(verbatimLongitude = as.character(format(verbatimLongitude, nsmall = 5)))
 ```
 
 ### continent
@@ -406,7 +403,7 @@ occurrence %<>% mutate(locationID = HourSquareName)
 ### verbatimSRS
 
 ```{r}
-occurrence %<>% mutate(verbatimSRS = "EPSG:28992")
+#occurrence %<>% mutate(verbatimSRS = "EPSG:28992")
 ```
 
 ### decimalLatitude
@@ -429,15 +426,11 @@ occurrence %<>% mutate(identifiedBy = WaterAuthorityName)
 
 ```{r}
 head(occurrence, n=5)
-occurrence %<>% mutate(scientificName = recode(CatchTypeName
-                   , "Beverrat ram oud (>1jr)"  = "Myocastor coypus"
-                   , "Muskusrat" = "Ondatra zibethicus"
-                   , "Beverrat"  = "Myocastor coypus"
-                   , "Muskusrat ram oud (>1jr)" = "Ondatra zibethicus"
-                   , "Muskusrat ram jong (<1jr)" = "Ondatra zibethicus"
-                   , "Muskusrat moer oud (>1jr)" = "Ondatra zibethicus"
-                   , "Muskusrat moer jong (<1jr)" = "Ondatra zibethicus"
-                                       ))
+occurrence %<>% mutate(scientificName = recode(Tier
+                   , "Nutria"  = "Myocastor coypus"
+                   , "Bisam" = "Ondatra zibethicus"
+                   , "Waschbär"  = "Myocastor coypus"
+                                                    ))
 ```
 
 ### kingdom
@@ -449,29 +442,18 @@ occurrence %<>% mutate(kingdom = "Animalia")
 ### scientificNameAuthorship
 
 ```{r}
-occurrence %<>% mutate(scientificNameAuthorship = recode(CatchTypeName
-                  ,"Muskusrat" = "Linnaeus, 1766"
-                  ,"Beverrat"  = "Molina, 1782"
-                  ,"Beverrat ram oud (>1jr)"  = "Molina, 1782"
-                  ,"Muskusrat ram oud (>1jr)" = "Linnaeus, 1766"
-                  ,"Muskusrat ram jong (<1jr)" = "Linnaeus, 1766"
-                  ,"Muskusrat moer oud (>1jr)" = "Linnaeus, 1766"
-                  ,"Muskusrat moer jong (<1jr)" = "Linnaeus, 1766"
+occurrence %<>% mutate(scientificNameAuthorship = recode(Tier
+                  ,"Bisam" = "Linnaeus, 1766"
+                  ,"Nutria"  = "Molina, 1782"
+                  ,"Waschbär"  = "Linnaeus, 1758"
+                  
                                        ))
 ```
 
 ### verbatimScientificName
 
 ```{r}
-occurrence %<>% mutate(verbatimScientificName = recode(CatchTypeName
-                  , "Muskusrat" = "Muskusrat"
-                  , "Beverrat"  = "Beverrat"
-                  , "Beverrat ram oud (>1jr)"  =   "Beverrat"
-                  , "Muskusrat ram oud (>1jr)" =   "Muskusrat"
-                  , "Muskusrat ram jong (<1jr)" =  "Muskusrat"
-                  , "Muskusrat moer oud (>1jr)" =  "Muskusrat"
-                  , "Muskusrat moer jong (<1jr)" = "Muskusrat"
-                                       ))
+occurrence %<>% mutate(verbatimScientificName = Tier)
 ```
 
 # taxonRank
@@ -501,7 +483,7 @@ occurrence %<>%
 
 ```{r}
 colnames(occurrence) <- str_remove(colnames(occurrence), "dwc_")
-occurrence %<>% select(-c(CatchTypeName, Gender, Age, HourSquareName, CreatedOn, year, month, day))  #remove collection columns
+occurrence %<>% select(-c(UserName, UserEmail, Datum, Uhrzeit, Tier, "Anmerkung (nicht verpflichtend)",year, month, day, verbatimLongitude, verbatimLatitude ))  #remove collection columns
           ##  rename(scientificName = verbatimScientificName) 
 ```
 
