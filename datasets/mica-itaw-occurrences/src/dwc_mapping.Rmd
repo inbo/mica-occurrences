@@ -83,7 +83,7 @@ still need to check this
 
 ```{r}
 input_interim %<>% 
-         mutate(decimalSomething = str_split(Standort, ",", 2))
+         separate(col = Standort, into = c("decimalLatitude", "decimalLongitude"), sep = ",")
 
 head(input_interim, n = 5)
 
