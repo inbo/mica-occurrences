@@ -278,7 +278,7 @@ occurrence %<>% mutate(recordedBy = 'ITAW')
 ### individualCount
 
 ```{r}
-occurrence %<>% rename(individualCountNotSure= Vangë) 
+occurrence %<>% rename(individualCount = Vangë) 
 ```
 
 ### organismQuantity
@@ -311,7 +311,34 @@ no sex available in this dataset
 # occurrence %<>% rename(occurrenceRemarks = 'action_en')
 ```
 
+### habitat
+
+```{r}
+occurrence %<>% mutate(habitat = Landschaft)
+```
+
+
 ### samplingProtocol
+
+```{r}
+
+occurrence %<>% mutate(samplingProtocol = recode(Material,
+                    
+                            "1" =	 "Metallkastenfalle (Fa. Grimm)/ Metal Box Trap"
+                          , "2" =  "Abschuss / shot"
+                          , "3" =  "Weka invasiv / funnel trap"
+                          , "4" =  "Drahtkastenfalle / wire box trap"
+                          , "5" =  "Trapperneozoen /  funnel trap"
+                          , "6" =  "Holzkastenfalle / wooden box trap"
+                          , "7" =  "Haargreiffalle (Modell Hausmann) / ground trap"
+                          , "8" =  "Reusenfalle"
+                          , "9" =  "Conibear-Falle / Conibear trap"
+                          , "10" = "Leprich-Falle  / Leprich Trap/ bait trap"
+                          , "11" = "Runde Uferfalle / bait trap"
+                          , "12" = "Kerschl-Falle" ))
+
+```
+
 
 ### samplingEffort
 
@@ -335,7 +362,6 @@ occurrence %<>% rename(decimalLongitude = X) %>%
                 rename(decimalLatitude = Y) %>%
                 mutate(geodeticDatum = "WGS84") %>%
                 mutate(coordinateUncertaintyInMeters = "30") %>%
-                mutate(verbatimCoordinateSystem = "Rijksdriehoekscoördinaten") %>%
                 mutate(countryCode = "DE")  %>%            
                 mutate(continent = "Europe")
 ```
@@ -378,16 +404,27 @@ municipality already in source file
 #  mutate(municipality = str_remove(municipality,"\\(BE\\)"))
 ```
 
+### verbatimLocality
+
+```{r}
+occurrence %<>%
+  mutate(verbatimLocality = Bereich)
+
+
+```
+
+
+
 ### locationID
 
 ```{r}
-occurrence %<>% mutate(locationID = SubAreaName)
+# occurrence %<>% mutate(locationID = SubAreaName)
 ```
 
 ### verbatimCoordinates
 
 ```{r}
-occurrence %<>% mutate(locationID = HourSquareName)
+# occurrence %<>% mutate(locationID = HourSquareName)
 ```
 
 ### verbatimLatitude
@@ -419,7 +456,7 @@ occurrence %<>% mutate(locationID = HourSquareName)
 ### identifiedBy
 
 ```{r}
-occurrence %<>% mutate(identifiedBy = WaterAuthorityName)
+occurrence %<>% mutate(identifiedBy = 'ITAW')
 ```
 
 ### scientificName 
@@ -483,7 +520,7 @@ occurrence %<>%
 
 ```{r}
 colnames(occurrence) <- str_remove(colnames(occurrence), "dwc_")
-occurrence %<>% select(-c(UserName, UserEmail, Datum, Uhrzeit, Tier, "Anmerkung (nicht verpflichtend)",year, month, day, verbatimLongitude, verbatimLatitude ))  #remove collection columns
+occurrence %<>% select(-c(UserName, UserEmail, Datum, Uhrzeit, Tier, "Anmerkung (nicht verpflichtend)",year, month, day, verbatimLongitude, verbatimLatitude, Bereich, Landschaft, Material ))  #remove collection columns
           ##  rename(scientificName = verbatimScientificName) 
 ```
 
@@ -492,13 +529,14 @@ Define the order of the output columns
 ```{r}
 col_order <- c( "type","language","license","rightsHolder","accessRights","datasetID"
                ,"institutionCode","datasetName","basisOfRecord","occurrenceID","recordedBy"
-               ,"individualCount","occurrenceStatus","eventDate","locationID", "continent","countryCode"
-               ,"verbatimLatitude","verbatimLongitude","verbatimCoordinateSystem","verbatimSRS"
+               ,"individualCount","occurrenceStatus","eventDate", "continent","countryCode"
+               ,"verbatimCoordinateSystem"
                ,"decimalLatitude","decimalLongitude","geodeticDatum","coordinateUncertaintyInMeters"
                ,"identifiedBy","scientificName","kingdom","scientificNameAuthorship","taxonRank","nomenclaturalCode"
                ) 
                # still needed for this dataset 
-               # removed for this dataset,"occurrenceRemarks","municipality","samplingProtocol","samplingEffort"
+               # removed for this dataset,"occurrenceRemarks","municipality","samplingProtocol","samplingEffort", ,"locationID", ,"verbatimLatitude","verbatimLongitude","verbatimSRS"
+
 occurrence <- occurrence[, col_order]
 ```
 
@@ -511,7 +549,7 @@ occurrence %>% head()
 Save to CSV:
 
 ```{r}
-write_csv(occurrence, here::here("datasets/mica-uvw-occurrences", "data", "processed", "occurrence.csv"), na = "")
+write_csv(occurrence, here::here("datasets/mica-itaw-occurrences", "data", "processed", "occurrence.csv"), na = "")
 
 
 
