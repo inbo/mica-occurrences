@@ -324,18 +324,18 @@ occurrence %<>% mutate(habitat = Landschaft)
 
 occurrence %<>% mutate(samplingProtocol = recode(Material,
                     
-                            "1" =	 "Metallkastenfalle (Fa. Grimm)/ Metal Box Trap"
-                          , "2" =  "Abschuss / shot"
-                          , "3" =  "Weka invasiv / funnel trap"
-                          , "4" =  "Drahtkastenfalle / wire box trap"
-                          , "5" =  "Trapperneozoen /  funnel trap"
-                          , "6" =  "Holzkastenfalle / wooden box trap"
-                          , "7" =  "Haargreiffalle (Modell Hausmann) / ground trap"
-                          , "8" =  "Reusenfalle  cage trap "
-                          , "9" =  "Conibear-Falle / Conibear trap"
-                          , "10" = "Leprich-Falle  / Leprich Trap/ bait trap"
-                          , "11" = "Runde Uferfalle / bait trap"
-                          , "12" = "Kerschl-Falle / universal rat trap"))
+                            "1" =	 "metal box trap (Grimm)"
+                          , "2" =  "shot"
+                          , "3" =  "funnel trap (Weka invasiv)"
+                          , "4" =  "wire box trap"
+                          , "5" =  "Funnel trap (Trapperneozoen)"
+                          , "6" =  "wooden box trap"
+                          , "7" =  "killing trap (model Hausmann)"
+                          , "8" =  "drowning cage trap"
+                          , "9" =  "killing trap (model Conibear)"
+                          , "10" = "killing trap (model Leprich)"
+                          , "11" = "round killing trap"
+                          , "12" = "killing trap (model Kerschl)"))
 
 ```
 
