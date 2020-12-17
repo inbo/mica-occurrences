@@ -336,12 +336,14 @@ occurrence %<>%
 eventDate already ok in source file (should be)
 
 ```{r}
-head(occurrence, n = 5)
 
-occurrence %<>% mdy(date)
 
-occurrence %<>% mutate(eventDate = ymd(date))
+#occurrence %<>% ymd(date)
+
+occurrence %<>% mutate(eventDate = dmy(date))
 # mutate(eventDate = as_date(ymd(date))) # , format = "%Y-%m-%d")) 
+
+head(occurrence, n = 5)
 ```
 
 # Location
