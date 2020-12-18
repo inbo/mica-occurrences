@@ -48,17 +48,12 @@ File exported to csv
 ```{r}
 
 #datafile V1
-#input_interim <- read_csv(here::here("datasets", "mica-rato-occurrences", "data", "interim", "RATO_data_RAW_Refine.csv"))
+input_interim <- read_csv(here::here("datasets", "mica-rato-occurrences", "data", "interim", "RATO_data_RAW_Refine.csv"))
 
 #datafile update 1
 #input_interim <- read_excel(here::here("datasets", "mica-rato-occurrences", #"data", "raw", "vangstenMURA1jan-20nov2020.xlsx"))
 
-#input_interim <- read.csv2(here::here("datasets", "mica-rato-occurrences", "data", "raw", "RATOgegevensbackoffice2020V2.txt" #), sep = ";")
-
-#deze werkt
-#input_interim <- read_delim(file = here::here("datasets", "mica-rato-occurrences", "data", "raw", #"RATOgegevensbackoffice2020V2.txt"), ";", escape_double = FALSE, trim_ws = TRUE )
-
-input_interim <- read_delim(here::here("datasets", "mica-rato-occurrences", "data", "raw", "RATOgegevensbackoffice2020V2.txt" ), ";")
+#input_interim <- read_csv2(here::here("datasets", "mica-rato-occurrences", "data", "raw", #"RATOgegevensbackoffice2020V2.txt" ))
 
 ```
 
@@ -174,19 +169,8 @@ occurrence <- input_interim
 ## remove obsolete columns
 
 ```{r}
-occurrence %<>% select(-c(domain_fr, domain_en, domain_nl, kind_fr, kind_en))
+occurrence %<>% select(-c(kind_nl,day, month, year))
 ```
-## filter for muskrat
-
-```{r}
-occurrence %<>%
-        filter(kind_nl == 'Bruine rat' | kind_nl == 'Muskusrat') 
-        
-head (occurrence, n = 5 )
-
-```
-
-
 
 # Term mapping
 
@@ -341,14 +325,9 @@ occurrence %<>%
 eventDate already ok in source file (should be)
 
 ```{r}
-
-
-#occurrence %<>% ymd(date)
-
-occurrence %<>% mutate(eventDate = dmy(date))
-# mutate(eventDate = as_date(ymd(date))) # , format = "%Y-%m-%d")) 
-
 head(occurrence, n = 5)
+occurrence %<>%
+mutate(eventDate = as_date(eventDate, format = "%Y-%m-%d")) 
 ```
 
 # Location
