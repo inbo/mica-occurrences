@@ -3117,7 +3117,7 @@
 22730;02/12/2020;135952.89242091062;210914.02336490154;Animal;Animal;Dier;Brown rat;Rat gris;Bruine rat;Identified;Observé;Vastgesteld;0;Bins and tubes=1;Tubes=1;Bakken en buizen=1;BEVEREN (BE);46003;;2439261
 22731;02/12/2020;135982.11248703863;210922.277584563;Animal;Animal;Dier;Brown rat;Rat gris;Bruine rat;Identified;Observé;Vastgesteld;0;Bins and tubes=1;Tubes=1;Bakken en buizen=1;BEVEREN (BE);46003;;2439261
 22732;02/12/2020;98405.01725502641;215053.97167002875;Animal;Animal;Dier;Muskrat;Rat musqué;Muskusrat;Traces;Traces;Sporen;0;Follow-up=1, Conibear trap=2;Suivi=1, Conibear=2;Opvolging=1, Conibearklem=2;KAPRIJKE (BE);43007;;5219858
-;2163;12/01/2018;101590.10395300383;216582.17127832584;Animal;Animal;Dier;Muskrat;Rat musqué;Muskusrat;Catch;Capturé;Gevangen;1;;;;SINT-LAUREINS (BE);43014;;5219858
+2163;12/01/2018;101590.10395300383;216582.17127832584;Animal;Animal;Dier;Muskrat;Rat musqué;Muskusrat;Catch;Capturé;Gevangen;1;;;;SINT-LAUREINS (BE);43014;;5219858
 14001;12/04/2019;84216.59682547973;215649.42158334143;Animal;Animal;Dier;Muskrat;Rat musqué;Muskusrat;Catch;Capturé;Gevangen;0;;;;;;;5219858
 16724;30/08/2019;113780.15260295555;159778.91329529695;Animal;Animal;Dier;Muskrat;Rat musqué;Muskusrat;Catch;Capturé;Gevangen;0;;;;;;;5219858
 17383;27/09/2019;119115.3687754024;165016.5081515275;Animal;Animal;Dier;Muskrat;Rat musqué;Muskusrat;Catch;Capturé;Gevangen;6;;;;GERAARDSBERGEN (BE);41018;;5219858
@@ -3219,7 +3219,7 @@
 22608;13/11/2020;103039.59543841622;218588.16367721744;Animal;Animal;Dier;Muskrat;Rat musqué;Muskusrat;Catch;Capturé;Gevangen;1;;;;ASSENEDE (BE);43002;;5219858
 22665;20/11/2020;102992.19197960792;218547.63766808622;Animal;Animal;Dier;Muskrat;Rat musqué;Muskusrat;Catch;Capturé;Gevangen;1;;;;ASSENEDE (BE);43002;;5219858
 22664;20/11/2020;102993.90117385391;218538.3318309933;Animal;Animal;Dier;Muskrat;Rat musqué;Muskusrat;Catch;Capturé;Gevangen;1;;;;ASSENEDE (BE);43002;;5219858
-; 6245;03/05/2018;89478.8425710419;185048.16781063285;Plant;Plante;Plant;Giant hogweed;Berce du Caucase;Reuzenberenklauw;Infection rate (m²);Surface (en m²);Besmettingsgraad (in m²);1;Follow-up=2;Suivi=2;Opvolging=2;ZULTE (BE);44081;;3034825
+6245;03/05/2018;89478.8425710419;185048.16781063285;Plant;Plante;Plant;Giant hogweed;Berce du Caucase;Reuzenberenklauw;Infection rate (m²);Surface (en m²);Besmettingsgraad (in m²);1;Follow-up=2;Suivi=2;Opvolging=2;ZULTE (BE);44081;;3034825
 6478;14/05/2018;110190.00030364288;192604.12382747978;Plant;Plante;Plant;Giant hogweed;Berce du Caucase;Reuzenberenklauw;Identified;Observé;Vastgesteld;0;Follow-up=2;Suivi=2;Opvolging=2;DESTELBERGEN (BE);44013;;3034825
 6966;01/06/2018;86897.60529029471;210916.32269624248;Plant;Plante;Plant;Giant hogweed;Berce du Caucase;Reuzenberenklauw;Eliminated;Retiré;Verwijderd;34;Follow-up=3;Suivi=3;Opvolging=3;MALDEGEM (BE);43010;;3034825
 7560;13/06/2018;81940.80614357599;213079.8413770767;Plant;Plante;Plant;Himalayan balsam;Balsamine de l'Himalaya;Reuzenbalsemien;Identified;Observé;Vastgesteld;22;Follow-up=2;Suivi=2;Opvolging=2;MALDEGEM (BE);43010;;2891770
@@ -3634,7 +3634,6 @@
 22282;30/09/2020;100973.9880392267;194439.06214692816;Plant;Plante;Plant;Large-flower primrose willow;Jussie à grandes fleurs;Grote waterteunisbloem;;;;;Follow-up=1;Suivi=1;Opvolging=1;GENT (BE);44021;;5421039
 22401;14/10/2020;126338.28938847539;191584.59027525224;Plant;Plante;Plant;Large-flower primrose willow;Jussie à grandes fleurs;Grote waterteunisbloem;Eliminated;Retiré;Verwijderd;1;;;;BERLARE (BE);42003;;5421039
 22402;14/10/2020;126358.67801183368;191557.64255134948;Plant;Plante;Plant;Large-flower primrose willow;Jussie à grandes fleurs;Grote waterteunisbloem;Eliminated;Retiré;Verwijderd;1;;;;BERLARE (BE);42003;;5421039
-; 
 2851;19/01/2018;128239.02114178869;176684.9050549306;Works;Entretien / restauration;Werken;Gratings;Entretien d'ouvrages;Roosters;Follow-up;Suivi;Opvolging;2;Follow-up=14;Suivi=14;Opvolging=14;DENDERLEEUW (BE);41011;;UNKNOWN
 2871;19/01/2018;128038.48519208294;173651.64602805302;Works;Entretien / restauration;Werken;Gratings;Entretien d'ouvrages;Roosters;Follow-up;Suivi;Opvolging;2;Follow-up=9;Suivi=9;Opvolging=9;DENDERLEEUW (BE);41011;;UNKNOWN
 2872;19/01/2018;122624.1888888558;172809.87959604803;Works;Entretien / restauration;Werken;Gratings;Entretien d'ouvrages;Roosters;Follow-up;Suivi;Opvolging;4;Follow-up=10;Suivi=10;Opvolging=10;NINOVE (BE);41048;;UNKNOWN
