@@ -30,31 +30,27 @@ library(sf)             # coordinate transformation
 library(lubridate)      # for the date
 ```
 
-# Read source data
+# Read source interim data
 
-Create a data frame `input_data` from the source data:
-The source data was corrected in Excel
-Muskrat occurrences opened in openRefine
-Obsolete columns removed
-some columns renamed to DwC term
-File exported to csv
+This script ass a number of (often used) fixed terms to an already existing .csv file.For this script is, the original file is dwc_occurrence and dwc_multimedia from 'Agouti Muskrat occurrences'.
+As the data is not RAW it we will start with the interim data. For reading the file we use the most appropriate function
+
+### input_interim <- read.csv2(here::here("datasets", "mica-rato-occurrences", "data", "raw", "RATOgegevensbackoffice2020V2.txt" ), sep = ";")
+
+# For excel files
+
+### input_interim <- read_excel(here::here("datasets", "mica-rato-occurrences", #"data", "raw", "datasetNAme.xlsx"))
+
+# For delimited files, who needs more specification
+
+###input_interim <- read_delim(file = here::here("datasets", "mica-agouti-occurrences", "data", "interim", "dwc_occurrence.csv"), ",", escape_double = FALSE, trim_ws = TRUE )
+
 
 ```{r}
-
-#datafile V1
-#input_interim <- read_csv(here::here("datasets", "mica-agouti-occurrences", "data", "interim", "dwc_occurrence.csv"))
-
-#datafile update 1
-#input_interim <- read_excel(here::here("datasets", "mica-rato-occurrences", #"data", "raw", "vangstenMURA1jan-20nov2020.xlsx"))
-
-#input_interim <- read.csv2(here::here("datasets", "mica-rato-occurrences", "data", "raw", "RATOgegevensbackoffice2020V2.txt" #), sep = ";")
-
-#deze werkt
-#input_interim <- read_delim(file = here::here("datasets", "mica-agouti-occurrences", "data", "interim", #"dwc_occurrence.csv"), ",", escape_double = FALSE, trim_ws = TRUE )
-
+#for csv files
 input_interim <- read_csv(here::here("datasets", "mica-agouti-occurrences", "data", "interim", "dwc_occurence.csv" ))
 
-##input_interim <- read_csv("datasets/mica-agouti-occurrences/data/interim/dwc_occcurence.csv")
+
 
 ```
 
