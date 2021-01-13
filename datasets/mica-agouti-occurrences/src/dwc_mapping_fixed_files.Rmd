@@ -193,7 +193,7 @@ occurrence %<>% mutate(organismQuantityType = 'Agouti')
 not always fixed term
 
 ```{r}
-occurrence %<>% mutate(organismQuantityType = 'insert habitat')
+occurrence %<>% mutate(habitat = 'insert habitat')
 ```
 
 ## samplingProtocol
@@ -232,7 +232,7 @@ not always fixed term
 not always fixed term
 
 ```{r}
-##occurrence %<>% mutate(continent = "Europe") 
+occurrence %<>% mutate(continent = "Europe") 
 ```
 
 ### country
@@ -258,7 +258,7 @@ occurrence %<>% mutate(countryCode = "BE") # e.g. "Belgium = BE"
 not always a fixed term
 
 ```{r}
-#occurrence %<>% mutate(coordinateUncertaintyInMeters = "insertCoordinateUncertaintyInMeters") 
+occurrence %<>% mutate(coordinateUncertaintyInMeters = "insertCoordinateUncertaintyInMeters") 
 ```
 
 ### coordinatePrecission
@@ -341,14 +341,15 @@ occurrence <- mutate_all(occurrence, as.character())
 Define the order of the output columns
 
 ```{r}
-col_order <- c( "type","language","license","rightsHolder","accessRights","datasetID"
-               ,"institutionCode","datasetName","basisOfRecord","occurrenceID","recordedBy"
-               ,"individualCount","occurrenceStatus","occurrenceRemarks","samplingProtocol","samplingEffort"
-               ,"eventDate","continent","countryCode"
-               ,"verbatimLatitude","verbatimLongitude","verbatimCoordinateSystem","verbatimSRS"
-               ,"decimalLatitude","decimalLongitude","geodeticDatum","coordinateUncertaintyInMeters"
-               ,"identifiedBy","scientificName","kingdom","scientificNameAuthorship","taxonRank","nomenclaturalCode"
+col_order <- c( "type","language", "license","rightsHolder","accessRights","datasetID"
+               ,"institutionCode", "datasetName","basisOfRecord","occurrenceID","recordedBy"
+               ,"individualCount", "sex" ,"lifeStage", "behavior","occurrenceStatus","occurrenceRemarks"
+               ,"eventID", "eventDate", "samplingProtocol", "eventRemarks"
+               ,"locationID", "locality" ,"continent","countryCode" ,"decimalLatitude","decimalLongitude","geodeticDatum", "coordinateUncertaintyInMeters"
+	             ,"identifiedBy" ,"dateIdentified", "identificationRemarks"
+	             ,"scientificName", "kingdom", "taxonRank", "vernacularName" ,"nomenclaturalCode"
                )
+
 occurrence <- occurrence[, col_order]
 ```
 
@@ -397,3 +398,8 @@ parsed_names <- input_interim %>%
 head(parsed_names, n = 30)
 write.csv(parsed_names, "../data/processed/speciesList.csv", append = FALSE, na = "",  row.names = FALSE, fileEncoding = "UTF-8")
 ```
+
+```{r}
+#end
+```
+
