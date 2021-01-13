@@ -363,3 +363,37 @@ Save to CSV:
 ```{r}
 write_csv(occurrence, here::here("datasets", "mica-rato-occurrences", "data", "processed", " occurrence.csv"), na = "")
 ```
+
+# data quality tests
+
+Use the [GBIF nameparser](https://www.gbif.org/tools/name-parser) to retrieve nomenclatural information for the scientific names in the dataset:
+
+```{r}
+parsed_names <- occurrence %>%
+  distinct(scientificName) %>%
+  pull() %>% # Create vector from dataframe
+  parsenames() # An rgbif function
+```
+
+Preview data:
+
+```{r}
+parsed_names %>% head(n = 62)
+```
+
+Show scientific names with nomenclatural issues, i.e. not of `type = SCIENTIFIC` or that could not be fully parsed. Note: these are not necessarily incorrect.
+
+```{r}
+parsed_names %>%
+  select(scientificname, type, parsed, parsedpartially, rankmarker) %>%
+  filter(!(type == "SCIENTIFIC" & parsed == "TRUE" & parsedpartially == "FALSE"))
+```
+
+```{r}
+parsed_names <- input_interim %>%
+  distinct(scientificName)  %>%
+  pull() %>% # Create vector from dataframe
+  parsenames() # An rgbif function
+head(parsed_names, n = 30)
+write.csv(parsed_names, "../data/processed/speciesList.csv", append = FALSE, na = "",  row.names = FALSE, fileEncoding = "UTF-8")
+```
