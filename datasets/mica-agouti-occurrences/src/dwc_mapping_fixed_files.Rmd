@@ -193,7 +193,7 @@ occurrence %<>% mutate(organismQuantityType = 'Agouti')
 not always fixed term
 
 ```{r}
-occurrence %<>% mutate(habitat = 'insert habitat')
+#occurrence %<>% mutate(habitat = 'insert habitat')
 ```
 
 ## samplingProtocol
@@ -298,14 +298,14 @@ The following terms contain information about the taxon:
 not always fixed term
 
 ```{r}
-occurrence %<>% mutate(identifiedBy = 'insert identifiedBy ')  #e.g. "RATO"
+#occurrence %<>% mutate(identifiedBy = 'insert identifiedBy ')  #e.g. "RATO"
 ```
 
 
 ### kingdom
 
 ```{r}
-occurrence %<>% mutate(kingdom = "insert kingdom of the dataset")  #
+occurrence %<>% mutate(kingdom = "Animalia")  #
 ```
 
 
