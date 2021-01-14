@@ -330,8 +330,9 @@ occurrence %<>% mutate(nomenclaturalCode = "ICZN") # e.g. "ICZN"
 
 ```{r}
 colnames(occurrence) <- str_remove(colnames(occurrence), "dwc_")
-##occurrence %<>% select(-c(disposition, etiket_ref, collection, scientificName)) %<>% #remove collection columns
-          ##  rename(scientificName = verbatimScientificName) 
+occurrence %<>% select(-c(eventRemarks)) 
+          # %<>% #remove collection columns
+          #  rename(scientificName = verbatimScientificName) 
 ```
 
 ```{r}
@@ -344,7 +345,7 @@ Define the order of the output columns
 col_order <- c( "type","language", "license","rightsHolder","accessRights","datasetID"
                ,"institutionCode", "datasetName","basisOfRecord","occurrenceID","recordedBy"
                ,"individualCount", "sex" ,"lifeStage", "behavior","occurrenceStatus","occurrenceRemarks"
-               ,"eventID", "eventDate", "samplingProtocol", "eventRemarks"
+               ,"eventID", "eventDate", "samplingProtocol"
                ,"locationID", "locality" ,"continent","countryCode" ,"decimalLatitude","decimalLongitude","geodeticDatum", "coordinateUncertaintyInMeters"
 	             ,"identifiedBy" ,"dateIdentified", "identificationRemarks"
 	             ,"scientificName", "kingdom", "taxonRank", "vernacularName" ,"nomenclaturalCode"
