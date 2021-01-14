@@ -358,6 +358,8 @@ occurrence %<>% mutate(year = year(eventDate)) %<>%
 # Location
 
 ```{r}
+head(occurrence)
+
 occurrence %<>% rename(decimalLongitude = X) %>%
                 rename(decimalLatitude = Y) %>%
                 mutate(geodeticDatum = "WGS84") %>%
@@ -368,11 +370,11 @@ occurrence %<>% rename(decimalLongitude = X) %>%
 
 ```{r}
 head(occurrence, n = 5)
-#occurrence %<>%
+occurrence %<>%
 #   mutate(verbatimLongitude = round(verbatimLongitude, digits = 0 )) %>%
 #   mutate(verbatimLatitude = round(verbatimLatitude, digits = 0)) %>%
-#   mutate(decimalLongitude = round(decimalLongitude, digits = 5)) %>%
-#   mutate(decimalLatitude = round(decimalLatitude, digits = 5))
+   mutate(decimalLongitude = round(decimalLongitude, digits = 5)) %>%
+   mutate(decimalLatitude = round(decimalLatitude, digits = 5))
 ```
 
 ```{r}
@@ -555,3 +557,8 @@ write_csv(occurrence, here::here("datasets/mica-itaw-occurrences", "data", "proc
 
 
 ```
+
+```{r}
+#end
+```
+
