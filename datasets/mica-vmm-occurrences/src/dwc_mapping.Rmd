@@ -84,84 +84,6 @@ input_interim %<>% remove_empty("rows")
 input_interim %>% head(n = 5)
 ```
 
-# Georeference source data
-
-## Lambert to Decimals
-
-### Keep original x,Y as verbatimcoordinates
-
-We want to keep the original verbatim Coordinates
-The original X,Y will be used for creating decimalLatitude and decimalLongitude
-
-```{r}
-input_interim %<>% mutate(verbatimLongitude = x) %>%
-                   mutate(verbatimLatitude = y) 
-                   
-```
-
-### Create a spacial dataframe
-
-Create spatial dataframe and define the CRS (31370 is Belgian Lambert 72)
-We indicate the x,y columns as coordinates and define the coordinate system
-
-```{r}
-input_interim = st_as_sf(input_interim, coords = c("x","y"), crs = 31370 , agr = "constant" )
-input_interim %>% head(n = 5)
-```
-
-## Transform the data in WGS84
-
-Now we transform the Lambert 72 in WGS84
-
-```{r}
-input_interim <- st_transform(input_interim, crs = 4326)
-input_interim %>% head(n = 5)
-```
-
-### Create a dataframe with column decimalLatitude & decimalLongitude
-
-In order to add the decimal coordinates into the original df we create an x_y dataframe
-
-```{r}
-x_y <- as.data.frame(st_coordinates(input_interim))
-x_y %>% head(n = 5)
-
-write_csv(x_y, here::here("datasets", "mica-rato-occurrences", "data", "interim", "x_y.csv"), na = "")
-```
-
-# Create extra dataframe to work with 
-
-```{r}
-input_interim_df <- input_interim
-```
-
-# Remove geometry from dataframe 'input_interim_df'
-
-We remove all geometry from the spacial dataframe, to create a normal df
-
-```{r}
-st_geometry(input_interim_df) <- NULL
-
-input_interim_df %>% head(n = 5)
-```
-
-### Bind columns x_y and input_interim_df
-
-Join both df's to have the decimalLat & Lon
-
-```{r}
-input_interim_df = bind_cols(input_interim_df,x_y, .id = NULL)
-
-input_interim_df %>% head(n = 5)
-```
-
-### Integrate x-y coordinates in original dataframe
-
-We can safely substitute input_interim 
-
-```{r}
-input_interim <- input_interim_df
-```
 
 # Occurrence core
 
@@ -176,11 +98,11 @@ occurrence <- input_interim
 ## remove obsolete columns
 
 ```{r}
-occurrence %<>% select(-c(domain_fr, domain_en, domain_nl, kind_fr, kind_en))
+occurrence %<>% select(-c(Jaar, `Maand In Jaar`, `Maand Lange Omschrijving`, `Provincie NIS Code`))
 ```
 ## filter for muskrat
 
-```{r}
+```{r eval=FALSE, include=FALSE}
 occurrence %<>%
         filter(kind_nl == 'Bruine rat' | kind_nl == 'Muskusrat') 
         
@@ -201,7 +123,7 @@ Start with record-level terms which contain metadata about the dataset (which is
 ### datasetID
 
 ```{r}
-occurrence %<>% mutate(datasetID = "https://doi.org/10.15468/5fps96")
+occurrence %<>% mutate(datasetID = "insert doi")
 ```
 
 ### type
@@ -226,7 +148,7 @@ occurrence %<>% mutate(license = "http://creativecommons.org/publicdomain/zero/1
 ### rightsHolder
 
 ```{r}
-occurrence %<>% mutate(rightsHolder = "RATO") # e.g. "INBO"
+occurrence %<>% mutate(rightsHolder = "VMM") # e.g. "INBO"
 ```
 ### accessRights
 
@@ -267,21 +189,21 @@ occurrence %<>% mutate(basisOfRecord = "HumanObservation")
 ### occurrenceID
 
 ```{r}
-occurrence %<>% rename(occurrenceID = 'id') %>%
-                mutate(occurrenceID = str_c("MICA:RATO:", occurrenceID))
+occurrence %<>% rename(occurrenceID = 'registratie ID') %>%
+                mutate(occurrenceID = str_c("MICA:VMM:", occurrenceID))
   
 ```
 
 ### recordedBy
 
 ```{r}
-occurrence %<>% mutate(recordedBy = 'RATO')
+occurrence %<>% mutate(recordedBy = 'VMM')
 ```
 
 ### individualCount
 
 ```{r}
-occurrence %<>% rename(individualCount= 'action_amount') 
+occurrence %<>% rename(individualCount = 'vangst aantal') 
 ```
 
 ### organismQuantity
@@ -296,39 +218,23 @@ occurrence %<>% rename(individualCount= 'action_amount')
 
 ### occurrenceRemarks
 
-```{r}
+```{r eval=FALSE, include=FALSE}
 occurrence %<>% rename(occurrenceRemarks = 'action_en')
 ```
 
 ## samplingProtocol
 
-```{r}
+```{r eval=FALSE, include=FALSE}
 occurrence %<>% mutate(samplingEffort = materials_en)
 ```
 
-```{r}
-occurrence %<>% rename(samplingProtocol = 'materials_en') %>%
- 
-
-# extract follow ups to new column
-mutate(follow_up = str_extract(samplingProtocol, "Follow-up=[0-9]*")) %>%
-# remove follow ups from samplingProtocol
-mutate(samplingProtocol = str_remove(samplingProtocol, "Follow-up=[0-9]*")) %>%
-# remove leading ", " if present
-mutate(samplingProtocol = str_remove(samplingProtocol, "^,\\s")) %>%
-# remove trailing ", " if present
-mutate(samplingProtocol = str_remove(samplingProtocol, ",\\s$")) %>%
-# replace ", , " in ","
-mutate(samplingProtocol = str_replace(samplingProtocol,", , ", ", ")) %>%  
-# rename follow up
-rename(samplingEffort2 = "follow_up") %>% 
-# replace follow-up with times visited
-mutate(samplingProtocol = str_remove_all(samplingProtocol, "=[0-9]*"))
+```{r eval=FALSE, include=FALSE}
+occurrence %<>% rename(samplingProtocol = 'rat_trap') 
 ```
 
 ### samplingEffort
 
-```{r}
+```{r eval=FALSE, include=FALSE}
 head(occurrence, n = 5)
 
 occurrence %<>%
@@ -340,14 +246,14 @@ occurrence %<>%
 
 ### eventDate
 
-eventDate already ok in source file (should be)
+
 
 ```{r}
 
 
 #occurrence %<>% ymd(date)
 
-occurrence %<>% mutate(eventDate = dmy(date))
+occurrence %<>% mutate(eventDate = (Maand))
 # mutate(eventDate = as_date(ymd(date))) # , format = "%Y-%m-%d")) 
 
 head(occurrence, n = 5)
