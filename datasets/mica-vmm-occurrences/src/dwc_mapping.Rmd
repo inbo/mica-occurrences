@@ -115,7 +115,11 @@ input_interim %<>% mutate(vernacularName = `Sporen Waarnemingen Naam`)
 
 input_interim %<>% mutate(vernacularName = recode(vernacularName
                    , "Muskusr. > 400gr"  = "Muskusrat"
+                   , "Doodaars" = "Tachybaptus ruficollis"
+                   
                                                   ))
+
+
 
 input_interim %>% head(n = 5)
 ```
@@ -125,7 +129,7 @@ input_interim %>% head(n = 5)
 
 ```{r}
 speciesList2 <- input_interim %>%
-  distinct(`vernacularName`)  %>%
+  distinct(`vernacularName`)  
   
 head(speciesList2, n = 30)
 ```
@@ -133,37 +137,6 @@ head(speciesList2, n = 30)
 
 # find scientificNames
 
-
-
-
-```{r}
-
-vernacular_names_df <- speciesList2
-
-get_vernacular_name <- function(vn) {
- names <-
-   name_lookup(vn,
-               datasetKey = "d7dddbf4-2cf0-4f39-9b2a-bb099caae36c",
-               limit = 1)$data # this returns the most likely taxon
- if (nrow(names) > 0) {
-   names$scientificName
- } else {
-   NA_character_
- }
-}
-
-n_vernacular_names_df <-
- vernacular_names_df %>%
- group_by(vernacularName) %>%
- nest() %>%
- mutate(scientificName = map_chr(vernacularName,get_vernacularName)) %>%
- ungroup() %>%
- select(-one_of("data")) %>%
- right_join(vernacular_names_df, by = "vernacularName")
-
-n_vernacular_names_df
-
-```
 
 ```{r}
 vernacular_names_df <- input_interim
@@ -191,8 +164,25 @@ n_vernacular_names_df <-
 
 view(n_vernacular_names_df)
 ```
+# make speciesList
+
+```{r}
+speciesList3 <- n_vernacular_names_df %>%
+  distinct(`scientificName`)  
+
+input_interim <- n_vernacular_names_df    
+head(speciesList3, n = 30)
+view(input_interim)
+```
 
 # Occurrence core
+
+look at interimfile once more
+
+```{r}
+head(input_interim, n = 15)
+```
+
 
 ## Pre-processing
 
