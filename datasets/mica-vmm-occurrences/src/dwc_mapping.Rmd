@@ -51,7 +51,7 @@ File exported to csv
 #input_interim <- read_csv(here::here("datasets", "mica-rato-occurrences", "data", "interim", "RATO_data_RAW_Refine.csv"))
 
 #datafile update 1
-input_interim <- read_excel(here::here("datasets", "mica-vmm-occurrences", "data", "raw","VangstenT11_16_45.xlsx"))
+input_interim <- read_excel(here::here("datasets", "mica-vmm-occurrences", "data", "raw","VangstenT14_47_33.xlsx"))
 
 #input_interim <- read.csv2(here::here("datasets", "mica-rato-occurrences", "data", "raw", "RATOgegevensbackoffice2020V2.txt" #), sep = ";")
 
@@ -83,7 +83,114 @@ input_interim %<>% remove_empty("rows")
 ```{r}
 input_interim %>% head(n = 5)
 ```
+# Make speciesList
 
+
+```{r}
+speciesList <- input_interim %>%
+  distinct(`Sporen Waarnemingen Naam`)  %>%
+  pull() %>% # Create vector from dataframe
+  parsenames()
+head(speciesList, n = 30)
+```
+
+# filter for needed occurrences
+
+```{r}
+input_interim %<>%
+        filter(`Sporen Waarnemingen Naam` != 'Vis') %<>%
+        filter( `Sporen Waarnemingen Naam` != 'Andere') %<>%
+        filter(`Sporen Waarnemingen Naam` != 'Eend' )%<>%
+        filter(`Sporen Waarnemingen Naam` != 'Marterachtige' )
+        
+head (input_interim, n = 5 )
+```
+
+
+
+
+
+```{r}
+input_interim %<>% mutate(vernacularName = `Sporen Waarnemingen Naam`)
+
+input_interim %<>% mutate(vernacularName = recode(vernacularName
+                   , "Muskusr. > 400gr"  = "Muskusrat"
+                                                  ))
+
+input_interim %>% head(n = 5)
+```
+
+# Make speciesList2
+
+
+```{r}
+speciesList2 <- input_interim %>%
+  distinct(`vernacularName`)  %>%
+  
+head(speciesList2, n = 30)
+```
+
+
+# find scientificNames
+
+
+
+
+```{r}
+
+vernacular_names_df <- speciesList2
+
+get_vernacular_name <- function(vn) {
+ names <-
+   name_lookup(vn,
+               datasetKey = "d7dddbf4-2cf0-4f39-9b2a-bb099caae36c",
+               limit = 1)$data # this returns the most likely taxon
+ if (nrow(names) > 0) {
+   names$scientificName
+ } else {
+   NA_character_
+ }
+}
+
+n_vernacular_names_df <-
+ vernacular_names_df %>%
+ group_by(vernacularName) %>%
+ nest() %>%
+ mutate(scientificName = map_chr(vernacularName,get_vernacularName)) %>%
+ ungroup() %>%
+ select(-one_of("data")) %>%
+ right_join(vernacular_names_df, by = "vernacularName")
+
+n_vernacular_names_df
+
+```
+
+```{r}
+vernacular_names_df <- input_interim
+
+get_vernacular_name <- function(vn) {
+ names <-
+   name_lookup(vn,
+               datasetKey = "d7dddbf4-2cf0-4f39-9b2a-bb099caae36c",
+               limit = 1)$data # this returns the most likely taxon
+ if (nrow(names) > 0) {
+   names$scientificName
+ } else {
+   NA_character_
+ }
+}
+
+n_vernacular_names_df <-
+ vernacular_names_df %>%
+ group_by(vernacularName) %>%
+ nest() %>%
+ mutate(scientificName = map_chr(vernacularName,get_vernacular_name)) %>%
+ ungroup() %>%
+ select(-one_of("data")) %>%
+ right_join(vernacular_names_df, by = "vernacularName")
+
+view(n_vernacular_names_df)
+```
 
 # Occurrence core
 
