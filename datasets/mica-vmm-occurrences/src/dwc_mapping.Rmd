@@ -177,7 +177,7 @@ view(input_interim)
 
 # Occurrence core
 
-look at interimfile once more
+look at interim_file once more
 
 ```{r}
 head(input_interim, n = 15)
@@ -195,18 +195,8 @@ occurrence <- input_interim
 ## remove obsolete columns
 
 ```{r}
-occurrence %<>% select(-c(Jaar, `Maand In Jaar`, `Maand Lange Omschrijving`, `Provincie NIS Code`))
+occurrence %<>% select(-c(`Locatie Type Naam`, `Maand In Jaar`, `Maand Lange Omschrijving`, `Provincie NIS Code`))
 ```
-## filter for muskrat
-
-```{r eval=FALSE, include=FALSE}
-occurrence %<>%
-        filter(kind_nl == 'Bruine rat' | kind_nl == 'Muskusrat') 
-        
-head (occurrence, n = 5 )
-
-```
-
 
 
 # Term mapping
@@ -262,13 +252,13 @@ occurrence %<>% mutate(accessRights = "http://www.inbo.be/en/norms-for-data-use"
 ### institutionCode
 
 ```{r}
-occurrence %<>% mutate(institutionCode = "INBO") # e.g. "INBO"
+occurrence %<>% mutate(institutionCode = "VMM") # e.g. "INBO"
 ```
 
 ### datasetName
 
 ```{r}
-occurrence %<>% mutate(datasetName = "MICA - Muskrat occurrences collected by RATO in East Flanders, Belgium") # e.g. "Checklist of non-native freshwater fishes in Flanders, Belgium"
+occurrence %<>% mutate(datasetName = "MICA - Muskrat occurrences collected by VMM in Flanders, Belgium") # e.g. "Checklist of non-native freshwater fishes in Flanders, Belgium"
 ```
 
 The following terms contain information about the taxon:
@@ -286,7 +276,7 @@ occurrence %<>% mutate(basisOfRecord = "HumanObservation")
 ### occurrenceID
 
 ```{r}
-occurrence %<>% rename(occurrenceID = 'registratie ID') %>%
+occurrence %<>% rename(occurrenceID = `Registratie ID`) %>%
                 mutate(occurrenceID = str_c("MICA:VMM:", occurrenceID))
   
 ```
@@ -300,7 +290,7 @@ occurrence %<>% mutate(recordedBy = 'VMM')
 ### individualCount
 
 ```{r}
-occurrence %<>% rename(individualCount = 'vangst aantal') 
+occurrence %<>% rename(individualCount = `Vangst Aantal`) 
 ```
 
 ### organismQuantity
@@ -360,12 +350,10 @@ head(occurrence, n = 5)
 
 ```{r}
 occurrence %<>%
-  rename(decimalLongitude = X) %>%
-  rename(decimalLatitude = Y) %>%
+  rename(decimalLongitude = `Locatie GPS Lengte`) %>%
+  rename(decimalLatitude = `Locatie GPS Breedte`) %>%
   mutate(geodeticDatum = "WGS84") %>%
   mutate(coordinateUncertaintyInMeters = "30") %>%
-  mutate(verbatimCoordinateSystem = "Lambert coordinates") %>%
-  mutate(verbatimSRS = "Belgian Datum 1972") %>%
   mutate(countryCode = "BE")  %>%            
   mutate(continent = "Europe")
 ```
@@ -373,8 +361,6 @@ occurrence %<>%
 ```{r}
 head(occurrence, n = 5)
 occurrence %<>%
-  mutate(verbatimLongitude = round(verbatimLongitude)) %>%
-  mutate(verbatimLatitude = round(verbatimLatitude)) %>%
   mutate(decimalLongitude = round(decimalLongitude, digits = 5)) %>%
   mutate(decimalLatitude = round(decimalLatitude, digits = 5))
 ```
@@ -397,13 +383,21 @@ occurrence %<>%
 #occurrence %<>% mutate(countryCode = "BE") # e.g. "Belgium = BE"
 ```
 
+
+### StateProvince
+
+```{r}
+occurrence %<>% mutate(stateProvince = `Provincie Omschrijving`) # e.g. "Belgium = BE"
+```
+
+
 ### municipality
 
 municipality already in source file
 
 ```{r}
 occurrence %<>%
-  mutate(municipality = str_remove(municipality,"\\(BE\\)"))
+  mutate(municipality = `Gemeente Naam`)
 ```
 
 ### verbatimcoordinates
