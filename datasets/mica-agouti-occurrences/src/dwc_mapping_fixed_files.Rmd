@@ -363,7 +363,7 @@ occurrence %>% head()
 Save to CSV:
 
 ```{r}
-write_csv(occurrence, here::here("datasets", "mica-rato-occurrences", "data", "processed", " occurrence.csv"), na = "")
+write_csv(occurrence, here::here("datasets", "mica-agouti-occurrences", "data", "processed", " occurrence.csv"), na = "")
 ```
 
 # data quality tests
