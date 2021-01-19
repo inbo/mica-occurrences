@@ -505,7 +505,7 @@ colnames(occurrence) <- str_remove(colnames(occurrence), "dwc_")
 occurrence %<>% select(-c(Jaar, Maand, Land_Regio, `Gemeente Naam`, `Locatie ID`, `Team Rol`, `Team Naam`,`Sporen Waarnemingen Naam`,`VHA Categorie Code`, `VHA Categorie Omschrijving`, `Provincie Omschrijving`))  #remove collection columns
           ##  rename(scientificName = verbatimScientificName) 
 
-view(occurrence)
+
 
 ```
 
@@ -535,7 +535,7 @@ occurrence %>% head()
 Save to CSV:
 
 ```{r}
-write_csv(occurrence, here::here("datasets", "mica-rato-occurrences", "data", "processed", " occurrence.csv"), na = "")
+write_csv(occurrence, here::here("datasets", "mica-vmm-occurrences", "data", "processed", " occurrence.csv"), na = "")
 ```
 
 ```{r}
