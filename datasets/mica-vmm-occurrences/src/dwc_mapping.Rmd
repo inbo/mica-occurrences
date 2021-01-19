@@ -162,7 +162,7 @@ n_vernacular_names_df <-
  select(-one_of("data")) %>%
  right_join(vernacular_names_df, by = "vernacularName")
 
-view(n_vernacular_names_df)
+#view(n_vernacular_names_df)
 ```
 # make speciesList
 
@@ -172,7 +172,7 @@ speciesList3 <- n_vernacular_names_df %>%
 
 input_interim <- n_vernacular_names_df    
 head(speciesList3, n = 30)
-view(input_interim)
+
 ```
 
 # Occurrence core
@@ -284,7 +284,9 @@ occurrence %<>% rename(occurrenceID = `Registratie ID`) %>%
 ### recordedBy
 
 ```{r}
-occurrence %<>% mutate(recordedBy = 'VMM')
+occurrence %<>% mutate(recordedBy = str_c("VMM:team:", `Team Naam`))
+
+head(occurrence)
 ```
 
 ### individualCount
@@ -315,8 +317,8 @@ occurrence %<>% rename(occurrenceRemarks = 'action_en')
 occurrence %<>% mutate(samplingEffort = materials_en)
 ```
 
-```{r eval=FALSE, include=FALSE}
-occurrence %<>% rename(samplingProtocol = 'rat_trap') 
+```{r}
+occurrence %<>% mutate(samplingProtocol = 'rat_trap') 
 ```
 
 ### samplingEffort
@@ -355,7 +357,13 @@ occurrence %<>%
   mutate(geodeticDatum = "WGS84") %>%
   mutate(coordinateUncertaintyInMeters = "30") %>%
   mutate(countryCode = "BE")  %>%            
-  mutate(continent = "Europe")
+  mutate(continent = "Europe") %>%
+  mutate(locationID = `Locatie ID`) %>%
+  mutate(locationRemarks = `VHA Categorie Omschrijving`)
+
+
+  
+
 ```
 
 ```{r}
@@ -424,6 +432,20 @@ occurrence %<>%
 
 ### geodeticDatum
 
+### locationRemarks
+
+```{r}
+occurrence %<>% mutate(locationRemarks = recode(locationRemarks
+                   , "CAT2 - Onbevaarbaar cat. 2"  = "CAT2 - not navigable cat. 2"
+                   , "CAT1 - Onbevaarbaar cat. 1" = "CAT1 - not navigable cat. 1"
+                   , "CAT3 - Onbevaarbaar cat. 3" = "CAT3 - not naviable cat. 3"
+                   , "CAT - Andere" = "CAT - other"
+                   , "ONB - Onbekend" = "ONB - unknown"
+                   , "BEV - Bevaarbaar" = "BEV - navigable"
+                                                  ))
+```
+
+
 ### coordinateUncertaintyInMeters
 
 ### georeferenceRemarks
@@ -437,7 +459,7 @@ occurrence %<>% mutate(identifiedBy = 'RATO')
 ### scientificName 
 
 ```{r}
-occurrence %<>% mutate(scientificName = "Ondatra zibethicus")
+#occurrence %<>% mutate(scientificName = "Ondatra zibethicus")
 ```
 
 ### kingdom
@@ -449,7 +471,7 @@ occurrence %<>% mutate(kingdom = "Animalia")
 ### scientificNameAuthorship
 
 ```{r}
-occurrence %<>% mutate(scientificNameAuthorship = "Linnaeus, 1766")
+# occurrence %<>% mutate(scientificNameAuthorship = "Linnaeus, 1766")
 ```
 
 ### taxonRank
@@ -480,8 +502,11 @@ head(occurrence, n = 5)
 
 ```{r}
 colnames(occurrence) <- str_remove(colnames(occurrence), "dwc_")
-##occurrence %<>% select(-c(disposition, etiket_ref, collection, scientificName)) %<>% #remove collection columns
+occurrence %<>% select(-c(Jaar, Maand, Land_Regio, `Gemeente Naam`, `Locatie ID`, `Team Rol`, `Team Naam`,`Sporen Waarnemingen Naam`,`VHA Categorie Code`, `VHA Categorie Omschrijving`, `Provincie Omschrijving`))  #remove collection columns
           ##  rename(scientificName = verbatimScientificName) 
+
+view(occurrence)
+
 ```
 
 ```{r}
@@ -493,11 +518,10 @@ Define the order of the output columns
 ```{r}
 col_order <- c( "type","language","license","rightsHolder","accessRights","datasetID"
                ,"institutionCode","datasetName","basisOfRecord","occurrenceID","recordedBy"
-               ,"individualCount","occurrenceStatus","occurrenceRemarks","samplingProtocol","samplingEffort"
-               ,"eventDate","continent","countryCode","municipality"
-               ,"verbatimLatitude","verbatimLongitude","verbatimCoordinateSystem","verbatimSRS"
+               ,"individualCount","occurrenceStatus","samplingProtocol"
+               ,"eventDate","locationID","continent","countryCode", "stateProvince","municipality","geodeticDatum", "locationRemarks"
                ,"decimalLatitude","decimalLongitude","geodeticDatum","coordinateUncertaintyInMeters"
-               ,"identifiedBy","scientificName","kingdom","scientificNameAuthorship","taxonRank","nomenclaturalCode"
+               ,"identifiedBy","scientificName","vernacularName" ,"kingdom" ,"taxonRank","nomenclaturalCode"
                )
 occurrence <- occurrence[, col_order]
 ```
@@ -513,3 +537,8 @@ Save to CSV:
 ```{r}
 write_csv(occurrence, here::here("datasets", "mica-rato-occurrences", "data", "processed", " occurrence.csv"), na = "")
 ```
+
+```{r}
+
+```
+
