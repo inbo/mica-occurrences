@@ -1,4 +1,4 @@
-# Dataset: https://ipt.inbo.be/resource?r=mica-uvw-occurrences
+# Dataset: https://ipt.inbo.be/resource?r=mica-vmm-occurrences
 # DOI: 
 # 
 # Scope: dwc-occurrence
@@ -27,7 +27,7 @@ institutionCode:
   allowed: VMM
 
 datasetName:
-  allowed: MICA - Muskrat occurrences collected by VMM in the Netherlands
+  allowed: MICA - Muskrat occurrences collected by VMM in Flanders, Belgium
 
 basisOfRecord:
   allowed: HumanObservation
