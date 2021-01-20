@@ -1,0 +1,106 @@
+# Dataset: https://ipt.inbo.be/resource?r=mica-uvw-occurrences
+# DOI: 
+# 
+# Scope: dwc-occurrence
+# Author: Dimitri Brosens, Peter Desmet
+# Syntax version: 0.1
+
+type:
+  allowed: Event
+
+language:
+  allowed: en
+
+license:
+  allowed: http://creativecommons.org/publicdomain/zero/1.0/
+
+rightsHolder:
+  allowed: VMM
+
+accessRights:
+  allowed: http://www.inbo.be/en/norms-for-data-use
+
+datasetID:
+  allowed: ''
+
+institutionCode:
+  allowed: VMM
+
+datasetName:
+  allowed: MICA - Muskrat occurrences collected by VMM in the Netherlands
+
+basisOfRecord:
+  allowed: HumanObservation
+
+# informationwithheld: Not in this dataset
+
+# dataGeneralizations: Not in this dataset
+
+occurrenceID:
+  empty: false
+
+recordedBy:
+  empty: false
+
+individualCount:
+  empty: false
+  numberformat: x
+
+occurrenceStatus:
+  empty: true
+  allowed:
+    - absent
+    - present
+  if:
+    - individualCount:
+        allowed: '0'
+      allowed: absent
+
+eventDate:
+  dateformat:
+    - '%Y-%m-%d'
+  mindate: 2018-01
+  maxdate: 2020-12
+
+locationID:
+  regex: '\d{2}-\d{2}'
+
+continent:
+  allowed: Europe
+
+countryCode:
+  allowed: BE
+
+
+decimalLatitude:
+  numberformat: '.5'
+  min: 50.67
+  max: 51.51
+
+decimalLongitude:
+  numberformat: '.5'
+  min: 2.53
+  max: 5.94
+
+geodeticDatum:
+  allowed: WGS84
+
+coordinateUncertaintyInMeters:
+  allowed: '30'
+
+identifiedBy:
+  empty: false
+
+scientificName:
+  empty: false
+
+kingdom:
+  allowed: Animalia
+
+ 
+
+taxonRank:
+  allowed: species
+
+nomenclaturalCode:
+  allowed: ICZN
