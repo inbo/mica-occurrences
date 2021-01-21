@@ -47,20 +47,7 @@ File exported to csv
 
 ```{r}
 
-#datafile V1
-#input_interim <- read_csv(here::here("datasets", "mica-rato-occurrences", "data", "interim", "RATO_data_RAW_Refine.csv"))
-
-#datafile update 1
 input_interim <- read_excel(here::here("datasets", "mica-vmm-occurrences", "data", "raw","VangstenT14_47_33.xlsx"))
-
-#input_interim <- read.csv2(here::here("datasets", "mica-rato-occurrences", "data", "raw", "RATOgegevensbackoffice2020V2.txt" #), sep = ";")
-
-#deze werkt
-#input_interim <- read_delim(file = here::here("datasets", "mica-rato-occurrences", "data", "raw", #"RATOgegevensbackoffice2020V2.txt"), ";", escape_double = FALSE, trim_ws = TRUE )
-
-#input_interim <- read_delim(here::here("datasets", "mica-rato-occurrences", "data", "raw", #"RATOgegevensbackoffice2020V2.txt" ), ";")
-
-#Vangsten_T11_16_45 <- read_excel("datasets/mica-vmm-occurrences/data/raw/VangstenT11_16_45.xlsx")
 
 ```
 
@@ -284,7 +271,7 @@ occurrence %<>% rename(occurrenceID = `Registratie ID`) %>%
 ### recordedBy
 
 ```{r}
-occurrence %<>% mutate(recordedBy = str_c("VMM:team:", `Team Naam`))
+occurrence %<>% mutate(recordedBy = str_c("VMM team ", `Team Naam`))
 
 head(occurrence)
 ```
@@ -318,7 +305,7 @@ occurrence %<>% mutate(samplingEffort = materials_en)
 ```
 
 ```{r}
-occurrence %<>% mutate(samplingProtocol = 'rat_trap') 
+occurrence %<>% mutate(samplingProtocol = 'rat trap') 
 ```
 
 ### samplingEffort
@@ -354,7 +341,7 @@ head(occurrence, n = 5)
 occurrence %<>%
   rename(decimalLongitude = `Locatie GPS Lengte`) %>%
   rename(decimalLatitude = `Locatie GPS Breedte`) %>%
-  mutate(geodeticDatum = "WGS84") %>%
+  
   mutate(coordinateUncertaintyInMeters = "30") %>%
   mutate(countryCode = "BE")  %>%            
   mutate(continent = "Europe") %>%
@@ -432,13 +419,19 @@ occurrence %<>%
 
 ### geodeticDatum
 
+```{r}
+occurrence %<>%
+  mutate(geodeticDatum = "WGS84") 
+```
+
+
 ### locationRemarks
 
 ```{r}
 occurrence %<>% mutate(locationRemarks = recode(locationRemarks
                    , "CAT2 - Onbevaarbaar cat. 2"  = "CAT2 - not navigable cat. 2"
                    , "CAT1 - Onbevaarbaar cat. 1" = "CAT1 - not navigable cat. 1"
-                   , "CAT3 - Onbevaarbaar cat. 3" = "CAT3 - not naviable cat. 3"
+                   , "CAT3 - Onbevaarbaar cat. 3" = "CAT3 - not navigable cat. 3"
                    , "CAT - Andere" = "CAT - other"
                    , "ONB - Onbekend" = "ONB - unknown"
                    , "BEV - Bevaarbaar" = "BEV - navigable"
@@ -453,13 +446,17 @@ occurrence %<>% mutate(locationRemarks = recode(locationRemarks
 ### identifiedBy
 
 ```{r}
-occurrence %<>% mutate(identifiedBy = 'RATO')
+occurrence %<>% mutate(identifiedBy = 'VMM')
 ```
 
 ### scientificName 
 
 ```{r}
-#occurrence %<>% mutate(scientificName = "Ondatra zibethicus")
+
+occurrence %<>% mutate(scientificName = recode(scientificName
+           , "Zapornia pusilla intermedia (Hermann, 1804)" = "Gallinula chloropus (Linnaeus, 1758)"
+                                                            ))
+
 ```
 
 ### kingdom
@@ -473,6 +470,17 @@ occurrence %<>% mutate(kingdom = "Animalia")
 ```{r}
 # occurrence %<>% mutate(scientificNameAuthorship = "Linnaeus, 1766")
 ```
+
+### vernacularName
+
+```{r}
+occurrence %<>% mutate(vernacularName = recode(vernacularName
+                       , "Tachybaptus ruficollis" = "Doodaars"
+                                                            ))
+```
+
+
+
 
 ### taxonRank
 
@@ -521,7 +529,7 @@ col_order <- c( "type","language","license","rightsHolder","accessRights","datas
                ,"individualCount","occurrenceStatus","samplingProtocol"
                ,"eventDate","locationID","continent","countryCode", "stateProvince","municipality","geodeticDatum", "locationRemarks"
                ,"decimalLatitude","decimalLongitude","geodeticDatum","coordinateUncertaintyInMeters"
-               ,"identifiedBy","scientificName","vernacularName" ,"kingdom" ,"taxonRank","nomenclaturalCode"
+               ,"identifiedBy","scientificName" ,"kingdom" ,"taxonRank","vernacularName", "nomenclaturalCode"
                )
 occurrence <- occurrence[, col_order]
 ```
