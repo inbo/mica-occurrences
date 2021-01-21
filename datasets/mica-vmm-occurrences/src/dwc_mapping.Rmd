@@ -64,31 +64,48 @@ input_interim %>% head(n = 5)
 Clean data somewhat:
 
 ```{r}
-input_interim %<>% remove_empty("rows")
+input_interim %<>% 
+    remove_empty("rows") %<>%
+    clean_names()
 ```
 
 ```{r}
 input_interim %>% head(n = 5)
 ```
-# Make speciesList
 
+# Retrieve scientific names based on the vernacular name
+
+the raw data did not contain scintific names. We use the gbif taxonomic backbone  to retrieve scientififc names based on vernacular names. Manual actions are still needed as the returned information might not be 100% correct
+
+1. we create a specieslist
 
 ```{r}
 speciesList <- input_interim %>%
-  distinct(`Sporen Waarnemingen Naam`)  %>%
+  distinct(sporen_waarnemingen_naam)  %>%
   pull() %>% # Create vector from dataframe
-  parsenames()
+  #parsenames()
 head(speciesList, n = 30)
 ```
 
 # filter for needed occurrences
 
+1. introduce dwc_vernacularName
+2. remove all data which is not specific enough 
+3. replace interpretable data with correct (manually found) scientificName
+
 ```{r}
 input_interim %<>%
-        filter(`Sporen Waarnemingen Naam` != 'Vis') %<>%
-        filter( `Sporen Waarnemingen Naam` != 'Andere') %<>%
-        filter(`Sporen Waarnemingen Naam` != 'Eend' )%<>%
-        filter(`Sporen Waarnemingen Naam` != 'Marterachtige' )
+        mutate(dwc_vernacularName = sporen_waarnemingen_naam) %<>%
+        filter(dwc_vernacularName != 'Vis' ) %<>%
+        filter(dwc_vernacularName != 'Andere') %<>%
+        filter(dwc_vernacularName != 'Eend' )%<>%
+        filter(dwc_vernacularName != 'Marterachtige' )%<>%
+        
+        mutate(dwc_vernacularName = recode(dwc_vernacularName
+                   , "Muskusr. > 400gr"  = "Muskusrat"
+                   , "Doodaars" = "Tachybaptus ruficollis"
+                   
+                                                  ))
         
 head (input_interim, n = 5 )
 ```
@@ -97,10 +114,10 @@ head (input_interim, n = 5 )
 
 
 
-```{r}
-input_interim %<>% mutate(vernacularName = `Sporen Waarnemingen Naam`)
+```{r eval=FALSE, include=FALSE}
+input_interim %<>% mutate(dwc_vernacularName = sporen_waarnemingen_naam)
 
-input_interim %<>% mutate(vernacularName = recode(vernacularName
+input_interim %<>% mutate(dwc_vernacularName = recode(dwc_vernacularName
                    , "Muskusr. > 400gr"  = "Muskusrat"
                    , "Doodaars" = "Tachybaptus ruficollis"
                    
@@ -113,10 +130,11 @@ input_interim %>% head(n = 5)
 
 # Make speciesList2
 
+1. check if specieslist is interpretable for GBIF
 
 ```{r}
 speciesList2 <- input_interim %>%
-  distinct(`vernacularName`)  
+  distinct(`dwc_vernacularName`)  
   
 head(speciesList2, n = 30)
 ```
@@ -124,6 +142,7 @@ head(speciesList2, n = 30)
 
 # find scientificNames
 
+1. use GBIF function to find scientificNames based on vernacular names
 
 ```{r}
 vernacular_names_df <- input_interim
@@ -142,12 +161,12 @@ get_vernacular_name <- function(vn) {
 
 n_vernacular_names_df <-
  vernacular_names_df %>%
- group_by(vernacularName) %>%
+ group_by(dwc_vernacularName) %>%
  nest() %>%
- mutate(scientificName = map_chr(vernacularName,get_vernacular_name)) %>%
+ mutate(dwc_scientificName = map_chr(dwc_vernacularName,get_vernacular_name)) %>%
  ungroup() %>%
  select(-one_of("data")) %>%
- right_join(vernacular_names_df, by = "vernacularName")
+ right_join(vernacular_names_df, by = "dwc_vernacularName")
 
 #view(n_vernacular_names_df)
 ```
@@ -155,12 +174,25 @@ n_vernacular_names_df <-
 
 ```{r}
 speciesList3 <- n_vernacular_names_df %>%
-  distinct(`scientificName`)  
+  distinct(`dwc_scientificName`)  
 
 input_interim <- n_vernacular_names_df    
 head(speciesList3, n = 30)
 
 ```
+
+### scientificName 
+
+fix scientificNames
+
+```{r}
+
+input_interim %<>% mutate(scientificName = recode(dwc_scientificName
+           , "Zapornia pusilla intermedia (Hermann, 1804)" = "Gallinula chloropus (Linnaeus, 1758)"
+                                                            ))
+
+```
+
 
 # Occurrence core
 
@@ -182,7 +214,7 @@ occurrence <- input_interim
 ## remove obsolete columns
 
 ```{r}
-occurrence %<>% select(-c(`Locatie Type Naam`, `Maand In Jaar`, `Maand Lange Omschrijving`, `Provincie NIS Code`))
+occurrence %<>% select(-c(locatie_type_naam, maand_in_jaar, maand_lange_omschrijving, provincie_nis_code))
 ```
 
 
@@ -263,7 +295,7 @@ occurrence %<>% mutate(basisOfRecord = "HumanObservation")
 ### occurrenceID
 
 ```{r}
-occurrence %<>% rename(occurrenceID = `Registratie ID`) %>%
+occurrence %<>% rename(occurrenceID = registratie_id) %>%
                 mutate(occurrenceID = str_c("MICA:VMM:", occurrenceID))
   
 ```
@@ -271,7 +303,7 @@ occurrence %<>% rename(occurrenceID = `Registratie ID`) %>%
 ### recordedBy
 
 ```{r}
-occurrence %<>% mutate(recordedBy = str_c("VMM team ", `Team Naam`))
+occurrence %<>% mutate(recordedBy = str_c("VMM team ", team_naam))
 
 head(occurrence)
 ```
@@ -279,7 +311,7 @@ head(occurrence)
 ### individualCount
 
 ```{r}
-occurrence %<>% rename(individualCount = `Vangst Aantal`) 
+occurrence %<>% rename(individualCount = vangst_aantal) 
 ```
 
 ### organismQuantity
@@ -339,14 +371,14 @@ head(occurrence, n = 5)
 
 ```{r}
 occurrence %<>%
-  rename(decimalLongitude = `Locatie GPS Lengte`) %>%
-  rename(decimalLatitude = `Locatie GPS Breedte`) %>%
+  rename(decimalLongitude = locatie_gps_lengte) %>%
+  rename(decimalLatitude = locatie_gps_breedte) %>%
   
   mutate(coordinateUncertaintyInMeters = "30") %>%
   mutate(countryCode = "BE")  %>%            
   mutate(continent = "Europe") %>%
-  mutate(locationID = `Locatie ID`) %>%
-  mutate(locationRemarks = `VHA Categorie Omschrijving`)
+  mutate(locationID = locatie_id) %>%
+  mutate(locationRemarks = vha_categorie_omschrijving)
 
 
   
@@ -382,7 +414,7 @@ occurrence %<>%
 ### StateProvince
 
 ```{r}
-occurrence %<>% mutate(stateProvince = `Provincie Omschrijving`) # e.g. "Belgium = BE"
+occurrence %<>% mutate(stateProvince = provincie_omschrijving) # e.g. "Belgium = BE"
 ```
 
 
@@ -392,7 +424,7 @@ municipality already in source file
 
 ```{r}
 occurrence %<>%
-  mutate(municipality = `Gemeente Naam`)
+  mutate(municipality = gemeente_naam)
 ```
 
 ### verbatimcoordinates
@@ -449,15 +481,7 @@ occurrence %<>% mutate(locationRemarks = recode(locationRemarks
 occurrence %<>% mutate(identifiedBy = 'VMM')
 ```
 
-### scientificName 
 
-```{r}
-
-occurrence %<>% mutate(scientificName = recode(scientificName
-           , "Zapornia pusilla intermedia (Hermann, 1804)" = "Gallinula chloropus (Linnaeus, 1758)"
-                                                            ))
-
-```
 
 ### kingdom
 
@@ -510,7 +534,7 @@ head(occurrence, n = 5)
 
 ```{r}
 colnames(occurrence) <- str_remove(colnames(occurrence), "dwc_")
-occurrence %<>% select(-c(Jaar, Maand, Land_Regio, `Gemeente Naam`, `Locatie ID`, `Team Rol`, `Team Naam`,`Sporen Waarnemingen Naam`,`VHA Categorie Code`, `VHA Categorie Omschrijving`, `Provincie Omschrijving`))  #remove collection columns
+occurrence %<>% select(-c(jaar, maand, land_regio, gemeente_naam, locatie_id, team_rol, team_naam,sporen_waarnemingen_naam, vha_categorie_code, vha_categorie_omschrijving, provincie_omschrijving))  #remove collection columns
           ##  rename(scientificName = verbatimScientificName) 
 
 
