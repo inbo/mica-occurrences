@@ -89,19 +89,19 @@ head(speciesList, n = 30)
 
 # filter for needed occurrences
 
-1. introduce dwc_vernacularName
+1. introduce vernacularName
 2. remove all data which is not specific enough 
 3. replace interpretable data with correct (manually found) scientificName
 
 ```{r}
 input_interim %<>%
-        mutate(dwc_vernacularName = sporen_waarnemingen_naam) %<>%
-        filter(dwc_vernacularName != 'Vis' ) %<>%
-        filter(dwc_vernacularName != 'Andere') %<>%
-        filter(dwc_vernacularName != 'Eend' )%<>%
-        filter(dwc_vernacularName != 'Marterachtige' )%<>%
+        mutate(vernacularName = sporen_waarnemingen_naam) %<>%
+        filter(vernacularName != 'Vis' ) %<>%
+        filter(vernacularName != 'Andere') %<>%
+        filter(vernacularName != 'Eend' )%<>%
+        filter(vernacularName != 'Marterachtige' )%<>%
         
-        mutate(dwc_vernacularName = recode(dwc_vernacularName
+        mutate(vernacularName = recode(vernacularName
                    , "Muskusr. > 400gr"  = "Muskusrat"
                    , "Doodaars" = "Tachybaptus ruficollis"
                    
@@ -115,9 +115,9 @@ head (input_interim, n = 5 )
 
 
 ```{r eval=FALSE, include=FALSE}
-input_interim %<>% mutate(dwc_vernacularName = sporen_waarnemingen_naam)
+input_interim %<>% mutate(vernacularName = sporen_waarnemingen_naam)
 
-input_interim %<>% mutate(dwc_vernacularName = recode(dwc_vernacularName
+input_interim %<>% mutate(vernacularName = recode(vernacularName
                    , "Muskusr. > 400gr"  = "Muskusrat"
                    , "Doodaars" = "Tachybaptus ruficollis"
                    
@@ -134,7 +134,7 @@ input_interim %>% head(n = 5)
 
 ```{r}
 speciesList2 <- input_interim %>%
-  distinct(`dwc_vernacularName`)  
+  distinct(`vernacularName`)  
   
 head(speciesList2, n = 30)
 ```
@@ -161,12 +161,12 @@ get_vernacular_name <- function(vn) {
 
 n_vernacular_names_df <-
  vernacular_names_df %>%
- group_by(dwc_vernacularName) %>%
+ group_by(vernacularName) %>%
  nest() %>%
- mutate(dwc_scientificName = map_chr(dwc_vernacularName,get_vernacular_name)) %>%
+ mutate(scientificName = map_chr(vernacularName,get_vernacular_name)) %>%
  ungroup() %>%
  select(-one_of("data")) %>%
- right_join(vernacular_names_df, by = "dwc_vernacularName")
+ right_join(vernacular_names_df, by = "vernacularName")
 
 #view(n_vernacular_names_df)
 ```
@@ -174,7 +174,7 @@ n_vernacular_names_df <-
 
 ```{r}
 speciesList3 <- n_vernacular_names_df %>%
-  distinct(`dwc_scientificName`)  
+  distinct(`scientificName`)  
 
 input_interim <- n_vernacular_names_df    
 head(speciesList3, n = 30)
@@ -187,7 +187,7 @@ fix scientificNames
 
 ```{r}
 
-input_interim %<>% mutate(scientificName = recode(dwc_scientificName
+input_interim %<>% mutate(scientificName = recode(scientificName
            , "Zapornia pusilla intermedia (Hermann, 1804)" = "Gallinula chloropus (Linnaeus, 1758)"
                                                             ))
 
@@ -361,7 +361,7 @@ occurrence %<>%
 
 #occurrence %<>% ymd(date)
 
-#occurrence %<>% mutate(dwc_eventDate = (Maand))
+occurrence %<>% mutate(dwc_eventDate = (maand))
 # mutate(eventDate = as_date(ymd(date))) # , format = "%Y-%m-%d")) 
 
 head(occurrence, n = 5)
@@ -480,6 +480,12 @@ occurrence %<>% mutate(dwc_locationRemarks = recode(dwc_locationRemarks
 ```{r}
 occurrence %<>% mutate(dwc_identifiedBy = 'VMM')
 ```
+### scientificName
+
+
+```{r}
+occurrence %<>% mutate(dwc_scientificName = scientificName)
+```
 
 
 
@@ -498,7 +504,7 @@ occurrence %<>% mutate(dwc_kingdom = "Animalia")
 ### vernacularName
 
 ```{r}
-occurrence %<>% mutate(dwc_vernacularName = recode(dwc_vernacularName
+occurrence %<>% mutate(dwc_vernacularName = recode(vernacularName
                        , "Tachybaptus ruficollis" = "Doodaars"
                                                             ))
 ```
