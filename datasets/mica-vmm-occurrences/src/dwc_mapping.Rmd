@@ -1,6 +1,6 @@
 ---
 title: "Darwin Core Mapping"
-subtitle: "MICA - Muskrat occurrences collected by RATO in East Flanders, Belgium"
+subtitle: "MICA - Muskrat occurrences collected by VMM in Flanders, Belgium"
 author: "Dimitri Brosens"
 date: "`r Sys.Date()`"
 output:
