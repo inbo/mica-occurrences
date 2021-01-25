@@ -229,55 +229,55 @@ Start with record-level terms which contain metadata about the dataset (which is
 ### datasetID
 
 ```{r}
-occurrence %<>% mutate(datasetID = "insert doi")
+occurrence %<>% mutate(dwc_datasetID = "insert doi")
 ```
 
 ### type
 
 ```{r}
-occurrence %<>% mutate(type = "Event")
+occurrence %<>% mutate(dwc_type = "Event")
 ```
 
 ### language
 
 ```{r}
-occurrence %<>% mutate(language = "en") # e.g. "en"
+occurrence %<>% mutate(dwc_language = "en") # e.g. "en"
 ```
 
 ### license
 
 ```{r}
-occurrence %<>% mutate(license = "http://creativecommons.org/publicdomain/zero/1.0/") 
+occurrence %<>% mutate(dwc_license = "http://creativecommons.org/publicdomain/zero/1.0/") 
 # e.g. "http://creativecommons.org/publicdomain/zero/1.0/"
 ```
 
 ### rightsHolder
 
 ```{r}
-occurrence %<>% mutate(rightsHolder = "VMM") # e.g. "INBO"
+occurrence %<>% mutate(dwc_rightsHolder = "VMM") # e.g. "INBO"
 ```
 ### accessRights
 
 ```{r}
-occurrence %<>% mutate(accessRights = "http://www.inbo.be/en/norms-for-data-use") 
+occurrence %<>% mutate(dwc_accessRights = "http://www.inbo.be/en/norms-for-data-use") 
 ```
 
 ### datasetID
 
 ```{r}
-#occurrence %<>% mutate(datasetID = "insert doi") 
+#occurrence %<>% mutate(dwc_datasetID = "insert doi") 
 ```
 
 ### institutionCode
 
 ```{r}
-occurrence %<>% mutate(institutionCode = "VMM") # e.g. "INBO"
+occurrence %<>% mutate(dwc_institutionCode = "VMM") # e.g. "INBO"
 ```
 
 ### datasetName
 
 ```{r}
-occurrence %<>% mutate(datasetName = "MICA - Muskrat occurrences collected by VMM in Flanders, Belgium") # e.g. "Checklist of non-native freshwater fishes in Flanders, Belgium"
+occurrence %<>% mutate(dwc_datasetName = "MICA - Muskrat occurrences collected by VMM in Flanders, Belgium") # e.g. "Checklist of non-native freshwater fishes in Flanders, Belgium"
 ```
 
 The following terms contain information about the taxon:
@@ -285,7 +285,7 @@ The following terms contain information about the taxon:
 ### basisOfRecord
 
 ```{r}
-occurrence %<>% mutate(basisOfRecord = "HumanObservation")
+occurrence %<>% mutate(dwc_basisOfRecord = "HumanObservation")
 ```
 
 ### informationWithHeld
@@ -295,15 +295,15 @@ occurrence %<>% mutate(basisOfRecord = "HumanObservation")
 ### occurrenceID
 
 ```{r}
-occurrence %<>% rename(occurrenceID = registratie_id) %>%
-                mutate(occurrenceID = str_c("MICA:VMM:", occurrenceID))
+occurrence %<>% rename(dwc_occurrenceID = registratie_id) %>%
+                mutate(dwc_occurrenceID = str_c("MICA:VMM:", dwc_occurrenceID))
   
 ```
 
 ### recordedBy
 
 ```{r}
-occurrence %<>% mutate(recordedBy = str_c("VMM team ", team_naam))
+occurrence %<>% mutate(dwc_recordedBy = str_c("VMM team ", team_naam))
 
 head(occurrence)
 ```
@@ -311,7 +311,7 @@ head(occurrence)
 ### individualCount
 
 ```{r}
-occurrence %<>% rename(individualCount = vangst_aantal) 
+occurrence %<>% rename(dwc_individualCount = vangst_aantal) 
 ```
 
 ### organismQuantity
@@ -327,17 +327,17 @@ occurrence %<>% rename(individualCount = vangst_aantal)
 ### occurrenceRemarks
 
 ```{r eval=FALSE, include=FALSE}
-occurrence %<>% rename(occurrenceRemarks = 'action_en')
+occurrence %<>% rename(dwc_occurrenceRemarks = 'action_en')
 ```
 
 ## samplingProtocol
 
 ```{r eval=FALSE, include=FALSE}
-occurrence %<>% mutate(samplingEffort = materials_en)
+occurrence %<>% mutate(dwc_samplingEffort = materials_en)
 ```
 
 ```{r}
-occurrence %<>% mutate(samplingProtocol = 'rat trap') 
+occurrence %<>% mutate(dwc_samplingProtocol = 'rat trap') 
 ```
 
 ### samplingEffort
@@ -347,9 +347,9 @@ head(occurrence, n = 5)
 
 occurrence %<>%
   # extract follow ups to new column
-  mutate(samplingEffort = str_replace(samplingEffort, "Follow-up=*", "Times-visited=")) %>%
-  mutate(samplingEffort = str_replace_all(samplingEffort, "=",":")) %>%
-  mutate(samplingEffort = str_replace_all(samplingEffort, ","," |"))
+  mutate(samplingEffort = str_replace(dwc_samplingEffort, "Follow-up=*", "Times-visited=")) %>%
+  mutate(samplingEffort = str_replace_all(dwc_samplingEffort, "=",":")) %>%
+  mutate(samplingEffort = str_replace_all(dwc_samplingEffort, ","," |"))
 ```
 
 ### eventDate
@@ -361,7 +361,7 @@ occurrence %<>%
 
 #occurrence %<>% ymd(date)
 
-occurrence %<>% mutate(eventDate = (Maand))
+#occurrence %<>% mutate(dwc_eventDate = (Maand))
 # mutate(eventDate = as_date(ymd(date))) # , format = "%Y-%m-%d")) 
 
 head(occurrence, n = 5)
@@ -371,14 +371,14 @@ head(occurrence, n = 5)
 
 ```{r}
 occurrence %<>%
-  rename(decimalLongitude = locatie_gps_lengte) %>%
-  rename(decimalLatitude = locatie_gps_breedte) %>%
+  rename(dwc_decimalLongitude = locatie_gps_lengte) %>%
+  rename(dwc_decimalLatitude = locatie_gps_breedte) %>%
   
-  mutate(coordinateUncertaintyInMeters = "30") %>%
-  mutate(countryCode = "BE")  %>%            
-  mutate(continent = "Europe") %>%
-  mutate(locationID = locatie_id) %>%
-  mutate(locationRemarks = vha_categorie_omschrijving)
+  mutate(dwc_coordinateUncertaintyInMeters = "30") %>%
+  mutate(dwc_countryCode = "BE")  %>%            
+  mutate(dwc_continent = "Europe") %>%
+  mutate(dwc_locationID = locatie_id) %>%
+  mutate(dwc_locationRemarks = vha_categorie_omschrijving)
 
 
   
@@ -388,33 +388,33 @@ occurrence %<>%
 ```{r}
 head(occurrence, n = 5)
 occurrence %<>%
-  mutate(decimalLongitude = round(decimalLongitude, digits = 5)) %>%
-  mutate(decimalLatitude = round(decimalLatitude, digits = 5))
+  mutate(dwc_decimalLongitude = round(dwc_decimalLongitude, digits = 5)) %>%
+  mutate(dwc_decimalLatitude = round(dwc_decimalLatitude, digits = 5))
 ```
 
 ```{r}
 occurrence %<>%   
-   mutate(decimalLatitude = as.character(format(decimalLatitude, nsmall = 5))) %>%
-   mutate(decimalLongitude = as.character(format(decimalLongitude, nsmall = 5)))
+   mutate(dwc_decimalLatitude = as.character(format(dwc_decimalLatitude, nsmall = 5))) %>%
+   mutate(dwc_decimalLongitude = as.character(format(dwc_decimalLongitude, nsmall = 5)))
 ```
 
 ### continent
 
 ```{r}
-##occurrence %<>% mutate(continent = "Europe") # e.g. "Belgium = BE"
+##occurrence %<>% mutate(dwc_continent = "Europe") # e.g. "Belgium = BE"
 ```
 
 ### countryCode
 
 ```{r}
-#occurrence %<>% mutate(countryCode = "BE") # e.g. "Belgium = BE"
+#occurrence %<>% mutate(dwc_countryCode = "BE") # e.g. "Belgium = BE"
 ```
 
 
 ### StateProvince
 
 ```{r}
-occurrence %<>% mutate(stateProvince = provincie_omschrijving) # e.g. "Belgium = BE"
+occurrence %<>% mutate(dwc_stateProvince = provincie_omschrijving) # e.g. "Belgium = BE"
 ```
 
 
@@ -424,7 +424,7 @@ municipality already in source file
 
 ```{r}
 occurrence %<>%
-  mutate(municipality = gemeente_naam)
+  mutate(dwc_municipality = gemeente_naam)
 ```
 
 ### verbatimcoordinates
@@ -436,13 +436,13 @@ occurrence %<>%
 ### verbatimcoordinatesystem
 
 ```{r}
-#occurrence %<>% mutate(verbatimcoordinatesystem = "Lambert coordinates") # 
+#occurrence %<>% mutate(dwc_verbatimcoordinatesystem = "Lambert coordinates") # 
 ```
 
 ### verbatimSRS
 
 ```{r}
-#occurrence %<>% mutate(verbatimSRS = "Belgian Datum 1972")
+#occurrence %<>% mutate(dwc_verbatimSRS = "Belgian Datum 1972")
 ```
 
 ### decimalLatitude
@@ -453,14 +453,14 @@ occurrence %<>%
 
 ```{r}
 occurrence %<>%
-  mutate(geodeticDatum = "WGS84") 
+  mutate(dwc_geodeticDatum = "WGS84") 
 ```
 
 
 ### locationRemarks
 
 ```{r}
-occurrence %<>% mutate(locationRemarks = recode(locationRemarks
+occurrence %<>% mutate(dwc_locationRemarks = recode(dwc_locationRemarks
                    , "CAT2 - Onbevaarbaar cat. 2"  = "CAT2 - not navigable cat. 2"
                    , "CAT1 - Onbevaarbaar cat. 1" = "CAT1 - not navigable cat. 1"
                    , "CAT3 - Onbevaarbaar cat. 3" = "CAT3 - not navigable cat. 3"
@@ -478,7 +478,7 @@ occurrence %<>% mutate(locationRemarks = recode(locationRemarks
 ### identifiedBy
 
 ```{r}
-occurrence %<>% mutate(identifiedBy = 'VMM')
+occurrence %<>% mutate(dwc_identifiedBy = 'VMM')
 ```
 
 
@@ -486,19 +486,19 @@ occurrence %<>% mutate(identifiedBy = 'VMM')
 ### kingdom
 
 ```{r}
-occurrence %<>% mutate(kingdom = "Animalia")
+occurrence %<>% mutate(dwc_kingdom = "Animalia")
 ```
 
 ### scientificNameAuthorship
 
 ```{r}
-# occurrence %<>% mutate(scientificNameAuthorship = "Linnaeus, 1766")
+# occurrence %<>% mutate(dwc_scientificNameAuthorship = "Linnaeus, 1766")
 ```
 
 ### vernacularName
 
 ```{r}
-occurrence %<>% mutate(vernacularName = recode(vernacularName
+occurrence %<>% mutate(dwc_vernacularName = recode(dwc_vernacularName
                        , "Tachybaptus ruficollis" = "Doodaars"
                                                             ))
 ```
@@ -509,13 +509,13 @@ occurrence %<>% mutate(vernacularName = recode(vernacularName
 ### taxonRank
 
 ```{r}
-occurrence %<>% mutate(taxonRank = "species")
+occurrence %<>% mutate(dwc_taxonRank = "species")
 ```
 
 ### nomenclaturalCode
 
 ```{r}
-occurrence %<>% mutate(nomenclaturalCode = "ICZN") # e.g. "ICZN"
+occurrence %<>% mutate(dwc_nomenclaturalCode = "ICZN") # e.g. "ICZN"
 ```
 
 ### occurrenceStatus
@@ -523,8 +523,8 @@ occurrence %<>% mutate(nomenclaturalCode = "ICZN") # e.g. "ICZN"
 ```{r}
 occurrence %<>% 
     ##select(individualCount) %>%
-    mutate(occurrenceStatus = case_when(individualCount > 0 ~ "present",
-                              individualCount == 0 ~ "absent"
+    mutate(dwc_occurrenceStatus = case_when(dwc_individualCount > 0 ~ "present",
+                              dwc_individualCount == 0 ~ "absent"
                                  )
                                 )
 head(occurrence, n = 5)
@@ -533,8 +533,13 @@ head(occurrence, n = 5)
 ## Post-processing
 
 ```{r}
+occurrence %<>% select(starts_with("dwc_"))
 colnames(occurrence) <- str_remove(colnames(occurrence), "dwc_")
-occurrence %<>% select(-c(jaar, maand, land_regio, gemeente_naam, locatie_id, team_rol, team_naam,sporen_waarnemingen_naam, vha_categorie_code, vha_categorie_omschrijving, provincie_omschrijving))  #remove collection columns
+
+
+
+
+#occurrence %<>% select(-c(jaar, maand, land_regio, gemeente_naam, locatie_id, team_rol, team_naam,sporen_waarnemingen_naam, # vha_categorie_code, vha_categorie_omschrijving, provincie_omschrijving))  #remove collection columns
           ##  rename(scientificName = verbatimScientificName) 
 
 
