@@ -47,7 +47,7 @@ File exported to csv
 
 ```{r}
 
-input_interim <- read_excel(here::here("datasets", "mica-vmm-occurrences", "data", "raw","VangstenT14_47_33.xlsx"))
+input_interim <- read_excel(here::here("datasets", "mica-vmm-occurrences", "data", "raw","VangstenT08_34_50.xlsx"))
 
 ```
 
@@ -361,7 +361,7 @@ occurrence %<>%
 
 #occurrence %<>% ymd(date)
 
-occurrence %<>% mutate(dwc_eventDate = (maand))
+occurrence %<>% mutate(dwc_eventDate = (dag))
 # mutate(eventDate = as_date(ymd(date))) # , format = "%Y-%m-%d")) 
 
 head(occurrence, n = 5)
