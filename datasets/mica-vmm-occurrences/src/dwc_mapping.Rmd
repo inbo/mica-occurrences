@@ -1,6 +1,6 @@
 ---
 title: "Darwin Core Mapping"
-subtitle: "MICA - Muskrat occurrences collected by RATO in East Flanders, Belgium"
+subtitle: "MICA - Muskrat occurrences collected by VMM in Flanders, Belgium"
 author: "Dimitri Brosens"
 date: "`r Sys.Date()`"
 output:
@@ -27,112 +27,69 @@ library(magrittr)       # To use %<>% pipes
 library(here)           # To find files
 library(janitor)        # To clean input data
 library(readxl)         # To read Excel files
-library(digest)         # To generate hashes
 library(rgbif)          # To use GBIF services
-library(sp)             # coordinate transformation
-library(leaflet)        # coordinate transformation
-library(widgetframe)    # coordinate transformation
-library(sf)             # coordinate transformation
-library(lubridate)      # for the date
 ```
 
 # Read source data
 
-Create a data frame `input_data` from the source data:
-The source data was corrected in Excel
-Muskrat occurrences opened in openRefine
-Obsolete columns removed
-some columns renamed to DwC term
-File exported to csv
-
 ```{r}
-
-input_interim <- read_excel(here::here("datasets", "mica-vmm-occurrences", "data", "raw","VangstenT14_47_33.xlsx"))
-
+input_data <- read_excel(here::here("datasets", "mica-vmm-occurrences", "data", "raw", "VangstenT08_34_50.xlsx"))
 ```
 
 Preview data:
 
 ```{r}
-input_interim %>% head(n = 5)
+input_interim %>% head()
 ```
 
-# Process source data
+# Preprocessing
 
 ## Tidy data
 
 Clean data somewhat:
 
 ```{r}
-input_interim %<>% remove_empty("rows")
+input_data %<>% 
+  remove_empty("rows") %<>%
+  clean_names()
 ```
 
-```{r}
-input_interim %>% head(n = 5)
-```
-# Make speciesList
+# Retrieve scientific names based on the vernacular name
 
+The raw data does not contain scientific names. We use the GBOF backbone taxonomy to retrieve scientific names based on vernacular names. Manual actions are still needed as the returned information might not be 100% correct.
+
+See original vernacular names:
 
 ```{r}
-speciesList <- input_interim %>%
-  distinct(`Sporen Waarnemingen Naam`)  %>%
-  pull() %>% # Create vector from dataframe
-  parsenames()
-head(speciesList, n = 30)
+input_data %>%
+  distinct(sporen_waarnemingen_naam)
 ```
 
-# filter for needed occurrences
+Create column `vernacularName`, remove data that is not specific enough and clean some names:
 
 ```{r}
-input_interim %<>%
-        filter(`Sporen Waarnemingen Naam` != 'Vis') %<>%
-        filter( `Sporen Waarnemingen Naam` != 'Andere') %<>%
-        filter(`Sporen Waarnemingen Naam` != 'Eend' )%<>%
-        filter(`Sporen Waarnemingen Naam` != 'Marterachtige' )
-        
-head (input_interim, n = 5 )
+input_data <-
+  input_data %>%
+  mutate(vernacularName = sporen_waarnemingen_naam) %>%
+  filter(vernacularName != 'Vis') %>%
+  filter(vernacularName != 'Andere') %>%
+  filter(vernacularName != 'Eend') %>%
+  filter(vernacularName != 'Marterachtige') %>%
+  mutate(vernacularName = recode(vernacularName,
+    "Muskusr. > 400gr" = "Muskusrat",
+    "Doodaars" = "Dodaars"
+  ))
 ```
 
-
-
-
+Use GBIF function to find scientific names based on cleaned vernacular names:
 
 ```{r}
-input_interim %<>% mutate(vernacularName = `Sporen Waarnemingen Naam`)
-
-input_interim %<>% mutate(vernacularName = recode(vernacularName
-                   , "Muskusr. > 400gr"  = "Muskusrat"
-                   , "Doodaars" = "Tachybaptus ruficollis"
-                   
-                                                  ))
-
-
-
-input_interim %>% head(n = 5)
-```
-
-# Make speciesList2
-
-
-```{r}
-speciesList2 <- input_interim %>%
-  distinct(`vernacularName`)  
-  
-head(speciesList2, n = 30)
-```
-
-
-# find scientificNames
-
-
-```{r}
-vernacular_names_df <- input_interim
-
 get_vernacular_name <- function(vn) {
- names <-
-   name_lookup(vn,
-               datasetKey = "d7dddbf4-2cf0-4f39-9b2a-bb099caae36c",
-               limit = 1)$data # this returns the most likely taxon
+ names <- name_lookup(
+   vn,
+   datasetKey = "d7dddbf4-2cf0-4f39-9b2a-bb099caae36c",
+   limit = 1
+ )$data # this returns the most likely taxon
  if (nrow(names) > 0) {
    names$scientificName
  } else {
@@ -140,398 +97,258 @@ get_vernacular_name <- function(vn) {
  }
 }
 
-n_vernacular_names_df <-
- vernacular_names_df %>%
- group_by(vernacularName) %>%
- nest() %>%
- mutate(scientificName = map_chr(vernacularName,get_vernacular_name)) %>%
- ungroup() %>%
- select(-one_of("data")) %>%
- right_join(vernacular_names_df, by = "vernacularName")
-
-#view(n_vernacular_names_df)
+scientific_names <- input_data %>%
+  distinct(vernacularName) %>%
+  mutate(scientificName = map_chr(vernacularName, get_vernacular_name))
 ```
-# make speciesList
+
+Join scientific names with original dataframe:
 
 ```{r}
-speciesList3 <- n_vernacular_names_df %>%
-  distinct(`scientificName`)  
+input_data <-
+  input_data %>%
+  right_join(scientific_names, by = "vernacularName")
 
-input_interim <- n_vernacular_names_df    
-head(speciesList3, n = 30)
-
+input_data %>% distinct(vernacularName, scientificName)
 ```
 
-# Occurrence core
-
-look at interim_file once more
+Correct wrong scientific names:
 
 ```{r}
-head(input_interim, n = 15)
+input_data %<>% mutate(scientificName = recode(scientificName,
+  "Zapornia pusilla intermedia (Hermann, 1804)" = "Gallinula chloropus (Linnaeus, 1758)"
+))
 ```
 
-
-## Pre-processing
-
-Create a dataframe occurrence data only 
-
-```{r}
-occurrence <- input_interim
-```
-
-## remove obsolete columns
-
-```{r}
-occurrence %<>% select(-c(`Locatie Type Naam`, `Maand In Jaar`, `Maand Lange Omschrijving`, `Provincie NIS Code`))
-```
-
-
-# Term mapping
+# Darwin Core mapping
 
 Map the data to [Darwin Core Occurrence](http://rs.gbif.org/core/dwc_occurrence_2015-07-02.xml).
 
-Start with record-level terms which contain metadata about the dataset (which is generally the same for all records).
-
-# Event
-
-### datasetID
-
 ```{r}
-occurrence %<>% mutate(datasetID = "insert doi")
+occurrence <- input_data
 ```
 
 ### type
 
 ```{r}
-occurrence %<>% mutate(type = "Event")
+occurrence %<>% mutate(dwc_type = "Event")
 ```
 
 ### language
 
 ```{r}
-occurrence %<>% mutate(language = "en") # e.g. "en"
+occurrence %<>% mutate(dwc_language = "en")
 ```
 
 ### license
 
 ```{r}
-occurrence %<>% mutate(license = "http://creativecommons.org/publicdomain/zero/1.0/") 
-# e.g. "http://creativecommons.org/publicdomain/zero/1.0/"
+occurrence %<>% mutate(dwc_license = "http://creativecommons.org/publicdomain/zero/1.0/")
 ```
 
 ### rightsHolder
 
 ```{r}
-occurrence %<>% mutate(rightsHolder = "VMM") # e.g. "INBO"
+occurrence %<>% mutate(dwc_rightsHolder = "VMM")
 ```
+
 ### accessRights
 
 ```{r}
-occurrence %<>% mutate(accessRights = "http://www.inbo.be/en/norms-for-data-use") 
+occurrence %<>% mutate(dwc_accessRights = "http://www.inbo.be/en/norms-for-data-use") 
 ```
 
 ### datasetID
 
 ```{r}
-#occurrence %<>% mutate(datasetID = "insert doi") 
+occurrence %<>% mutate(dwc_datasetID = "insert doi")
 ```
 
 ### institutionCode
 
 ```{r}
-occurrence %<>% mutate(institutionCode = "VMM") # e.g. "INBO"
+occurrence %<>% mutate(dwc_institutionCode = "VMM")
 ```
 
 ### datasetName
 
 ```{r}
-occurrence %<>% mutate(datasetName = "MICA - Muskrat occurrences collected by VMM in Flanders, Belgium") # e.g. "Checklist of non-native freshwater fishes in Flanders, Belgium"
+occurrence %<>% mutate(dwc_datasetName = "MICA - Muskrat occurrences collected by VMM in Flanders, Belgium")
 ```
-
-The following terms contain information about the taxon:
 
 ### basisOfRecord
 
 ```{r}
-occurrence %<>% mutate(basisOfRecord = "HumanObservation")
+occurrence %<>% mutate(dwc_basisOfRecord = "HumanObservation")
 ```
-
-### informationWithHeld
-
-### dataGeneralizations
 
 ### occurrenceID
 
+Since `registratie_id` is not unique for all records, we create an `occurrenceID` based on row number:
+
 ```{r}
-occurrence %<>% rename(occurrenceID = `Registratie ID`) %>%
-                mutate(occurrenceID = str_c("MICA:VMM:", occurrenceID))
-  
+occurrence <-
+  occurrence %>%
+  rowid_to_column(var = "row_id") %>%
+  mutate(dwc_occurrenceID = str_c("MICA:VMM:OCC:", row_id))
 ```
 
 ### recordedBy
 
 ```{r}
-occurrence %<>% mutate(recordedBy = str_c("VMM team ", `Team Naam`))
-
-head(occurrence)
+occurrence %<>% mutate(dwc_recordedBy = str_c("VMM team ", team_naam))
 ```
 
 ### individualCount
 
 ```{r}
-occurrence %<>% rename(individualCount = `Vangst Aantal`) 
-```
-
-### organismQuantity
-
-### organismQuentityType
-
-### sex
-
-### lifeStage
-
-### behavior
-
-### occurrenceRemarks
-
-```{r eval=FALSE, include=FALSE}
-occurrence %<>% rename(occurrenceRemarks = 'action_en')
-```
-
-## samplingProtocol
-
-```{r eval=FALSE, include=FALSE}
-occurrence %<>% mutate(samplingEffort = materials_en)
-```
-
-```{r}
-occurrence %<>% mutate(samplingProtocol = 'rat trap') 
-```
-
-### samplingEffort
-
-```{r eval=FALSE, include=FALSE}
-head(occurrence, n = 5)
-
-occurrence %<>%
-  # extract follow ups to new column
-  mutate(samplingEffort = str_replace(samplingEffort, "Follow-up=*", "Times-visited=")) %>%
-  mutate(samplingEffort = str_replace_all(samplingEffort, "=",":")) %>%
-  mutate(samplingEffort = str_replace_all(samplingEffort, ","," |"))
-```
-
-### eventDate
-
-
-
-```{r}
-
-
-#occurrence %<>% ymd(date)
-
-occurrence %<>% mutate(eventDate = (Maand))
-# mutate(eventDate = as_date(ymd(date))) # , format = "%Y-%m-%d")) 
-
-head(occurrence, n = 5)
-```
-
-# Location
-
-```{r}
-occurrence %<>%
-  rename(decimalLongitude = `Locatie GPS Lengte`) %>%
-  rename(decimalLatitude = `Locatie GPS Breedte`) %>%
-  
-  mutate(coordinateUncertaintyInMeters = "30") %>%
-  mutate(countryCode = "BE")  %>%            
-  mutate(continent = "Europe") %>%
-  mutate(locationID = `Locatie ID`) %>%
-  mutate(locationRemarks = `VHA Categorie Omschrijving`)
-
-
-  
-
-```
-
-```{r}
-head(occurrence, n = 5)
-occurrence %<>%
-  mutate(decimalLongitude = round(decimalLongitude, digits = 5)) %>%
-  mutate(decimalLatitude = round(decimalLatitude, digits = 5))
-```
-
-```{r}
-occurrence %<>%   
-   mutate(decimalLatitude = as.character(format(decimalLatitude, nsmall = 5))) %>%
-   mutate(decimalLongitude = as.character(format(decimalLongitude, nsmall = 5)))
-```
-
-### continent
-
-```{r}
-##occurrence %<>% mutate(continent = "Europe") # e.g. "Belgium = BE"
-```
-
-### countryCode
-
-```{r}
-#occurrence %<>% mutate(countryCode = "BE") # e.g. "Belgium = BE"
-```
-
-
-### StateProvince
-
-```{r}
-occurrence %<>% mutate(stateProvince = `Provincie Omschrijving`) # e.g. "Belgium = BE"
-```
-
-
-### municipality
-
-municipality already in source file
-
-```{r}
-occurrence %<>%
-  mutate(municipality = `Gemeente Naam`)
-```
-
-### verbatimcoordinates
-
-### verbatimLatitude
-
-### verbatimLongitude
-
-### verbatimcoordinatesystem
-
-```{r}
-#occurrence %<>% mutate(verbatimcoordinatesystem = "Lambert coordinates") # 
-```
-
-### verbatimSRS
-
-```{r}
-#occurrence %<>% mutate(verbatimSRS = "Belgian Datum 1972")
-```
-
-### decimalLatitude
-
-### decimalLongitude
-
-### geodeticDatum
-
-```{r}
-occurrence %<>%
-  mutate(geodeticDatum = "WGS84") 
-```
-
-
-### locationRemarks
-
-```{r}
-occurrence %<>% mutate(locationRemarks = recode(locationRemarks
-                   , "CAT2 - Onbevaarbaar cat. 2"  = "CAT2 - not navigable cat. 2"
-                   , "CAT1 - Onbevaarbaar cat. 1" = "CAT1 - not navigable cat. 1"
-                   , "CAT3 - Onbevaarbaar cat. 3" = "CAT3 - not navigable cat. 3"
-                   , "CAT - Andere" = "CAT - other"
-                   , "ONB - Onbekend" = "ONB - unknown"
-                   , "BEV - Bevaarbaar" = "BEV - navigable"
-                                                  ))
-```
-
-
-### coordinateUncertaintyInMeters
-
-### georeferenceRemarks
-
-### identifiedBy
-
-```{r}
-occurrence %<>% mutate(identifiedBy = 'VMM')
-```
-
-### scientificName 
-
-```{r}
-
-occurrence %<>% mutate(scientificName = recode(scientificName
-           , "Zapornia pusilla intermedia (Hermann, 1804)" = "Gallinula chloropus (Linnaeus, 1758)"
-                                                            ))
-
-```
-
-### kingdom
-
-```{r}
-occurrence %<>% mutate(kingdom = "Animalia")
-```
-
-### scientificNameAuthorship
-
-```{r}
-# occurrence %<>% mutate(scientificNameAuthorship = "Linnaeus, 1766")
-```
-
-### vernacularName
-
-```{r}
-occurrence %<>% mutate(vernacularName = recode(vernacularName
-                       , "Tachybaptus ruficollis" = "Doodaars"
-                                                            ))
-```
-
-
-
-
-### taxonRank
-
-```{r}
-occurrence %<>% mutate(taxonRank = "species")
-```
-
-### nomenclaturalCode
-
-```{r}
-occurrence %<>% mutate(nomenclaturalCode = "ICZN") # e.g. "ICZN"
+occurrence %<>% rename(dwc_individualCount = vangst_aantal) 
 ```
 
 ### occurrenceStatus
 
 ```{r}
-occurrence %<>% 
-    ##select(individualCount) %>%
-    mutate(occurrenceStatus = case_when(individualCount > 0 ~ "present",
-                              individualCount == 0 ~ "absent"
-                                 )
-                                )
-head(occurrence, n = 5)
+occurrence %<>% mutate(dwc_occurrenceStatus = case_when(
+  dwc_individualCount > 0 ~ "present",
+  dwc_individualCount == 0 ~ "absent"
+))
+```
+
+### eventID
+
+```{r}
+occurrence %<>% mutate(dwc_eventID = str_c("MICA:VMM:EV:", registratie_id))
+```
+
+### eventDate
+
+```{r}
+occurrence %<>% mutate(dwc_eventDate = as.character(dag))
+```
+
+### samplingProtocol
+
+```{r}
+occurrence %<>% mutate(dwc_samplingProtocol = "rat trap") 
+```
+
+### locationID
+
+```{r}
+occurrence %<>% mutate(dwc_locationID = locatie_id)
+```
+
+### continent
+
+```{r}
+occurrence %<>% mutate(dwc_continent = "Europe")
+```
+
+### countryCode
+
+```{r}
+occurrence %<>% mutate(dwc_countryCode = "BE")
+```
+
+### stateProvince
+
+```{r}
+occurrence %<>% mutate(dwc_stateProvince = recode(provincie_omschrijving,
+  "Antwerpen" = "Antwerp",
+  "Limburg" = "Limburg",
+  "Oost-Vlaanderen" = "East Flanders",
+  "Vlaams-Brabant" = "Flemish Brabant",
+  "West-Vlaanderen" = "West Flanders",
+  "Onbekend" = NA_character_
+))
+```
+
+### municipality
+
+```{r}
+occurrence %<>% mutate(dwc_municipality = recode(gemeente_naam,
+  "Onbekend" = NA_character_
+))
+```
+
+### locationRemarks
+
+```{r}
+occurrence %<>% mutate(dwc_locationRemarks = recode(vha_categorie_omschrijving, 
+  "CAT2 - Onbevaarbaar cat. 2" = "CAT2 - not navigable cat. 2",
+  "CAT1 - Onbevaarbaar cat. 1" = "CAT1 - not navigable cat. 1",
+  "CAT3 - Onbevaarbaar cat. 3" = "CAT3 - not navigable cat. 3",
+  "CAT - Andere" = "CAT - other",
+  "ONB - Onbekend" = "ONB - unknown",
+  "BEV - Bevaarbaar" = "BEV - navigable"
+))
+```
+
+### decimalLatitude
+
+```{r}
+occurrence %<>% mutate(dwc_decimalLatitude = sprintf(
+  "%.5f",
+  round(locatie_gps_breedte, digits = 5)
+))
+```
+
+### decimalLongitude
+
+```{r}
+occurrence %<>% mutate(dwc_decimalLongitude = sprintf(
+  "%.5f",
+  round(locatie_gps_lengte, digits = 5)
+))
+```
+
+### geodeticDatum
+
+```{r}
+occurrence %<>% mutate(dwc_geodeticDatum = "WGS84") 
+```
+
+### coordinateUncertaintyInMeters
+
+```{r}
+occurrence %<>% mutate(dwc_coordinateUncertaintyInMeters = "30")
+```
+
+### scientificName
+
+```{r}
+occurrence %<>% mutate(dwc_scientificName = scientificName)
+```
+
+### kingdom
+
+```{r}
+occurrence %<>% mutate(dwc_kingdom = "Animalia")
+```
+
+### vernacularName
+
+```{r}
+occurrence %<>% mutate(dwc_vernacularName = vernacularName)
+```
+
+### taxonRank
+
+```{r}
+occurrence %<>% mutate(dwc_taxonRank = "species")
+```
+
+### nomenclaturalCode
+
+```{r}
+occurrence %<>% mutate(dwc_nomenclaturalCode = "ICZN")
 ```
 
 ## Post-processing
 
 ```{r}
+occurrence %<>% select(starts_with("dwc_"))
 colnames(occurrence) <- str_remove(colnames(occurrence), "dwc_")
-occurrence %<>% select(-c(Jaar, Maand, Land_Regio, `Gemeente Naam`, `Locatie ID`, `Team Rol`, `Team Naam`,`Sporen Waarnemingen Naam`,`VHA Categorie Code`, `VHA Categorie Omschrijving`, `Provincie Omschrijving`))  #remove collection columns
-          ##  rename(scientificName = verbatimScientificName) 
-
-
-
-```
-
-```{r}
-occurrence <- mutate_all(occurrence, as.character())
-```
-
-Define the order of the output columns
-
-```{r}
-col_order <- c( "type","language","license","rightsHolder","accessRights","datasetID"
-               ,"institutionCode","datasetName","basisOfRecord","occurrenceID","recordedBy"
-               ,"individualCount","occurrenceStatus","samplingProtocol"
-               ,"eventDate","locationID","continent","countryCode", "stateProvince","municipality","geodeticDatum", "locationRemarks"
-               ,"decimalLatitude","decimalLongitude","geodeticDatum","coordinateUncertaintyInMeters"
-               ,"identifiedBy","scientificName" ,"kingdom" ,"taxonRank","vernacularName", "nomenclaturalCode"
-               )
-occurrence <- occurrence[, col_order]
 ```
 
 Preview data:
@@ -543,10 +360,5 @@ occurrence %>% head()
 Save to CSV:
 
 ```{r}
-write_csv(occurrence, here::here("datasets", "mica-vmm-occurrences", "data", "processed", " occurrence.csv"), na = "")
+write_csv(occurrence, here::here("datasets", "mica-vmm-occurrences", "data", "processed", "occurrence.csv"), na = "")
 ```
-
-```{r}
-
-```
-
