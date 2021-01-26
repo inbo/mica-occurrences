@@ -37,7 +37,7 @@ basisOfRecord:
 # dataGeneralizations: Not in this dataset
 
 occurrenceID:
-  empty: false
+  regex: 'MICA:VMM:OCC:\d+'
 
 recordedBy:
   empty: false
@@ -45,25 +45,26 @@ recordedBy:
 individualCount:
   empty: false
   numberformat: x
+  min: 1
+  max: 25
 
 occurrenceStatus:
   empty: true
-  allowed:
-    - absent
-    - present
-  if:
-    - individualCount:
-        allowed: '0'
-      allowed: absent
+  allowed: present
+
+eventID:
+  regex: 'MICA:VMM:EV:\d+'
+
+samplingProtocol:
+  allowed: rat trap
 
 eventDate:
-  dateformat:
-    - '%Y-%m-%d'
-  mindate: 2018-01
-  maxdate: 2020-12
+  dateformat: '%Y-%m-%d'
+  mindate: 2018-01-01
+  maxdate: 2020-12-24
 
 locationID:
-  regex: '\d{2}-\d{2}'
+  numberformat: x
 
 continent:
   allowed: Europe
@@ -71,6 +72,26 @@ continent:
 countryCode:
   allowed: BE
 
+stateProvince:
+  empty: true
+  allowed:
+    - Antwerp
+    - East Flanders
+    - Flemish Brabant
+    - Limburg
+    - West Flanders
+
+municipality:
+  empty: true
+
+locationRemarks:
+  allowed:
+    - BEV - navigable
+    - CAT - other
+    - CAT1 - not navigable cat. 1
+    - CAT2 - not navigable cat. 2
+    - CAT3 - not navigable cat. 3
+    - ONB - unknown
 
 decimalLatitude:
   numberformat: '.5'
@@ -88,19 +109,21 @@ geodeticDatum:
 coordinateUncertaintyInMeters:
   allowed: '30'
 
-identifiedBy:
-  empty: false
-
 scientificName:
   empty: false
 
 kingdom:
   allowed: Animalia
 
- 
-
 taxonRank:
-  allowed: species
+  allowed: [species, subspecies]
+  if:
+    - scientificName:
+        allowed: 'Zapornia pusilla intermedia (Hermann, 1804)'
+      allowed: subspecies
+
+vernacularName:
+  empty: false
 
 nomenclaturalCode:
   allowed: ICZN
