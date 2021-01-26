@@ -292,12 +292,18 @@ occurrence %<>% mutate(dwc_basisOfRecord = "HumanObservation")
 
 ### dataGeneralizations
 
+### eventID
+
+```{r}
+occurrence %<>% rename(dwc_eventID = registratie_id) %<>%
+                mutate(dwc_eventID = str_c("MICA:VMM:EV:", dwc_eventID))
+  
+```
 ### occurrenceID
 
 ```{r}
-occurrence %<>% rename(dwc_occurrenceID = registratie_id) %>%
-                mutate(dwc_occurrenceID = str_c("MICA:VMM:", dwc_occurrenceID))
-  
+occurrence %<>% rowid_to_column(var = "occurrenceID") %<>%
+                mutate(dwc_occurrenceID = str_c("MICA:VMM:OCC:" , occurrenceID))
 ```
 
 ### recordedBy
