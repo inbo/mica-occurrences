@@ -235,7 +235,12 @@ occurrence %<>% mutate(dwc_locality = locality)
 ### decimalLatitude
 
 ```{r}
-occurrence %<>% mutate(dwc_decimalLatitude = decimalLatitude)
+#occurrence %<>% mutate(dwc_decimalLatitude = decimalLatitude)
+
+occurrence %<>% mutate(dwc_decimalLatitude = sprintf(
+  "%.4f",
+  round(decimalLatitude, digits = 4)
+))
 ```
 
 
@@ -243,7 +248,12 @@ occurrence %<>% mutate(dwc_decimalLatitude = decimalLatitude)
 
 
 ```{r}
-occurrence %<>% mutate(dwc_decimalLongitude = decimalLongitude)
+#occurrence %<>% mutate(dwc_decimalLongitude = decimalLongitude)
+
+occurrence %<>% mutate(dwc_decimalLongitude = sprintf(
+  "%.4f",
+  round(decimalLongitude, digits = 4)
+))
 ```
 
 
