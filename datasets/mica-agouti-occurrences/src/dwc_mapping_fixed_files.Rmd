@@ -85,227 +85,223 @@ Start with record-level terms which contain metadata about the dataset (which is
 here already in the source data
 
 ```{r}
-#occurrence %<>% mutate(type = "Event")
+occurrence %<>% mutate(dwc_type = type)
 ```
 
 ### language
 
 ```{r}
-occurrence %<>% mutate(language = "en") # e.g. "en"
+occurrence %<>% mutate(dwc_language = "en") # e.g. "en"
 ```
 
 ### license
 
 ```{r}
-occurrence %<>% mutate(license = "http://creativecommons.org/publicdomain/zero/1.0/") 
+occurrence %<>% mutate(dwc_license = "http://creativecommons.org/publicdomain/zero/1.0/") 
 
 ```
 
 ### rightsHolder
 
 ```{r}
-occurrence %<>% mutate(rightsHolder = "INBO") # e.g. "INBO"
+occurrence %<>% mutate(dwc_rightsHolder = "INBO") # e.g. "INBO"
 ```
 ### accessRights
 
 ```{r}
-occurrence %<>% mutate(accessRights = "http://www.inbo.be/en/norms-for-data-use") 
+occurrence %<>% mutate(dwc_accessRights = "http://www.inbo.be/en/norms-for-data-use") 
 ```
 
-### collectionID
-
-```{r}
-###occurrence %<>% mutate(collectionID = "insertCollectionID") 
-```
 
 ### datasetID
 
 ```{r}
-occurrence %<>% mutate(datasetID = "insert doi") 
+occurrence %<>% mutate(dwc_datasetID = "insert doi") 
 ```
 
 ### institutionCode
 
 ```{r}
-occurrence %<>% mutate(institutionCode = "INBO") # e.g. "INBO"
+occurrence %<>% mutate(dwc_institutionCode = "INBO") # e.g. "INBO"
 ```
 
-### collectionCode
-not applicable for non collection datasets
-
-```{r}
-# occurrence %<>% mutate(collectionCode = "insertCollectionCode") 
-```
 
 
 ### datasetName
 
 ```{r}
-occurrence %<>% mutate(datasetName = "Mica -  Agouti Muskrat and Coypu Camera trap Occurrences collected in Flanders (Belgium), the Netherlands and Germany") 
+occurrence %<>% mutate(dwc_datasetName = "Mica -  Agouti Muskrat and Coypu Camera trap Occurrences collected in Flanders (Belgium), the Netherlands and Germany") 
 ```
+# occurrence
 
 ### basisOfRecord
 
 not always fixed term
 
 ```{r}
-# occurrence %<>% mutate(basisOfRecord = "insert basisOfREcord")
+occurrence %<>% mutate(dwc_basisOfRecord = basisOfRecord)
 ```
-
-### informationWithHeld
-
-not always fixed term
+### occurrenceID
 
 ```{r}
-# occurrence %<>% mutate(basisOfRecord = "insert informationwithheld")
+occurrence %<>% mutate(dwc_occurrenceID = occurrenceID)
 ```
-
-
-### dataGeneralizations
-
-notalways fixed term
-
-```{r}
-# occurrence %<>% mutate(basisOfRecord = "insert data generalizations")
-```
-# Occurrence
 
 ### recordedBy
 
 not always fixed term
 
 ```{r}
-occurrence %<>% mutate(recordedBy = 'Agouti')
+occurrence %<>% mutate(dwc_recordedBy = 'Agouti')
 ```
-
-### organismQuantityType
-
-not always fixed term
+### individualCount
 
 ```{r}
-occurrence %<>% mutate(organismQuantityType = 'Agouti')
+occurrence %<>% mutate(dwc_individualCount = individualCount)
+```
+
+### sex
+
+```{r}
+occurrence %<>% mutate(dwc_sex = sex)
+```
+
+
+### lifestage
+
+```{r}
+occurrence %<>% mutate(dwc_lifeStage = lifeStage)
+```
+
+
+### behavior
+
+```{r}
+#occurrence %<>% mutate(dwc_behavior = behavior)
+```
+
+### occurrenceStatus
+
+```{r}
+occurrence %<>% mutate(dwc_occurrenceStatus = occurrenceStatus)
 ```
 
 # Event
 
-### habitat
-
-not always fixed term
+### eventID
 
 ```{r}
-#occurrence %<>% mutate(habitat = 'insert habitat')
+occurrence %<>% mutate(dwc_eventID = eventID)
 ```
+
+### eventDate
+
+```{r}
+occurrence %<>% mutate(dwc_eventDate = eventDate)
+```
+
 
 ## samplingProtocol
 
 not always fixed term
 
 ```{r}
-#occurrence %<>% rename(samplingProtocol = 'insert samplingProtocol') %>%
-
-```
-
-
-### samplesizeUnit
-
-not always fixed term
-
-```{r}
-#occurrence %<>% rename(samplingEffort = 'insert sampleSizeUnit')
-
-```
-
-### samplingEffort
-
-not always fixed term
-
-```{r}
-#occurrence %<>% rename(samplingEffort = 'insert samplingEffort')
+occurrence %<>% mutate(dwc_samplingProtocol = samplingProtocol) 
 
 ```
 
 
 # Location
 
-### continent
-
-not always fixed term
+### locationID
 
 ```{r}
-occurrence %<>% mutate(continent = "Europe") 
+occurrence %<>% mutate(dwc_locationID = locationID)
 ```
 
-### country
 
-not used
+### continent
 
-### countryCode
 
 ```{r}
-occurrence %<>% mutate(countryCode = "BE") # e.g. "Belgium = BE"
+occurrence %<>% mutate(dwc_continent = "Europe") 
+```
+### locality
+
+```{r}
+occurrence %<>% mutate(dwc_locality = locality)
+```
+
+### decimalLatitude
+
+```{r}
+occurrence %<>% mutate(dwc_decimalLatitude = decimalLatitude)
+```
+
+
+###decimalLongitude
+
+
+```{r}
+occurrence %<>% mutate(dwc_decimalLongitude = decimalLongitude)
 ```
 
 
 ### geodeticDatum
 
 ```{r}
-#occurrence %<>% mutate(geodeticDatum = "WGS84") # e.g. "Belgium = BE"
+occurrence %<>% mutate(dwc_geodeticDatum = geodeticDatum) # e.g. "Belgium = BE"
 ```
 
 
 ### coordinateUncertaintyInMeters
 
-not always a fixed term
+
 
 ```{r}
-occurrence %<>% mutate(coordinateUncertaintyInMeters = "insertCoordinateUncertaintyInMeters") 
+occurrence %<>% mutate(dwc_coordinateUncertaintyInMeters = "200") 
 ```
 
-### coordinatePrecission
+# identification
 
-Not always fixed term
-Not used
-
-### verbatimCoordinateSystem
+### identifiedBy
 
 ```{r}
-#occurrence %<>% mutate(verbatimCoordinateSystem = "insertVerbatimCoordinateSystem") # e.g. "lambert coordinates"
-```
-
-### verbatimSRS
-
-```{r}
-#occurrence %<>% mutate(verbatimSRS = "insertVerbatimSRS") # e.g. "Belgium Datum 1972"
+occurrence %<>% mutate(dwc_identifiedBy = identifiedBy)
 ```
 
 
-### georeferenceRemarks
+### identificationRemarks
 
-not always fixed term
 
 ```{r}
-#occurrence %<>% mutate(georeferenceRemarks = "insert georeferenceRemarks") # e.g. "Belgium = BE"
+occurrence %<>% mutate(dwc_identificationRemarks = identificationRemarks)
 ```
+
 
 # Taxon
 
 The following terms contain information about the taxon:
 
 
+### scientificName
 
-### identifiedBy
-
-not always fixed term
 
 ```{r}
-#occurrence %<>% mutate(identifiedBy = 'insert identifiedBy ')  #e.g. "RATO"
+occurrence %<>% mutate(dwc_scientificName = scientificName)
 ```
 
 
 ### kingdom
 
 ```{r}
-occurrence %<>% mutate(kingdom = "Animalia")  #
+occurrence %<>% mutate(dwc_kingdom = kingdom)  #
+```
+### vernacularName
+
+
+```{r}
+occurrence %<>% mutate(dwc_vernacularName = vernacularName)
 ```
 
 
@@ -314,44 +310,29 @@ occurrence %<>% mutate(kingdom = "Animalia")  #
 not always fixed term
 
 ```{r}
-occurrence %<>% mutate(taxonRank = "species")
+occurrence %<>% mutate(dwc_taxonRank = "species")
 ```
 
 ### nomenclaturalCode
 
-not alwasy fixed term
+
 
 ```{r}
-occurrence %<>% mutate(nomenclaturalCode = "ICZN") # e.g. "ICZN"
+occurrence %<>% mutate(dwc_nomenclaturalCode = "ICZN") # e.g. "ICZN"
 ```
 
 
 ## Post-processing
 
 ```{r}
+
+occurrence %<>% select(starts_with("dwc_"))
 colnames(occurrence) <- str_remove(colnames(occurrence), "dwc_")
-occurrence %<>% select(-c(eventRemarks)) 
-          # %<>% #remove collection columns
-          #  rename(scientificName = verbatimScientificName) 
-```
+``` 
+
 
 ```{r}
 occurrence <- mutate_all(occurrence, as.character())
-```
-
-Define the order of the output columns
-
-```{r}
-col_order <- c( "type","language", "license","rightsHolder","accessRights","datasetID"
-               ,"institutionCode", "datasetName","basisOfRecord","occurrenceID","recordedBy"
-               ,"individualCount", "sex" ,"lifeStage", "behavior","occurrenceStatus","occurrenceRemarks"
-               ,"eventID", "eventDate", "samplingProtocol"
-               ,"locationID", "locality" ,"continent","countryCode" ,"decimalLatitude","decimalLongitude","geodeticDatum", "coordinateUncertaintyInMeters"
-	             ,"identifiedBy" ,"dateIdentified", "identificationRemarks"
-	             ,"scientificName", "kingdom", "taxonRank", "vernacularName" ,"nomenclaturalCode"
-               )
-
-occurrence <- occurrence[, col_order]
 ```
 
 Preview data:
