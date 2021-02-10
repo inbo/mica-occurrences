@@ -39,7 +39,7 @@ input_data <- read_excel(here::here("datasets", "mica-vmm-occurrences", "data", 
 Preview data:
 
 ```{r}
-input_interim %>% head()
+input_data %>% head()
 ```
 
 # Preprocessing
