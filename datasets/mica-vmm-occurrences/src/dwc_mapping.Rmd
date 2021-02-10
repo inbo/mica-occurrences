@@ -202,7 +202,8 @@ occurrence %<>% mutate(dwc_recordedBy = str_c("VMM team ", team_naam))
 ### individualCount
 
 ```{r}
-occurrence %<>% rename(dwc_individualCount = vangst_aantal) 
+occurrence %<>% mutate(dwc_individualCount = vangst_aantal) 
+
 ```
 
 ### occurrenceStatus
@@ -349,6 +350,9 @@ occurrence %<>% mutate(dwc_nomenclaturalCode = "ICZN")
 ```{r}
 occurrence %<>% select(starts_with("dwc_"))
 colnames(occurrence) <- str_remove(colnames(occurrence), "dwc_")
+```
+```{r}
+occurrence <- mutate_all(occurrence, as.character())
 ```
 
 Preview data:
