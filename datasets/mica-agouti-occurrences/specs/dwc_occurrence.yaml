@@ -130,7 +130,7 @@ kingdom:
   allowed: Animalia
 
 vernacularName:
-    empty: false
+    empty: true
 
 
 taxonRank:
