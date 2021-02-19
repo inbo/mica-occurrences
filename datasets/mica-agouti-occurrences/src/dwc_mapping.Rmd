@@ -1,12 +1,10 @@
 ---
-title: "dwc_mapping_fixed_terms"
-subtitle: "Mica -  Agouti Muskrat and Coypu Camera trap Occurrences collected in Flanders, the Netherlands and Germany"
-author: "Dimitri Brosens"
-date: "12-1-2021"
+title: "Darwin Core Mapping"
+subtitle: "MICA - Muskrat and Coypu camera trap occurrences collected in Belgium, the Netherlands and Germany"
+author: "Dimitri Brosens, Peter Desmet"
+date: "`r Sys.Date()`"
 output: html_document  
 ---
-
-# Setup 
 
 ```{r setup, include = FALSE}
 knitr::opts_chunk$set(echo = TRUE, warning = FALSE, message = TRUE)
@@ -21,68 +19,32 @@ library(magrittr)       # To use %<>% pipes
 library(here)           # To find files
 library(janitor)        # To clean input data
 library(readxl)         # To read Excel files
-library(digest)         # To generate hashes
 library(rgbif)          # To use GBIF services
-library(sp)             # coordinate transformation
-library(leaflet)        # coordinate transformation
-library(widgetframe)    # coordinate transformation
-library(sf)             # coordinate transformation
-library(lubridate)      # for the date
+library(uuid)           # To generate UUID's
 ```
 
-# Read source interim data
+# Read source data
 
-This script ass a number of (often used) fixed terms to an already existing .csv file.For this script is, the original file is dwc_occurrence and dwc_multimedia from 'Agouti Muskrat occurrences'.
-As the data is not RAW it we will start with the interim data. For reading the file we use the most appropriate function
-
-### input_interim <- read.csv2(here::here("datasets", "mica-rato-occurrences", "data", "raw", "RATOgegevensbackoffice2020V2.txt" ), sep = ";")
-
-# For excel files
-
-### input_interim <- read_excel(here::here("datasets", "mica-rato-occurrences", #"data", "raw", "datasetNAme.xlsx"))
-
-# For delimited files, who needs more specification
-
-###input_interim <- read_delim(file = here::here("datasets", "mica-agouti-occurrences", "data", "interim", "dwc_occurrence.csv"), ",", escape_double = FALSE, trim_ws = TRUE )
-
+Data are exported from Agouti in the [Camtrap DP](https://gitlab.com/oscf/camtrap-dp) format. The main transformation to Darwin Core is done using the generic camtrap-dp to dwc guidelines in [dwc-for-biologging](https://github.com/tdwg/dwc-for-biologging/tree/master/derived/camtrap-dp). **We thus start from Darwin Core formatted files** (in `data/interim`), that we enhance mostly with static terms that are not yet included.
 
 ```{r}
-#for csv files
-input_interim <- read_csv(here::here("datasets", "mica-agouti-occurrences", "data", "interim", "dwc_occurence.csv" ))
-
-
-
+occurrence <- read_csv(here::here("datasets", "mica-agouti-occurrences", "data", "interim", "dwc_occurrence.csv"))
+multimedia <- read_csv(here::here("datasets", "mica-agouti-occurrences", "data", "interim", "dwc_multimedia.csv"))
 ```
 
 Preview data:
 
 ```{r}
-input_interim %>% head(n = 5)
+input_occurrence %>% head()
 ```
 
+# Darwin Core mapping
 
-# Occurrence core / event core
+## Occurrence core
 
-## Pre-processing
-
-Create a dataframe occurrence data only 
-
-```{r}
-occurrence <- input_interim  #for occurrence core datasest
-# event <- input_interim       #for event      core datasets
-```
-
-
-# Fixed Term mapping
-
-Map the data to [Darwin Core Occurrence](http://rs.gbif.org/core/dwc_occurrence_2015-07-02.xml). 
-
-Start with record-level terms which contain metadata about the dataset (which is generally the same for all records). For the term order check [tdwg](https://dwc.tdwg.org/terms/)
-
-# Record level
+Map the data to [Darwin Core Occurrence](http://rs.gbif.org/core/dwc_occurrence_2015-07-02.xml).
 
 ### type
-here already in the source data
 
 ```{r}
 occurrence %<>% mutate(dwc_type = type)
@@ -91,69 +53,57 @@ occurrence %<>% mutate(dwc_type = type)
 ### language
 
 ```{r}
-occurrence %<>% mutate(dwc_language = "en") # e.g. "en"
+occurrence %<>% mutate(dwc_language = "en") # NEW TERM
 ```
 
 ### license
 
 ```{r}
-occurrence %<>% mutate(dwc_license = "http://creativecommons.org/publicdomain/zero/1.0/") 
-
+occurrence %<>% mutate(dwc_license = "http://creativecommons.org/publicdomain/zero/1.0/") # NEW TERM
 ```
 
 ### rightsHolder
 
 ```{r}
-occurrence %<>% mutate(dwc_rightsHolder = "INBO") # e.g. "INBO"
+occurrence %<>% mutate(dwc_rightsHolder = "INBO") # NEW TERM
 ```
+
 ### accessRights
 
 ```{r}
-occurrence %<>% mutate(dwc_accessRights = "http://www.inbo.be/en/norms-for-data-use") 
+occurrence %<>% mutate(dwc_accessRights = "http://www.inbo.be/en/norms-for-data-use") # NEW TERM
 ```
-
 
 ### datasetID
 
 ```{r}
-occurrence %<>% mutate(dwc_datasetID = "insert doi") 
+occurrence %<>% mutate(dwc_datasetID = "insert doi") # NEW TERM
 ```
 
 ### institutionCode
 
 ```{r}
-occurrence %<>% mutate(dwc_institutionCode = "INBO") # e.g. "INBO"
+occurrence %<>% mutate(dwc_institutionCode = "INBO") # NEW TERM
 ```
-
-
 
 ### datasetName
 
 ```{r}
-occurrence %<>% mutate(dwc_datasetName = "Mica -  Agouti Muskrat and Coypu Camera trap Occurrences collected in Flanders (Belgium), the Netherlands and Germany") 
+occurrence %<>% mutate(dwc_datasetName = "MICA - Muskrat and Coypu camera trap occurrences collected in Belgium, the Netherlands and Germany") # NEW TERM
 ```
-# occurrence
 
 ### basisOfRecord
-
-not always fixed term
 
 ```{r}
 occurrence %<>% mutate(dwc_basisOfRecord = basisOfRecord)
 ```
+
 ### occurrenceID
 
 ```{r}
 occurrence %<>% mutate(dwc_occurrenceID = occurrenceID)
 ```
 
-### recordedBy
-
-not always fixed term
-
-```{r}
-occurrence %<>% mutate(dwc_recordedBy = 'Agouti')
-```
 ### individualCount
 
 ```{r}
@@ -166,18 +116,16 @@ occurrence %<>% mutate(dwc_individualCount = individualCount)
 occurrence %<>% mutate(dwc_sex = sex)
 ```
 
-
 ### lifestage
 
 ```{r}
 occurrence %<>% mutate(dwc_lifeStage = lifeStage)
 ```
 
-
 ### behavior
 
 ```{r}
-#occurrence %<>% mutate(dwc_behavior = behavior)
+# EXCLUDED: always empty
 ```
 
 ### occurrenceStatus
@@ -186,7 +134,11 @@ occurrence %<>% mutate(dwc_lifeStage = lifeStage)
 occurrence %<>% mutate(dwc_occurrenceStatus = occurrenceStatus)
 ```
 
-# Event
+### organismID
+
+```{r}
+# EXLUCED: always empty
+```
 
 ### eventID
 
@@ -200,18 +152,17 @@ occurrence %<>% mutate(dwc_eventID = eventID)
 occurrence %<>% mutate(dwc_eventDate = eventDate)
 ```
 
-
 ## samplingProtocol
 
-not always fixed term
-
 ```{r}
-occurrence %<>% mutate(dwc_samplingProtocol = samplingProtocol) 
-
+occurrence %<>% mutate(dwc_samplingProtocol = samplingProtocol)
 ```
 
+### eventRemarks
 
-# Location
+```{r}
+# EXLUCED: not relevant
+```
 
 ### locationID
 
@@ -219,13 +170,12 @@ occurrence %<>% mutate(dwc_samplingProtocol = samplingProtocol)
 occurrence %<>% mutate(dwc_locationID = locationID)
 ```
 
-
 ### continent
 
-
 ```{r}
-occurrence %<>% mutate(dwc_continent = "Europe") 
+occurrence %<>% mutate(dwc_continent = "Europe") # NEW TERM
 ```
+
 ### locality
 
 ```{r}
@@ -235,44 +185,34 @@ occurrence %<>% mutate(dwc_locality = locality)
 ### decimalLatitude
 
 ```{r}
-#occurrence %<>% mutate(dwc_decimalLatitude = decimalLatitude)
-
 occurrence %<>% mutate(dwc_decimalLatitude = sprintf(
-  "%.4f",
-  round(decimalLatitude, digits = 4)
+  "%.3f",
+  round(decimalLatitude, digits = 3)
 ))
 ```
 
-
-###decimalLongitude
-
+### decimalLongitude
 
 ```{r}
-#occurrence %<>% mutate(dwc_decimalLongitude = decimalLongitude)
-
 occurrence %<>% mutate(dwc_decimalLongitude = sprintf(
-  "%.4f",
-  round(decimalLongitude, digits = 4)
+  "%.3f",
+  round(decimalLongitude, digits = 3)
 ))
 ```
-
 
 ### geodeticDatum
 
 ```{r}
-occurrence %<>% mutate(dwc_geodeticDatum = geodeticDatum) # e.g. "Belgium = BE"
+occurrence %<>% mutate(dwc_geodeticDatum = geodeticDatum)
 ```
-
 
 ### coordinateUncertaintyInMeters
 
-
+Coordinates are rounded to 3 decimals = 111m maximum, see <https://github.com/inbo/mica-occurrences/issues/6>.
 
 ```{r}
-occurrence %<>% mutate(dwc_coordinateUncertaintyInMeters = "200") 
+occurrence %<>% mutate(dwc_coordinateUncertaintyInMeters = "111") # NEW TERM
 ```
-
-# identification
 
 ### identifiedBy
 
@@ -280,118 +220,125 @@ occurrence %<>% mutate(dwc_coordinateUncertaintyInMeters = "200")
 occurrence %<>% mutate(dwc_identifiedBy = identifiedBy)
 ```
 
+### dateIdentified
+
+```{r}
+occurrence %<>% mutate(dwc_dateIdentified = dateIdentified)
+```
 
 ### identificationRemarks
-
 
 ```{r}
 occurrence %<>% mutate(dwc_identificationRemarks = identificationRemarks)
 ```
 
+### identificationVerificationStatus
 
-# Taxon
-
-The following terms contain information about the taxon:
-
+```{r}
+occurrence %<>% mutate(dwc_identificationVerificationStatus = identificationVerificationStatus)
+```
 
 ### scientificName
-
 
 ```{r}
 occurrence %<>% mutate(dwc_scientificName = scientificName)
 ```
 
-
 ### kingdom
 
 ```{r}
-occurrence %<>% mutate(dwc_kingdom = kingdom)  #
+occurrence %<>% mutate(dwc_kingdom = kingdom)
 ```
-### vernacularName
 
+### vernacularName
 
 ```{r}
 occurrence %<>% mutate(dwc_vernacularName = vernacularName)
 ```
 
-
 ### taxonRank
 
-not always fixed term
-
 ```{r}
-occurrence %<>% mutate(dwc_taxonRank = "species")
+occurrence %<>% mutate(dwc_taxonRank = case_when(
+  str_count(scientificName, " ") == 2 ~ "subspecies",
+  str_count(scientificName, " ") == 1 ~ "species",
+  scientificName %in% c("Anas", "Anser") ~ "genus",
+  scientificName %in% c("Soricidae") ~ "family",
+  scientificName %in% c("Rodentia") ~ "order"
+)) # NEW TERM
 ```
 
 ### nomenclaturalCode
 
-
-
 ```{r}
-occurrence %<>% mutate(dwc_nomenclaturalCode = "ICZN") # e.g. "ICZN"
+occurrence %<>% mutate(dwc_nomenclaturalCode = "ICZN") # NEW TERM
 ```
 
+## Multimedia extension
 
-## Post-processing
+Map the data to [Simple Multimedia extension](https://rs.gbif.org/extension/gbif/1.0/multimedia.xml).
+
+### occurrenceID
 
 ```{r}
+multimedia %<>% mutate(dwc_occurrenceID = occurrenceID)
+```
 
+### type
+
+```{r}
+multimedia %<>% mutate(dwc_type = type)
+```
+
+### format
+
+```{r}
+multimedia %<>% mutate(dwc_format = format)
+```
+
+### identifier
+
+```{r}
+multimedia %<>% mutate(dwc_identifier = identifier)
+```
+
+### created
+
+```{r}
+multimedia %<>% mutate(dwc_created = created)
+```
+
+### license
+
+```{r}
+multimedia %<>% mutate(dwc_license = "https://creativecommons.org/licenses/by/4.0/") # NEW TERM
+```
+
+### rightsHolder
+
+```{r}
+multimedia %<>% mutate(dwc_rightsHolder = "INBO") # NEW TERM
+```
+
+# Post-processing
+
+Only keep the Darwin Core columns:
+
+```{r}
 occurrence %<>% select(starts_with("dwc_"))
-colnames(occurrence) <- str_remove(colnames(occurrence), "dwc_")
-``` 
-
-
-```{r}
-occurrence <- mutate_all(occurrence, as.character())
+multimedia %<>% select(starts_with("dwc_"))
 ```
 
-Preview data:
+Drop the `dwc_` prefix:
 
 ```{r}
-occurrence %>% head()
+colnames(occurrence) <- str_remove(colnames(occurrence), "dwc_")
+colnames(multimedia) <- str_remove(colnames(multimedia), "dwc_")
 ```
 
 Save to CSV:
 
 ```{r}
-write_csv(occurrence, here::here("datasets", "mica-agouti-occurrences", "data", "processed", " occurrence.csv"), na = "")
+write_csv(occurrence, here::here("datasets", "mica-agouti-occurrences", "data", "processed", "occurrence.csv"), na = "")
+write_csv(multimedia, here::here("datasets", "mica-agouti-occurrences", "data", "processed", "multimedia.csv"), na = "")
 ```
-
-# data quality tests
-
-Use the [GBIF nameparser](https://www.gbif.org/tools/name-parser) to retrieve nomenclatural information for the scientific names in the dataset:
-
-```{r}
-parsed_names <- occurrence %>%
-  distinct(scientificName) %>%
-  pull() %>% # Create vector from dataframe
-  parsenames() # An rgbif function
-```
-
-Preview data:
-
-```{r}
-parsed_names %>% head(n = 62)
-```
-
-Show scientific names with nomenclatural issues, i.e. not of `type = SCIENTIFIC` or that could not be fully parsed. Note: these are not necessarily incorrect.
-
-```{r}
-parsed_names %>%
-  select(scientificname, type, parsed, parsedpartially, rankmarker) %>%
-  filter(!(type == "SCIENTIFIC" & parsed == "TRUE" & parsedpartially == "FALSE"))
-```
-
-```{r}
-parsed_names <- input_interim %>%
-  distinct(scientificName)  %>%
-  pull() %>% # Create vector from dataframe
-  parsenames() # An rgbif function
-head(parsed_names, n = 30)
-write.csv(parsed_names, "../data/processed/speciesList.csv", append = FALSE, na = "",  row.names = FALSE, fileEncoding = "UTF-8")
-```
-
-```{r}
-#end
-```
-
