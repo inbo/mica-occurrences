@@ -48,7 +48,7 @@ sex:
     - female
     - undefined
 
-lifestage:
+lifeStage:
   empty: true
   allowed:
     - adult
@@ -62,7 +62,6 @@ occurrenceStatus:
 
 eventID:
   empty: false
-  allowed: present
 
 eventDate:
   dateformat:
@@ -90,7 +89,7 @@ decimalLatitude:
   max: 52.61
 
 decimalLongitude:
-  numberformat: '.5'
+  numberformat: '.3'
   min: 2.53 # W Flanders
   max: 7.05
 
@@ -104,7 +103,7 @@ identifiedBy:
   empty: false
 
 dateIdentified:
-  dateformat: '%Y-%m-%dT%H-%M-%sZ'
+  dateformat: '%Y-%m-%dT%H:%M:%S%z'
 
 identificationRemarks:
   empty: true
