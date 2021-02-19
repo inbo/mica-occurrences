@@ -28,6 +28,7 @@ library(here)           # To find files
 library(janitor)        # To clean input data
 library(readxl)         # To read Excel files
 library(rgbif)          # To use GBIF services
+library(uuid)           # To generate UUID's
 ```
 
 # Read source data
@@ -39,7 +40,7 @@ input_data <- read_excel(here::here("datasets", "mica-vmm-occurrences", "data", 
 Preview data:
 
 ```{r}
-input_interim %>% head()
+input_data %>% head()
 ```
 
 # Preprocessing
@@ -193,6 +194,7 @@ occurrence <-
   mutate(dwc_occurrenceID = str_c("MICA:VMM:OCC:", row_id))
 ```
 
+
 ### recordedBy
 
 ```{r}
@@ -202,7 +204,8 @@ occurrence %<>% mutate(dwc_recordedBy = str_c("VMM team ", team_naam))
 ### individualCount
 
 ```{r}
-occurrence %<>% rename(dwc_individualCount = vangst_aantal) 
+occurrence %<>% mutate(dwc_individualCount = vangst_aantal) 
+
 ```
 
 ### occurrenceStatus
@@ -350,6 +353,15 @@ occurrence %<>% mutate(dwc_nomenclaturalCode = "ICZN")
 occurrence %<>% select(starts_with("dwc_"))
 colnames(occurrence) <- str_remove(colnames(occurrence), "dwc_")
 ```
+```{r}
+occurrence <- mutate_all(occurrence, as.character())
+```
+```{r}
+# Remove duplicated rows based on Sepal.Length
+occurrence %<>% distinct(eventID, .keep_all = TRUE)
+```
+
+
 
 Preview data:
 
@@ -362,3 +374,14 @@ Save to CSV:
 ```{r}
 write_csv(occurrence, here::here("datasets", "mica-vmm-occurrences", "data", "processed", "occurrence.csv"), na = "")
 ```
+
+# Checks
+
+```{r}
+test <- length(unique(occurrence$eventID))
+test2 <- length(unique(occurrence$occurrenceID))
+
+n_occur <- data.frame(table(occurrence$eventID))
+
+```
+

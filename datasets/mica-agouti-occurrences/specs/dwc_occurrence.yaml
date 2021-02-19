@@ -1,0 +1,140 @@
+# Dataset: https://ipt.inbo.be/resource?r=mica-agouti-occurrences
+# DOI: https://doi.org/10.15468/5fps96
+# 
+# Scope: dwc-occurrence
+# Author: Dimitri Brosens, Peter Desmet
+# Syntax version: 0.1
+
+# id:
+#   regex: 'MICA:RATO:[A-Z0-9]+'
+
+type:
+  allowed: Event
+      
+language:
+  allowed: en
+
+license:
+  allowed: http://creativecommons.org/publicdomain/zero/1.0/
+
+rightsHolder:
+  allowed: INBO
+
+accessRights:
+  allowed: http://www.inbo.be/en/norms-for-data-use
+
+datasetID:
+  allowed: ''
+
+institutionCode:
+  allowed: INBO
+
+datasetName:
+  allowed: Mica -  Agouti Muskrat and Coypu Camera trap Occurrences collected in Flanders (Belgium), the Netherlands and Germany
+
+basisOfRecord:
+  allowed: MachineObservation
+    
+# informationwithheld: Not in this dataset
+
+# dataGeneralizations: Not in this dataset
+
+occurrenceID:
+  empty: false
+
+recordedBy:
+  allowed: Agouti
+
+individualCount:
+  empty: false
+  numberformat: x
+  min: 1
+  
+sex:
+  empty: true
+  allowed:
+    - male
+    - female
+    - undefined
+
+lifestage:
+    empty: true
+    allowed:
+      - male
+      - female
+
+
+occurrenceStatus:
+  empty: true
+  allowed: present
+    
+
+ eventID:
+    empty: false
+    allowed: present
+
+eventDate:
+  dateformat:
+    - '%Y-%m-%d'
+    - '%Y-%m'
+    - '%Y'    
+  mindate: 2019-09-19
+  maxdate: 2020-10-25
+
+samplingProtocol:
+  empty: false
+  allowed: camera trap (motion detection) without bait
+
+locationID:
+    empty: false
+
+
+continent:
+  allowed: Europe
+
+countryCode:
+  allowed: 
+    - BE
+    - NL
+    - DE
+
+locality:
+    empty: false
+
+decimalLatitude:
+  numberformat: '.5'
+  min: 47.31 # SE Belgium
+  max: 54.98 # NW Belgium
+
+decimalLongitude:
+  numberformat: '.5'
+  min: 2.51 # NW Belgium
+  max: 15.01 # SE Belgium
+
+geodeticDatum:
+  allowed: WGS84
+
+coordinateUncertaintyInMeters:
+  allowed: '200'
+  
+identifiedBy:
+   empty: false
+
+identificationRemarks:
+    empty: fasle
+
+scientificName:
+   empty: false
+
+kingdom:
+  allowed: Animalia
+
+vernacularName:
+    empty: true
+
+
+taxonRank:
+  allowed: species
+
+nomenclaturalCode:
+  allowed: ICZN
