@@ -103,6 +103,8 @@ coordinateUncertaintyInMeters:
 identifiedBy:
   empty: false
 
+dateIdentified:
+  dateformat: '%Y-%m-%dT%H-%M-%sZ'
 
 identificationRemarks:
     empty: fasle
