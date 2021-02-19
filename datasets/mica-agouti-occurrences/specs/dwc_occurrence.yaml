@@ -1,12 +1,6 @@
-# Dataset: https://ipt.inbo.be/resource?r=mica-agouti-occurrences
-# DOI: https://doi.org/10.15468/5fps96
-# 
 # Scope: dwc-occurrence
 # Author: Dimitri Brosens, Peter Desmet
 # Syntax version: 0.1
-
-# id:
-#   regex: 'MICA:RATO:[A-Z0-9]+'
 
 type:
   allowed: Event
@@ -30,7 +24,7 @@ institutionCode:
   allowed: INBO
 
 datasetName:
-  allowed: Mica -  Agouti Muskrat and Coypu Camera trap Occurrences collected in Flanders (Belgium), the Netherlands and Germany
+  allowed: MICA - Muskrat and Coypu camera trap occurrences collected in Belgium, the Netherlands and Germany
 
 basisOfRecord:
   allowed: MachineObservation
