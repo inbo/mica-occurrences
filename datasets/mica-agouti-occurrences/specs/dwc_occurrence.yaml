@@ -85,14 +85,14 @@ locality:
   empty: false
 
 decimalLatitude:
-  numberformat: '.5'
-  min: 47.31 # SE Belgium
-  max: 54.98 # NW Belgium
+  numberformat: '.3'
+  min: 50.67 # S Flanders
+  max: 52.61
 
 decimalLongitude:
   numberformat: '.5'
-  min: 2.51 # NW Belgium
-  max: 15.01 # SE Belgium
+  min: 2.53 # W Flanders
+  max: 7.05
 
 geodeticDatum:
   allowed: WGS84
