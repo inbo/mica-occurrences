@@ -49,20 +49,20 @@ sex:
     - undefined
 
 lifestage:
-    empty: true
-    allowed:
-      - male
-      - female
-
+  empty: true
+  allowed:
+    - adult
+    - subadult
+    - juvenile
+    - undefined
 
 occurrenceStatus:
   empty: true
   allowed: present
-    
 
- eventID:
-    empty: false
-    allowed: present
+eventID:
+  empty: false
+  allowed: present
 
 eventDate:
   dateformat:
