@@ -119,7 +119,12 @@ vernacularName:
   empty: true
 
 taxonRank:
-  allowed: species
+  allowed:
+    - order
+    - family
+    - genus
+    - species
+    - subspecies
 
 nomenclaturalCode:
   allowed: ICZN
