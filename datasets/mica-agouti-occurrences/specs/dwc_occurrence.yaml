@@ -36,9 +36,6 @@ basisOfRecord:
 occurrenceID:
   empty: false
 
-recordedBy:
-  allowed: Agouti
-
 individualCount:
   empty: false
   numberformat: x
