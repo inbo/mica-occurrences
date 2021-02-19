@@ -98,16 +98,17 @@ geodeticDatum:
   allowed: WGS84
 
 coordinateUncertaintyInMeters:
-  allowed: '200'
+  allowed: '111'
   
 identifiedBy:
-   empty: false
+  empty: false
+
 
 identificationRemarks:
     empty: fasle
 
 scientificName:
-   empty: false
+  empty: false
 
 kingdom:
   allowed: Animalia
