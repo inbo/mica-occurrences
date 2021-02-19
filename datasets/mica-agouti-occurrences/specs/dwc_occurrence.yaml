@@ -73,24 +73,16 @@ eventDate:
   maxdate: 2020-10-25
 
 samplingProtocol:
-  empty: false
-  allowed: camera trap (motion detection) without bait
+  allowed: camera trap (motion detection)
 
 locationID:
-    empty: false
-
+  empty: false
 
 continent:
   allowed: Europe
 
-countryCode:
-  allowed: 
-    - BE
-    - NL
-    - DE
-
 locality:
-    empty: false
+  empty: false
 
 decimalLatitude:
   numberformat: '.5'
