@@ -194,7 +194,6 @@ occurrence <-
   mutate(dwc_occurrenceID = str_c("MICA:VMM:OCC:", row_id))
 ```
 
-
 ### recordedBy
 
 ```{r}
@@ -353,15 +352,14 @@ occurrence %<>% mutate(dwc_nomenclaturalCode = "ICZN")
 occurrence %<>% select(starts_with("dwc_"))
 colnames(occurrence) <- str_remove(colnames(occurrence), "dwc_")
 ```
+
 ```{r}
 occurrence <- mutate_all(occurrence, as.character())
 ```
+
 ```{r}
-# Remove duplicated rows based on Sepal.Length
 occurrence %<>% distinct(eventID, .keep_all = TRUE)
 ```
-
-
 
 Preview data:
 

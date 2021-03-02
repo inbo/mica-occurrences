@@ -1,0 +1,24 @@
+# Scope: dwc-multimedia
+# Author: Dimitri Brosens, Peter Desmet
+# Syntax version: 0.1
+
+occurrenceID:
+  empty: false
+
+type:
+  allowed: StillImage
+      
+format:
+  allowed: image/jpeg
+
+identifier:
+  regex: 'https:\/\/www\.agouti\.eu\/api\/uploads\/deployment-images\/(\w|-)+\/(\w|-)+\/(\w|-)+\.JPG'
+
+created:
+  dateformat: '%Y-%m-%dT%H:%M:%S%z'
+
+license:
+  allowed: https://creativecommons.org/licenses/by/4.0/
+
+rightsHolder:
+  allowed: INBO

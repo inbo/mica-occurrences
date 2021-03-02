@@ -1,12 +1,6 @@
-# Dataset: https://ipt.inbo.be/resource?r=mica-agouti-occurrences
-# DOI: https://doi.org/10.15468/5fps96
-# 
 # Scope: dwc-occurrence
 # Author: Dimitri Brosens, Peter Desmet
 # Syntax version: 0.1
-
-# id:
-#   regex: 'MICA:RATO:[A-Z0-9]+'
 
 type:
   allowed: Event
@@ -30,7 +24,7 @@ institutionCode:
   allowed: INBO
 
 datasetName:
-  allowed: Mica -  Agouti Muskrat and Coypu Camera trap Occurrences collected in Flanders (Belgium), the Netherlands and Germany
+  allowed: MICA - Muskrat and Coypu camera trap occurrences collected in Belgium, the Netherlands and Germany
 
 basisOfRecord:
   allowed: MachineObservation
@@ -41,9 +35,6 @@ basisOfRecord:
 
 occurrenceID:
   empty: false
-
-recordedBy:
-  allowed: Agouti
 
 individualCount:
   empty: false
@@ -57,84 +48,85 @@ sex:
     - female
     - undefined
 
-lifestage:
-    empty: true
-    allowed:
-      - male
-      - female
-
+lifeStage:
+  empty: true
+  allowed:
+    - adult
+    - subadult
+    - juvenile
+    - undefined
 
 occurrenceStatus:
   empty: true
   allowed: present
-    
 
- eventID:
-    empty: false
-    allowed: present
+eventID:
+  empty: false
 
 eventDate:
-  dateformat:
-    - '%Y-%m-%d'
-    - '%Y-%m'
-    - '%Y'    
-  mindate: 2019-09-19
-  maxdate: 2020-10-25
+  empty: false
+  dateformat: '%Y-%m-%dT%H:%M:%S%z'
+  # mindate: 2019-09-19
+  # maxdate: 2021-01-03
 
 samplingProtocol:
-  empty: false
-  allowed: camera trap (motion detection) without bait
+  allowed: camera trap (motion detection)
 
 locationID:
-    empty: false
-
+  empty: false
 
 continent:
   allowed: Europe
 
-countryCode:
-  allowed: 
-    - BE
-    - NL
-    - DE
-
 locality:
-    empty: false
+  empty: false
 
 decimalLatitude:
-  numberformat: '.5'
-  min: 47.31 # SE Belgium
-  max: 54.98 # NW Belgium
+  numberformat: '.3'
+  min: 50.67 # S Flanders
+  max: 52.61
 
 decimalLongitude:
-  numberformat: '.5'
-  min: 2.51 # NW Belgium
-  max: 15.01 # SE Belgium
+  numberformat: '.3'
+  min: 2.53 # W Flanders
+  max: 7.05
 
 geodeticDatum:
   allowed: WGS84
 
 coordinateUncertaintyInMeters:
-  allowed: '200'
+  allowed: '111'
   
 identifiedBy:
-   empty: false
+  empty: false
+
+dateIdentified:
+  dateformat: '%Y-%m-%dT%H:%M:%S%z'
 
 identificationRemarks:
-    empty: fasle
+  empty: true
+
+identificationVerificationStatus:
+  empty: true
+  min: 0
+  max: 1
 
 scientificName:
-   empty: false
+  empty: false
 
 kingdom:
   allowed: Animalia
 
 vernacularName:
-    empty: true
-
+  empty: true
 
 taxonRank:
-  allowed: species
+  allowed:
+    - order
+    - family
+    - genus
+    - species
+    - subspecies
 
 nomenclaturalCode:
   allowed: ICZN
