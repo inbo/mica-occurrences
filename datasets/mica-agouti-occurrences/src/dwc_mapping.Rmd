@@ -35,7 +35,7 @@ multimedia <- read_csv(here::here("datasets", "mica-agouti-occurrences", "data",
 Preview data:
 
 ```{r}
-input_occurrence %>% head()
+occurrence %>% head()
 ```
 
 # Darwin Core mapping
