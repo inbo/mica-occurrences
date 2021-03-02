@@ -241,7 +241,9 @@ occurrence %<>% mutate(dwc_identificationVerificationStatus = identificationVeri
 ### scientificName
 
 ```{r}
-occurrence %<>% mutate(dwc_scientificName = scientificName)
+occurrence %<>% mutate(dwc_scientificName = recode(scientificName, 
+  "Canis lupus" = "Canis lupus familiaris" # No wolfs in dataset, are incorrectly marked dogs
+))
 ```
 
 ### kingdom
