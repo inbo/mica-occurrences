@@ -70,7 +70,9 @@ eventDate:
   # maxdate: 2021-01-03
 
 samplingProtocol:
-  allowed: camera trap (motion detection)
+  allowed:
+    - camera trap (motion detection)
+    - camera trap (time lapse)
 
 locationID:
   empty: false
