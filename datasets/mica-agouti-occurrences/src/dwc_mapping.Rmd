@@ -20,6 +20,22 @@ library(here)           # To find files
 library(janitor)        # To clean input data
 ```
 
+# Quick timezone conversion
+
+Most of the Darwin Core mapping is done by running queries in sqlite. But timezones get ignored when reading data into sqlite. R converts them nicely to UTC. So the following code reads, converts and writes the raw data files, which can then be uploaded in sqlite:
+
+```{r eval = FALSE}
+deployments <- read_csv(here::here("datasets", "mica-agouti-occurrences", "data", "raw", "deployments.csv"))
+multimedia <- read_csv(here::here("datasets", "mica-agouti-occurrences", "data", "raw", "multimedia.csv"))
+observations <- read_csv(here::here("datasets", "mica-agouti-occurrences", "data", "raw", "observations.csv"))
+```
+
+````{r eval = FALSE}
+write_csv(deployments, here::here("datasets", "mica-agouti-occurrences", "data", "raw", "deployments.csv"), na = "")
+write_csv(multimedia, here::here("datasets", "mica-agouti-occurrences", "data", "raw", "multimedia.csv"), na = "")
+write_csv(observations, here::here("datasets", "mica-agouti-occurrences", "data", "raw", "observations.csv"), na = "")
+```
+
 # Read source data
 
 Data are exported from Agouti in the [Camtrap DP](https://gitlab.com/oscf/camtrap-dp) format. The main transformation to Darwin Core is done using the generic camtrap-dp to dwc guidelines in [dwc-for-biologging](https://github.com/tdwg/dwc-for-biologging/tree/master/derived/camtrap-dp). **We thus start from Darwin Core formatted files** (in `data/interim`), that we enhance mostly with static terms that are not yet included.
