@@ -261,6 +261,7 @@ occurrence %<>% mutate(dwc_vernacularName = vernacularName)
 occurrence %<>% mutate(dwc_taxonRank = case_when(
   str_count(scientificName, " ") == 2 ~ "subspecies",
   str_count(scientificName, " ") == 1 ~ "species",
+  scientificName == "Canis lupus familiaris" ~ "subspecies", # Reassigned wolfs
   scientificName %in% c("Anas", "Anser") ~ "genus",
   scientificName %in% c("Soricidae") ~ "family",
   scientificName %in% c("Rodentia") ~ "order"
