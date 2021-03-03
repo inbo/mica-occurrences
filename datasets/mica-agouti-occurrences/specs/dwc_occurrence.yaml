@@ -24,7 +24,7 @@ institutionCode:
   allowed: INBO
 
 datasetName:
-  allowed: MICA - Muskrat and Coypu camera trap occurrences collected in Belgium, the Netherlands and Germany
+  allowed: MICA - Muskrat and Coypu camera trap observations in Belgium, the Netherlands and Germany
 
 basisOfRecord:
   allowed: MachineObservation
