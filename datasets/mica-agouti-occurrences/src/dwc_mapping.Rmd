@@ -30,7 +30,7 @@ multimedia <- read_csv(here::here("datasets", "mica-agouti-occurrences", "data",
 observations <- read_csv(here::here("datasets", "mica-agouti-occurrences", "data", "raw", "observations.csv"))
 ```
 
-````{r eval = FALSE}
+```{r eval = FALSE}
 write_csv(deployments, here::here("datasets", "mica-agouti-occurrences", "data", "raw", "deployments.csv"), na = "")
 write_csv(multimedia, here::here("datasets", "mica-agouti-occurrences", "data", "raw", "multimedia.csv"), na = "")
 write_csv(observations, here::here("datasets", "mica-agouti-occurrences", "data", "raw", "observations.csv"), na = "")
@@ -90,7 +90,7 @@ occurrence %<>% mutate(dwc_accessRights = "http://www.inbo.be/en/norms-for-data-
 ### datasetID
 
 ```{r}
-occurrence %<>% mutate(dwc_datasetID = "") # NEW TERM
+occurrence %<>% mutate(dwc_datasetID = "https://doi.org/10.15468/5tb6ze") # NEW TERM
 ```
 
 ### institutionCode
@@ -102,7 +102,7 @@ occurrence %<>% mutate(dwc_institutionCode = "INBO") # NEW TERM
 ### datasetName
 
 ```{r}
-occurrence %<>% mutate(dwc_datasetName = "MICA - Muskrat and Coypu camera trap observations in Belgium, the Netherlands and Germany") # NEW TERM
+occurrence %<>% mutate(dwc_datasetName = "MICA - Muskrat and coypu camera trap observations in Belgium, the Netherlands and Germany") # NEW TERM
 ```
 
 ### basisOfRecord
@@ -165,7 +165,7 @@ occurrence %<>% mutate(dwc_eventID = eventID)
 occurrence %<>% mutate(dwc_eventDate = eventDate)
 ```
 
-## samplingProtocol
+### samplingProtocol
 
 ```{r}
 occurrence %<>% mutate(dwc_samplingProtocol = samplingProtocol)

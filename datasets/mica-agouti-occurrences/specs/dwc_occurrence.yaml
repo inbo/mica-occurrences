@@ -18,13 +18,13 @@ accessRights:
   allowed: http://www.inbo.be/en/norms-for-data-use
 
 datasetID:
-  allowed: ''
+  allowed: 'https://doi.org/10.15468/5tb6ze'
 
 institutionCode:
   allowed: INBO
 
 datasetName:
-  allowed: MICA - Muskrat and Coypu camera trap observations in Belgium, the Netherlands and Germany
+  allowed: MICA - Muskrat and coypu camera trap observations in Belgium, the Netherlands and Germany
 
 basisOfRecord:
   allowed: MachineObservation
@@ -86,7 +86,7 @@ locality:
 decimalLatitude:
   numberformat: '.3'
   min: 50.67 # S Flanders
-  max: 52.61
+  max: 52.65
 
 decimalLongitude:
   numberformat: '.3'
