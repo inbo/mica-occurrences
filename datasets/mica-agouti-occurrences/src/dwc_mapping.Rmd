@@ -18,9 +18,22 @@ library(tidylog)        # To provide feedback on dplyr functions
 library(magrittr)       # To use %<>% pipes
 library(here)           # To find files
 library(janitor)        # To clean input data
-library(readxl)         # To read Excel files
-library(rgbif)          # To use GBIF services
-library(uuid)           # To generate UUID's
+```
+
+# Quick timezone conversion
+
+Most of the Darwin Core mapping is done by running queries in sqlite. But timezones get ignored when reading data into sqlite. R converts them nicely to UTC. So the following code reads, converts and writes the raw data files, which can then be uploaded in sqlite:
+
+```{r eval = FALSE}
+deployments <- read_csv(here::here("datasets", "mica-agouti-occurrences", "data", "raw", "deployments.csv"))
+multimedia <- read_csv(here::here("datasets", "mica-agouti-occurrences", "data", "raw", "multimedia.csv"))
+observations <- read_csv(here::here("datasets", "mica-agouti-occurrences", "data", "raw", "observations.csv"))
+```
+
+```{r eval = FALSE}
+write_csv(deployments, here::here("datasets", "mica-agouti-occurrences", "data", "raw", "deployments.csv"), na = "")
+write_csv(multimedia, here::here("datasets", "mica-agouti-occurrences", "data", "raw", "multimedia.csv"), na = "")
+write_csv(observations, here::here("datasets", "mica-agouti-occurrences", "data", "raw", "observations.csv"), na = "")
 ```
 
 # Read source data
@@ -77,7 +90,7 @@ occurrence %<>% mutate(dwc_accessRights = "http://www.inbo.be/en/norms-for-data-
 ### datasetID
 
 ```{r}
-occurrence %<>% mutate(dwc_datasetID = "insert doi") # NEW TERM
+occurrence %<>% mutate(dwc_datasetID = "https://doi.org/10.15468/5tb6ze") # NEW TERM
 ```
 
 ### institutionCode
@@ -89,7 +102,7 @@ occurrence %<>% mutate(dwc_institutionCode = "INBO") # NEW TERM
 ### datasetName
 
 ```{r}
-occurrence %<>% mutate(dwc_datasetName = "MICA - Muskrat and Coypu camera trap occurrences collected in Belgium, the Netherlands and Germany") # NEW TERM
+occurrence %<>% mutate(dwc_datasetName = "MICA - Muskrat and coypu camera trap observations in Belgium, the Netherlands and Germany") # NEW TERM
 ```
 
 ### basisOfRecord
@@ -152,7 +165,7 @@ occurrence %<>% mutate(dwc_eventID = eventID)
 occurrence %<>% mutate(dwc_eventDate = eventDate)
 ```
 
-## samplingProtocol
+### samplingProtocol
 
 ```{r}
 occurrence %<>% mutate(dwc_samplingProtocol = samplingProtocol)
@@ -241,8 +254,8 @@ occurrence %<>% mutate(dwc_identificationVerificationStatus = identificationVeri
 ### scientificName
 
 ```{r}
-occurrence %<>% mutate(dwc_scientificName = recode(scientificName, 
-  "Canis lupus" = "Canis lupus familiaris" # No wolfs in dataset, are incorrectly marked dogs
+occurrence %<>% mutate(dwc_scientificName = recode(scientificName,
+  "Canis lupus" = "Canis lupus familiaris" # There are no wolves in dataset
 ))
 ```
 
@@ -255,18 +268,20 @@ occurrence %<>% mutate(dwc_kingdom = kingdom)
 ### vernacularName
 
 ```{r}
-occurrence %<>% mutate(dwc_vernacularName = vernacularName)
+occurrence %<>% mutate(dwc_vernacularName = recode(vernacularName,
+  "gray wolf" = "dog" # There are no wolves in dataset
+))
 ```
 
 ### taxonRank
 
 ```{r}
 occurrence %<>% mutate(dwc_taxonRank = case_when(
-  str_count(scientificName, " ") == 2 ~ "subspecies",
-  str_count(scientificName, " ") == 1 ~ "species",
-  scientificName %in% c("Anas", "Anser") ~ "genus",
-  scientificName %in% c("Soricidae") ~ "family",
-  scientificName %in% c("Rodentia") ~ "order"
+  str_count(dwc_scientificName, " ") == 2 ~ "subspecies", # Including dogs
+  str_count(dwc_scientificName, " ") == 1 ~ "species",
+  dwc_scientificName %in% c("Anas", "Anser") ~ "genus",
+  dwc_scientificName %in% c("Columbidae", "Soricidae") ~ "family",
+  dwc_scientificName %in% c("Rodentia") ~ "order"
 )) # NEW TERM
 ```
 
