@@ -121,6 +121,35 @@ input_data %<>% mutate(scientificName = recode(scientificName,
 ))
 ```
 
+### fix unique ID issue
+
+```{r}
+input_data <- mutate_all(input_data, as.character())
+```
+
+
+```{r}
+head (input_data)
+
+# add unique identifiers to the df with duplicates
+input_data <-
+ input_data %>%
+ group_by(registratie_id) %>%
+ add_tally() %>%
+ mutate(progressive_number = row_number()) %>%
+ mutate(unique_id = if_else(n > 1,
+                            paste0(registratie_id, "_", progressive_number),
+                            as.character(registratie_id))) %>%
+ ungroup() %>%
+ select(-c(progressive_number, n)) %>%
+ select(registratie_id,unique_id, everything())
+
+
+# show results
+
+```
+
+
 # Darwin Core mapping
 
 Map the data to [Darwin Core Occurrence](http://rs.gbif.org/core/dwc_occurrence_2015-07-02.xml).
@@ -193,6 +222,14 @@ occurrence <-
   rowid_to_column(var = "row_id") %>%
   mutate(dwc_occurrenceID = str_c("MICA:VMM:OCC:", row_id))
 ```
+```{r}
+occurrence %<>% mutate(dwc_occurrenceID2 = unique_id)
+```
+
+
+
+
+
 
 ### recordedBy
 
@@ -358,7 +395,7 @@ occurrence <- mutate_all(occurrence, as.character())
 ```
 
 ```{r}
-occurrence %<>% distinct(eventID, .keep_all = TRUE)
+occurrence %<>% distinct(occurrenceID2, .keep_all = TRUE)
 ```
 
 Preview data:
