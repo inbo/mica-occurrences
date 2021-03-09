@@ -53,7 +53,7 @@ occurrenceStatus:
   allowed: present
 
 eventID:
-  regex: 'MICA:VMM:EV:\d+'
+  regex: 'MICA:VMM:EV(:\d+)+'
 
 samplingProtocol:
   allowed: rat trap
