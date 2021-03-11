@@ -37,7 +37,7 @@ basisOfRecord:
 # dataGeneralizations: Not in this dataset
 
 occurrenceID:
-  regex: 'MICA:VMM:OCC:\d+'
+  regex: 'MICA:VMM:OCC(:\d+)+'
 
 recordedBy:
   empty: false
