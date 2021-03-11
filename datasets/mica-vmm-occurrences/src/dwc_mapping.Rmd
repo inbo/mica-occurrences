@@ -138,7 +138,7 @@ input_data <-
  add_tally() %>%
  mutate(progressive_number = row_number()) %>%
  mutate(unique_id = if_else(n > 1,
-                            paste0(registratie_id, "_", progressive_number),
+                            paste0(registratie_id, ":", progressive_number),
                             as.character(registratie_id))) %>%
  ungroup() %>%
  select(-c(progressive_number, n)) %>%
@@ -191,7 +191,7 @@ occurrence %<>% mutate(dwc_accessRights = "http://www.inbo.be/en/norms-for-data-
 ### datasetID
 
 ```{r}
-occurrence %<>% mutate(dwc_datasetID = "insert doi")
+occurrence %<>% mutate(dwc_datasetID = "https://doi.org/10.15468/gwzwk4")
 ```
 
 ### institutionCode
@@ -216,14 +216,14 @@ occurrence %<>% mutate(dwc_basisOfRecord = "HumanObservation")
 
 Since `registratie_id` is not unique for all records, we create an `occurrenceID` based on row number:
 
-```{r}
+```{r eval=FALSE, include=FALSE}
 occurrence <-
   occurrence %>%
   rowid_to_column(var = "row_id") %>%
-  mutate(dwc_occurrenceID = str_c("MICA:VMM:OCC:", row_id))
+  mutate(dwc_occurrenceID2 = str_c("MICA:VMM:OCC:", row_id))
 ```
 ```{r}
-occurrence %<>% mutate(dwc_occurrenceID2 = unique_id)
+occurrence %<>% mutate(dwc_occurrenceID = str_c("MICA:VMM:OCC:", unique_id))
 ```
 
 
@@ -395,7 +395,7 @@ occurrence <- mutate_all(occurrence, as.character())
 ```
 
 ```{r}
-occurrence %<>% distinct(occurrenceID2, .keep_all = TRUE)
+#occurrence %<>% distinct(occurrenceID2, .keep_all = TRUE)
 ```
 
 Preview data:
@@ -416,7 +416,7 @@ write_csv(occurrence, here::here("datasets", "mica-vmm-occurrences", "data", "pr
 test <- length(unique(occurrence$eventID))
 test2 <- length(unique(occurrence$occurrenceID))
 
-n_occur <- data.frame(table(occurrence$eventID))
+n_occur <- data.frame(table(occurrence$occurrenceID))
 
 ```
 
