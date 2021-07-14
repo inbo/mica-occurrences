@@ -48,3 +48,8 @@ datasets/*/data/interim
 
 # Mac OS X
 .DS_Store
+datasets/mica-tiho-occurrences/data/raw/Datas Coypu Lower Saxony.xlsx
+*.xlsx
+*.geojson
+*.csv
+*.zip
