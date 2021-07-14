@@ -12,6 +12,7 @@ Title (and GitHub directory) | IPT | GBIF
 [MICA - Muskrat occurrences collected by RATO in East Flanders, Belgium](datasets/mica-rato-occurrences) | [mica-rato-occurrences](https://ipt.inbo.be/resource?r=mica-rato-occurrences) | <https://doi.org/10.15468/5fps96>
 [MICA - Muskrat and coypu occurrences collected by UVW in The Netherlands](datasets/mica-uvw-occurrences) | [mica-uvw-occurrences](http://ipt.nlbif.nl/resource?r=mica-uvw-occurrences) | <https://doi.org/10.15468/qjds4c>
 [MICA - Muskrat and coypu camera trap observations in Belgium, the Netherlands and Germany](datasets/mica-agouti-occurrences) | [mica-agouti-occurrences](https://ipt.inbo.be/resource?r=mica-agouti-occurrences) | <https://doi.org/10.15468/5tb6ze>
+[MICA - Muskrat occurrences collected by VMM in Flanders, Belgium](datasets/mica-vmm-occurrences) | [mica-vmm-occurrences](https://ipt.inbo.be/resource?r=mica-vmm-occurrences) | <https://doi.org/10.15468/gwzwk4>
 
 ## Repo structure
 
