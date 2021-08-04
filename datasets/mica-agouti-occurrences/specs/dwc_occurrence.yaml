@@ -116,14 +116,14 @@ identificationVerificationStatus:
   min: 0
   max: 1
 
+taxonID:
+  empty: false
+
 scientificName:
   empty: false
 
 kingdom:
   allowed: Animalia
-
-vernacularName:
-  empty: true
 
 taxonRank:
   allowed:

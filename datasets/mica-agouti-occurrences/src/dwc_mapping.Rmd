@@ -259,26 +259,24 @@ occurrence %<>% mutate(dwc_identificationRemarks = identificationRemarks)
 occurrence %<>% mutate(dwc_identificationVerificationStatus = identificationVerificationStatus)
 ```
 
-### scientificName
+### taxonID
 
 ```{r}
 occurrence %<>% mutate(dwc_scientificName = recode(scientificName,
   "Canis lupus" = "Canis lupus familiaris" # There are no wolves in dataset
 ))
+occurrence %<>% mutate(dwc_taxonID = taxonID)
+```
+
+### scientificName
+
+```{r}
 ```
 
 ### kingdom
 
 ```{r}
 occurrence %<>% mutate(dwc_kingdom = kingdom)
-```
-
-### vernacularName
-
-```{r}
-occurrence %<>% mutate(dwc_vernacularName = recode(vernacularName,
-  "gray wolf" = "dog" # There are no wolves in dataset
-))
 ```
 
 ### taxonRank
