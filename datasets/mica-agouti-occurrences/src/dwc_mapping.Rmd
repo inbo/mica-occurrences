@@ -18,6 +18,7 @@ library(tidylog)        # To provide feedback on dplyr functions
 library(magrittr)       # To use %<>% pipes
 library(here)           # To find files
 library(janitor)        # To clean input data
+library(datapackage)    # To read the source data
 ```
 
 # Quick timezone conversion
@@ -25,9 +26,10 @@ library(janitor)        # To clean input data
 Most of the Darwin Core mapping is done by running queries in sqlite. But timezones get ignored when reading data into sqlite. R converts them nicely to UTC. So the following code reads, converts and writes the raw data files, which can then be uploaded in sqlite:
 
 ```{r eval = FALSE}
-deployments <- read_csv(here::here("datasets", "mica-agouti-occurrences", "data", "raw", "deployments.csv"))
-multimedia <- read_csv(here::here("datasets", "mica-agouti-occurrences", "data", "raw", "multimedia.csv"))
-observations <- read_csv(here::here("datasets", "mica-agouti-occurrences", "data", "raw", "observations.csv"))
+dp <- read_package("https://zenodo.org/record/4893244/files/datapackage.json")
+deployments <- read_resource(dp, "deployments")
+multimedia <- read_resource(dp, "multimedia")
+observations <- read_resource(dp, "observations")
 ```
 
 ```{r eval = FALSE}
