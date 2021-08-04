@@ -101,6 +101,12 @@ occurrence %<>% mutate(dwc_datasetID = "https://doi.org/10.15468/5tb6ze") # NEW 
 occurrence %<>% mutate(dwc_institutionCode = "INBO") # NEW TERM
 ```
 
+### collectionCode
+
+```{r}
+occurrence %<>% mutate(dwc_collectionCode = "Agouti") # NEW TERM
+```
+
 ### datasetName
 
 ```{r}

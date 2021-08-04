@@ -23,6 +23,9 @@ datasetID:
 institutionCode:
   allowed: INBO
 
+collectionCode:
+  allowed: Agouti
+
 datasetName:
   allowed: MICA - Muskrat and coypu camera trap observations in Belgium, the Netherlands and Germany
 
