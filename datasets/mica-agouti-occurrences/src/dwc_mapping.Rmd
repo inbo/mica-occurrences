@@ -283,7 +283,7 @@ occurrence %<>% mutate(dwc_kingdom = kingdom)
 occurrence %<>% mutate(dwc_taxonRank = case_when(
   str_count(dwc_scientificName, " ") == 2 ~ "subspecies", # Including dogs
   str_count(dwc_scientificName, " ") == 1 ~ "species",
-  dwc_scientificName %in% c("Anas", "Anser") ~ "genus",
+  dwc_scientificName %in% c("Anas", "Anser", "Ardea", "Equus", "Martes") ~ "genus",
   dwc_scientificName %in% c("Columbidae", "Soricidae") ~ "family",
   dwc_scientificName %in% c("Rodentia") ~ "order"
 )) # NEW TERM
