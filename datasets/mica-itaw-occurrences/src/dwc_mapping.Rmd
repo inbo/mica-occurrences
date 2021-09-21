@@ -536,7 +536,7 @@ Define the order of the output columns
 
 ```{r}
 col_order <- c( "type","language","license","rightsHolder","accessRights","datasetID"
-               ,"institutionCode","datasetName","basisOfRecord","occurrenceID","recordedBy"
+               ,"institutionCode","datasetName","basisOfRecord","samplingProtocol", "occurrenceID","recordedBy"
                ,"individualCount","occurrenceStatus","occurrenceRemarks","eventDate","continent","countryCode","verbatimLocality"
                
                ,"decimalLatitude","decimalLongitude","geodeticDatum","coordinateUncertaintyInMeters"
