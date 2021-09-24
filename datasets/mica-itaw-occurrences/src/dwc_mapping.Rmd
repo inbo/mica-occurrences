@@ -317,10 +317,10 @@ no sex available in this dataset
 occurrence %<>% mutate(occurrenceRemarks = recode(Landschaft
                                         
                                       , "Graben"      = "in a hole"
-                                      , "Teich/Altarm" = "Pond / oxbow lake"
-                                      , "Bach" = "stream"
-                                      , "Teichanlage (Fischerei)" = "fishing pond"
-                                      , "Binnensee" = "lake"))
+                                      , "Teich/Altarm" = "near Pond / oxbow lake"
+                                      , "Bach" = "near stream"
+                                      , "Teichanlage (Fischerei)" = "near fishing pond"
+                                      , "Binnensee" = "near lake"))
 ```
 
 
