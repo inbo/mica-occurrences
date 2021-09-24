@@ -35,6 +35,7 @@ library(widgetframe)    # coordinate transformation
 library(sf)             # coordinate transformation
 library(lubridate)      # date transformation
 library(googlesheets)         # read gsheets
+library(dplyr)
 ```
 
 # Read source data
@@ -52,7 +53,7 @@ File exported to csv
 # test file copy Dimi
 #input_file <- read_csv("https://docs.google.com/spreadsheets/d/e/2PACX-1vQ58vi2qvDmdupEwJxHjk2E0vRPq3MED9OfALGq#u01b8LJa9NchiK01WB3aSa5_99hxRj_ptOUbVw90/pub?output=csv")
 
-input_file <- read_csv("https://docs.google.com/spreadsheets/d/e/2PACX-1vTlox8fOH1RL_W9QauvK7Leo50uGNHS0Bzikt6V6xfpOPQ-KRMqXPMCI0SiCPK5YhjBEqVwXoeDbHgn/pub?output=csv")
+input_file <- read_csv("https://docs.google.com/spreadsheets/d/e/2PACX-1vTlox8fOH1RL_W9QauvK7Leo50uGNHS0Bzikt6V6xfpOPQ-KRMqXPMCI0SiCPK5YhjBEqVwXoeDbHgn/pub?output=csv", trim_ws = TRUE)
 
 ```
 
@@ -83,7 +84,9 @@ Use separate for this
 
 ```{r}
 input_interim %<>% 
-         separate(col = Standort, into = c("decimalLatitude", "decimalLongitude"), sep = ",")
+         separate(col = Standort, into = c("decimalLatitude", "decimalLongitude"), sep = ",") %>%
+         mutate(across(starts_with("decimal"), str_remove_all, " "))
+          
 
 head(input_interim, n = 5)
 
@@ -525,6 +528,15 @@ occurrence %<>%
 ```
 
 ## Post-processing
+
+filter for 0 lat-long
+
+```{r}
+head(occurrence)
+
+occurrence %<>% filter(decimalLongitude != " 0.00000")
+```
+
 
 ```{r}
 colnames(occurrence) <- str_remove(colnames(occurrence), "dwc_")
