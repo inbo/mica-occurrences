@@ -279,7 +279,13 @@ occurrence %<>% mutate(recordedBy = 'RATO')
 ### individualCount
 
 ```{r}
-occurrence %<>% rename(individualCount= 'action_amount') 
+occurrence %<>%  rename(individualCount= 'action_amount') 
+                
+```
+```{r}
+#occurrence %<>% mutate(individualCount = replace_na(, 0))
+
+occurrence$individualCount %<>% replace_na(0)
 ```
 
 ### organismQuantity
@@ -512,5 +518,5 @@ occurrence %>% head()
 Save to CSV:
 
 ```{r}
-write_csv(occurrence, here::here("datasets", "mica-rato-occurrences", "data", "processed", " occurrence.csv"), na = "")
+write_csv(occurrence, here::here("datasets", "mica-rato-occurrences", "data", "processed", "occurrence.csv"), na = "")
 ```
