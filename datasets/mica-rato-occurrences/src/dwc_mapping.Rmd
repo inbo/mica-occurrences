@@ -84,6 +84,15 @@ input_interim %>% head(n = 5)
 
 # Georeference source data
 
+```{r}
+input_interim %<>%
+        filter(kind_nl == 'Bruine rat' | kind_nl == 'Muskusrat') 
+        
+head (occurrence, n = 5 )
+
+```
+
+
 ## Lambert to Decimals
 
 ### Keep original x,Y as verbatimcoordinates
@@ -176,7 +185,7 @@ occurrence <- input_interim
 ```{r}
 occurrence %<>% select(-c(domain_fr, domain_en, domain_nl, kind_fr, kind_en))
 ```
-## filter for muskrat
+## filter for muskrat & bruine rat
 
 ```{r}
 occurrence %<>%
@@ -498,12 +507,21 @@ occurrence %<>% mutate(nomenclaturalCode = "ICZN") # e.g. "ICZN"
 ```{r}
 occurrence %<>% 
     ##select(individualCount) %>%
-    mutate(occurrenceStatus = case_when(action_nl == 'Vastgesteld' ~ "Present",
-                                                  action_nl == 'Gevangen' ~ "Present",
-                                                  action_nl == 'Verwijderd' ~ "Present",
-                                                  action_nl == 'Geen vangst' ~ "Absent",
-                                                  action_nl == 'Hoeveelheid'| individualCount == 0 ~ "Absent",
-                                                  action_nl == 'Hoeveelheid'| individualCount > 0 ~ "Present"
+    mutate(occurrenceStatus = case_when(action_nl == 'Vastgesteld' & individualCount > 0 ~ "Present",
+                                        action_nl == 'Vastgesteld' & individualCount == 0 ~ "Absent",
+                                        action_nl == 'Gevangen' & individualCount > 0 ~ "Present",
+                                        action_nl == 'Gevangen' & individualCount == 0 ~ "Absent",
+                                        action_nl == 'Verwijderd' & individualCount > 0 ~ "Present",
+                                        action_nl == 'Verwijderd' & individualCount == 0 ~ "Absent",
+                                        action_nl == 'Geen vangst' & individualCount > 0 ~ "Present",
+                                        action_nl == 'Geen vangst' & individualCount == 0 ~ "Absent",
+                                        action_nl == 'Sporen' & individualCount > 0 ~ "Present",
+                                        action_nl == 'Sporen' & individualCount == 0 ~ "Absent",
+                                        action_nl == 'Hoeveelheid'& individualCount > 0 ~ "Present",
+                                        action_nl == 'Hoeveelheid'& individualCount == 0 ~ "Absent",
+                                        individualCount > 0 ~ "Present",
+                                        individualCount == 0 ~ "Absent",
+                                        is.na(action_nl) | is.na(individualCount) ~ "Absent"
                                                   
                                        ))
 head(occurrence, n = 5)
