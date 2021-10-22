@@ -285,12 +285,26 @@ occurrence %<>%  rename(individualCount= 'action_amount')
 ```{r}
 
 
-occurrence$individualCount %<>% replace_na(0)
+#occurrence$individualCount %<>% replace_na(0)
 ```
 
 ### organismQuantity
 
+
+```{r}
+occurrence %<>%  mutate(organismQuantity= individualCount) 
+                
+```
+
+
+
 ### organismQuentityType
+
+```{r}
+occurrence %<>%  mutate(organismQuantityType= action_en) 
+                
+```
+
 
 ### sex
 
@@ -512,7 +526,8 @@ Define the order of the output columns
 ```{r}
 col_order <- c( "type","language","license","rightsHolder","accessRights","datasetID"
                ,"institutionCode","datasetName","basisOfRecord","occurrenceID","recordedBy"
-               ,"individualCount","occurrenceStatus","occurrenceRemarks","samplingProtocol","samplingEffort"
+               ,"individualCount","organismQuantity","organismQuantityType","occurrenceStatus","occurrenceRemarks"
+               ,"samplingProtocol","samplingEffort"
                ,"eventDate","continent","countryCode","municipality"
                ,"verbatimLatitude","verbatimLongitude","verbatimCoordinateSystem","verbatimSRS"
                ,"decimalLatitude","decimalLongitude","geodeticDatum","coordinateUncertaintyInMeters"
