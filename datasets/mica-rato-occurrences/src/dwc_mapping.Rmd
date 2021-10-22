@@ -283,7 +283,7 @@ occurrence %<>%  rename(individualCount= 'action_amount')
                 
 ```
 ```{r}
-#occurrence %<>% mutate(individualCount = replace_na(, 0))
+
 
 occurrence$individualCount %<>% replace_na(0)
 ```
@@ -444,7 +444,10 @@ occurrence %<>% mutate(identifiedBy = 'RATO')
 ### scientificName 
 
 ```{r}
-occurrence %<>% mutate(scientificName = "Ondatra zibethicus")
+occurrence %<>% mutate(scientificName = case_when(kind_nl == 'Muskusrat' ~ "Ondatra zibethicus",
+                                   kind_nl == 'Bruine rat' ~ "Rattus norvegicus"
+                                       )
+                                )
 ```
 
 ### kingdom
@@ -456,7 +459,12 @@ occurrence %<>% mutate(kingdom = "Animalia")
 ### scientificNameAuthorship
 
 ```{r}
-occurrence %<>% mutate(scientificNameAuthorship = "Linnaeus, 1766")
+occurrence %<>% mutate(scientificNameAuthorship = case_when(kind_nl == 'Muskusrat' ~ "Linnaeus, 1766",
+                                   kind_nl == 'Bruine rat' ~ "Berkenhout, 1759"
+                                       )
+                                )
+
+
 ```
 
 ### taxonRank
@@ -476,10 +484,14 @@ occurrence %<>% mutate(nomenclaturalCode = "ICZN") # e.g. "ICZN"
 ```{r}
 occurrence %<>% 
     ##select(individualCount) %>%
-    mutate(occurrenceStatus = case_when(individualCount > 0 ~ "present",
-                              individualCount == 0 ~ "absent"
-                                 )
-                                )
+    mutate(occurrenceStatus = case_when(action_nl == 'Vastgesteld' ~ "Present",
+                                                  action_nl == 'Gevangen' ~ "Present",
+                                                  action_nl == 'Verwijderd' ~ "Present",
+                                                  action_nl == 'Geen vangst' ~ "Absent",
+                                                  action_nl == 'Hoeveelheid'| individualCount == 0 ~ "Absent",
+                                                  action_nl == 'Hoeveelheid'| individualCount > 0 ~ "Present"
+                                                  
+                                       ))
 head(occurrence, n = 5)
 ```
 
