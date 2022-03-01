@@ -527,6 +527,20 @@ occurrence %<>%
 head(occurrence, n = 5)
 ```
 
+```{r}
+
+occurrence %<>%
+        filter(eventDate > '2018-01-12' & occurrenceStatus == "Present" & scientificName == "Ondatra zibethicus") 
+        
+head (occurrence, n = 5 )
+
+```
+
+
+
+
+
+
 ## Post-processing
 
 ```{r}
