@@ -58,7 +58,11 @@ File exported to csv
 #deze werkt
 #input_interim <- read_delim(file = here::here("datasets", "mica-rato-occurrences", "data", "raw", #"RATOgegevensbackoffice2020V2.txt"), ";", escape_double = FALSE, trim_ws = TRUE )
 
-input_interim <- read_delim(here::here("datasets", "mica-rato-occurrences", "data", "raw", "RATOgegevensbackoffice2020V2.txt" ), ";")
+input_interim_old <- read_delim(here::here("datasets", "mica-rato-occurrences", "data", "raw", "RATOgegevensbackoffice2020V2.txt" ), ";")
+
+input_interim <- read_delim(here::here("datasets", "mica-rato-occurrences", "data", "raw", "2021_12_17_vangsten.csv" ), ";")
+
+
 
 ```
 
@@ -527,7 +531,7 @@ occurrence %<>%
 head(occurrence, n = 5)
 ```
 
-```{r}
+```{r eval=FALSE, include=FALSE}
 
 occurrence %<>%
         filter(eventDate > '2018-01-12' & occurrenceStatus == "Present" & scientificName == "Ondatra zibethicus") 
