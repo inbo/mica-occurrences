@@ -60,7 +60,7 @@ File exported to csv
 
 input_interim_old <- read_delim(here::here("datasets", "mica-rato-occurrences", "data", "raw", "RATOgegevensbackoffice2020V2.txt" ), ";")
 
-input_interim <- read_delim(here::here("datasets", "mica-rato-occurrences", "data", "raw", "2021_12_17_vangsten.csv" ), ";")
+input_interim <- read_delim(here::here("datasets", "mica-rato-occurrences", "data", "raw", "2022_vangsten_nov_2021.csv" ), ";")
 
 
 
@@ -215,6 +215,14 @@ Start with record-level terms which contain metadata about the dataset (which is
 occurrence %<>% mutate(datasetID = "https://doi.org/10.15468/5fps96")
 ```
 
+### add row numbers to genrate occurrenceID unique
+
+
+```{r}
+occurrence %<>% mutate(ID_row = row_number())
+```
+
+
 ### type
 
 ```{r}
@@ -279,7 +287,7 @@ occurrence %<>% mutate(basisOfRecord = "HumanObservation")
 
 ```{r}
 occurrence %<>% rename(occurrenceID = 'id') %>%
-                mutate(occurrenceID = str_c("MICA:RATO:", occurrenceID))
+                mutate(occurrenceID = str_c("MICA:RATO:", occurrenceID, ":", ID_row))
   
 ```
 
