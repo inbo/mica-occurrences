@@ -53,3 +53,4 @@ datasets/mica-tiho-occurrences/data/raw/Datas Coypu Lower Saxony.xlsx
 *.geojson
 *.csv
 *.zip
+*.txt
