@@ -46,10 +46,34 @@ some columns renamed to DwC term
 File exported to csv
 
 ```{r}
+csv_files <- list.files(here::here("datasets", "mica-uvw-occurrences", "data", "raw"), pattern = "*.csv$", full.names = TRUE)
+
+```
+
+```{r}
+data <- lapply(csv_files, read_csv2) %>% bind_rows()
+```
+
+
+```{r}
+#data <- bind_rows(csv_files)
+```
+
+
+```{r}
 #input_interim <- read_csv2(file = here:here("datasets", "mica-uvw-occurrences", "data", "raw", "2020_11_18_Vangstgegevens #muskus- en beverratten_NL_2019.csv"))  
 
-input_interim <- read_csv2(file = here::here("datasets", "mica-uvw-occurrences", "data", "raw", "UVW_2014_2021_GBIF.csv"))
+
+
+##input_interim <- read_csv2(file = here::here("datasets", "mica-uvw-occurrences", "data", "raw", "UVW_2014_2021_GBIF.csv"))
+
+
 ```
+
+```{r}
+input_interim <- data
+```
+
 
 Preview data:
 
