@@ -34,7 +34,7 @@ library(leaflet)        # coordinate transformation
 library(widgetframe)    # coordinate transformation
 library(sf)             # coordinate transformation
 library(lubridate)      # date transformation
-library(googlesheets)         # read gsheets
+library(googlesheets4)  # read gsheets
 library(dplyr)
 ```
 

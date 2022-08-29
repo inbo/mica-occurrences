@@ -60,7 +60,7 @@ File exported to csv
 
 input_interim_old <- read_delim(here::here("datasets", "mica-rato-occurrences", "data", "raw", "RATOgegevensbackoffice2020V2.txt" ), ";")
 
-input_interim <- read_delim(here::here("datasets", "mica-rato-occurrences", "data", "raw", "2022_vangsten_nov_2021.csv" ), ";")
+input_interim <- read_delim(here::here("datasets", "mica-rato-occurrences", "data", "raw", "2022_vangsten_nov_2021_update.csv" ), ",")
 
 
 
@@ -92,7 +92,7 @@ input_interim %>% head(n = 5)
 input_interim %<>%
         filter(kind_nl == 'Bruine rat' | kind_nl == 'Muskusrat') 
         
-head (occurrence, n = 5 )
+#head (occurrence, n = 5 )
 
 ```
 
