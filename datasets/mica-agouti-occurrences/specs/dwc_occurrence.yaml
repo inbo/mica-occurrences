@@ -1,27 +1,24 @@
 # Scope: dwc-occurrence
-# Author: Dimitri Brosens, Peter Desmet
+# Author: Peter Desmet, Dimitri Brosens
 # Syntax version: 0.1
 
 type:
-  allowed: Event
+  allowed: Image
       
-language:
-  allowed: en
+# language: not included in camtraptor::write_dwc()
 
 license:
-  allowed: http://creativecommons.org/publicdomain/zero/1.0/
+  allowed: https://creativecommons.org/publicdomain/zero/1.0/
 
 rightsHolder:
   allowed: INBO
 
-accessRights:
-  allowed: http://www.inbo.be/en/norms-for-data-use
+# accessRights: not included in camtraptor::write_dwc()
 
 datasetID:
   allowed: 'https://doi.org/10.15468/5tb6ze'
 
-institutionCode:
-  allowed: INBO
+# institutionCode: not included in camtraptor::write_dwc()
 
 collectionCode:
   allowed: Agouti
@@ -32,9 +29,9 @@ datasetName:
 basisOfRecord:
   allowed: MachineObservation
     
-# informationwithheld: Not in this dataset
+# informationWithheld: not included in camtraptor::write_dwc()
 
-# dataGeneralizations: Not in this dataset
+# dataGeneralizations: not included in camtraptor::write_dwc()
 
 occurrenceID:
   empty: false
@@ -49,7 +46,7 @@ sex:
   allowed:
     - male
     - female
-    - undefined
+    - unknown
 
 lifeStage:
   empty: true
@@ -57,31 +54,48 @@ lifeStage:
     - adult
     - subadult
     - juvenile
-    - undefined
+    - unknown
+
+behavior:
+  empty: true # Empty for all
 
 occurrenceStatus:
-  empty: true
   allowed: present
 
+occurrenceRemarks:
+  empty: true
+
+organismID:
+  empty: true # Empty for all
+
 eventID:
+  empty: false
+
+parentEventID:
   empty: false
 
 eventDate:
   empty: false
   dateformat: '%Y-%m-%dT%H:%M:%S%z'
-  # mindate: 2019-09-19
-  # maxdate: 2021-01-03
+
+habitat:
+  empty: true # Empty for all
 
 samplingProtocol:
-  allowed:
-    - camera trap (motion detection)
-    - camera trap (time lapse)
+  allowed: camera trap
+
+samplingEffort:
+  delimitedvalues:
+    delimiter: '/'
+    dateformat: '%Y-%m-%dT%H:%M:%S%z'
+
+eventRemarks:
+  empty: true
 
 locationID:
   empty: false
 
-continent:
-  allowed: Europe
+# continent: not included in camtraptor::write_dwc()
 
 locality:
   empty: false
@@ -110,11 +124,7 @@ dateIdentified:
 
 identificationRemarks:
   empty: true
-
-identificationVerificationStatus:
-  empty: true
-  min: 0
-  max: 1
+  regex: 'classified by (human|machine with \d.(\d){1,2} confidence)'
 
 taxonID:
   empty: false
@@ -124,14 +134,3 @@ scientificName:
 
 kingdom:
   allowed: Animalia
-
-taxonRank:
-  allowed:
-    - order
-    - family
-    - genus
-    - species
-    - subspecies
-
-nomenclaturalCode:
-  allowed: ICZN

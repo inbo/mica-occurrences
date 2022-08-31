@@ -1,0 +1,39 @@
+# Scope: dwc-multimedia
+# Author: Peter Desmet, Dimitri Brosens
+# Syntax version: 0.1
+
+occurrenceID:
+  empty: false
+
+rights:
+  allowed: "http://creativecommons.org/licenses/by/4.0/"
+
+identifier:
+  empty: false
+
+type:
+  allowed: StillImage
+
+providerManagedID:
+  empty: true # Empty for all
+
+comments:
+  empty: true
+  allowed: "media marked as favourite" # No other comments
+
+captureDevice:
+  empty: true # Empty for all
+
+resourceCreationTechnique:
+  allowed:
+  - motion detection
+  - time lapse
+
+accessURI:
+  regex: 'https:\/\/www\.agouti\.eu\/api\/uploads\/deployment-images\/(\w|-)+\/(\w|-)+\/(\w|-)+\.JPG'
+
+format:
+  allowed: image/jpeg
+
+CreateDate:
+  dateformat: '%Y-%m-%dT%H:%M:%S%z'
