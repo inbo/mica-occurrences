@@ -26,6 +26,14 @@ agouti_export <- "~/Downloads/mica-muskrat-and-coypu-20220708094154/datapackage.
 package <- camtraptor::read_camtrap_dp(agouti_export)
 ```
 
+## Round coordinates
+
+Round coordinates to 3 decimals to generalize location information in order prevent theft of active cameras, see <https://github.com/inbo/mica-occurrences/issues/6>. This results in a coordinate uncertainty of 187 m (157 + default 30).
+
+```{r}
+package <- camtraptor::round_coordinates(package, 3)
+```
+
 ## Create EML
 
 Add missing `package` properties:
@@ -48,7 +56,6 @@ package$licenses <- list(
 )
 package$description <- c(
   "<![CDATA[<em>MICA - Muskrat and coypu camera trap observations in Belgium, the Netherlands and Germany</em> is an occurrence dataset published by the Research Institute of Nature and Forest (INBO). It is part of the LIFE project MICA, in which innovative techniques are tested for a more efficient control of muskrat and coypu populations, both invasive species. The dataset contains camera trap observations of muskrat and coypu, as well as many other observed species. Issues with the dataset can be reported at <a href=\"https://github.com/inbo/mica-occurrences/issues\">https://github.com/inbo/mica-occurrences/issues</a>]]>",
-  "Generalized and/or withheld information: to prevent camera trap theft, coordinates are rounded to 3 decimals (111m).", # TODO
   "We have released this dataset to the public domain under a Creative Commons Zero waiver. We would appreciate it if you follow the INBO norms for data use (https://www.inbo.be/en/norms-data-use) when using the data. If you have any questions regarding this dataset, don't hesitate to contact us via the contact information provided in the metadata or via opendata@inbo.be.",
   "This dataset was collected using infrastructure provided by INBO and funded by Research Foundation - Flanders (FWO) as part of the Belgian contribution to LifeWatch. The data were collected as part of the MICA project, which received funding from the European Union’s LIFE Environment sub-programme under the grant agreement LIFE18 NAT/NL/001047. The dataset was published with funding from Stichting NLBIF - Netherlands Biodiversity Information Facility."
 )
@@ -102,8 +109,6 @@ EML::write_eml(eml, here::here("datasets", "mica-agouti-occurrences", "data", "p
 ```
 
 ## Create Darwin Core
-
-TODO: round coordinates to 3 decimals and set coordinate uncertainty to 157m maximum, see <https://github.com/inbo/mica-occurrences/issues/6> and <https://docs.gbif.org/georeferencing-best-practices/1.0/en/#table-uncertainty>
 
 ```{r}
 write_dwc(package, here::here("datasets", "mica-agouti-occurrences", "data", "processed"))
