@@ -1,0 +1,629 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<eml:eml xmlns:eml="https://eml.ecoinformatics.org/eml-2.2.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:stmml="http://www.xml-cml.org/schema/stmml-1.2" packageId="ff56c1be-5639-45ca-b533-766778336740" system="uuid" xsi:schemaLocation="https://eml.ecoinformatics.org/eml-2.2.0 https://eml.ecoinformatics.org/eml-2.2.0/eml.xsd">
+  <dataset>
+    <alternateIdentifier>https://doi.org/10.15468/5tb6ze</alternateIdentifier>
+    <title>MICA - Muskrat and coypu camera trap observations in Belgium, the Netherlands and Germany</title>
+    <creator>
+      <individualName>
+        <givenName>Emma</givenName>
+        <surName>Cartuyvels</surName>
+      </individualName>
+      <organizationName>Research Institute for Nature and Forest (INBO)</organizationName>
+      <electronicMailAddress>emma.cartuyvels@inbo.be</electronicMailAddress>
+      <userId directory="http://orcid.org/">0000-0001-7856-6360</userId>
+    </creator>
+    <creator>
+      <individualName>
+        <givenName>Tim</givenName>
+        <surName>Adriaens</surName>
+      </individualName>
+      <organizationName>Research Institute for Nature and Forest (INBO)</organizationName>
+      <electronicMailAddress>tim.adriaens@inbo.be</electronicMailAddress>
+      <userId directory="http://orcid.org/">0000-0001-7268-4200</userId>
+    </creator>
+    <creator>
+      <individualName>
+        <givenName>Gust</givenName>
+        <surName>Boiten</surName>
+      </individualName>
+      <electronicMailAddress>gustboiten@hotmail.com</electronicMailAddress>
+    </creator>
+    <creator>
+      <individualName>
+        <givenName>Jim</givenName>
+        <surName>Casaer</surName>
+      </individualName>
+      <electronicMailAddress>jim.casaer@inbo.be</electronicMailAddress>
+    </creator>
+    <creator>
+      <individualName>
+        <givenName>Abel</givenName>
+        <surName>De Boer</surName>
+      </individualName>
+      <electronicMailAddress>adeboer@wetterskipfryslan.nl</electronicMailAddress>
+    </creator>
+    <creator>
+      <individualName>
+        <givenName>Dennis</givenName>
+        <surName>Donckers</surName>
+      </individualName>
+      <electronicMailAddress>dennis.donckers2@telenet.be</electronicMailAddress>
+    </creator>
+    <creator>
+      <individualName>
+        <givenName>Silke</givenName>
+        <surName>Dupont</surName>
+      </individualName>
+      <electronicMailAddress>silke.dupont@student.odisee.be</electronicMailAddress>
+    </creator>
+    <creator>
+      <individualName>
+        <givenName>Heiko</givenName>
+        <surName>Fritz</surName>
+      </individualName>
+      <electronicMailAddress>foersterheiko@gmx.de</electronicMailAddress>
+    </creator>
+    <creator>
+      <individualName>
+        <givenName>Lilja</givenName>
+        <surName>Fromme</surName>
+      </individualName>
+      <electronicMailAddress>lilja.fromme@gmail.com</electronicMailAddress>
+    </creator>
+    <creator>
+      <individualName>
+        <givenName>Friederike</givenName>
+        <surName>Gethöffer</surName>
+      </individualName>
+      <electronicMailAddress>friederike.gethoeffer@tiho-hannover.de</electronicMailAddress>
+    </creator>
+    <creator>
+      <individualName>
+        <givenName>Frank</givenName>
+        <surName>Huysentruyt</surName>
+      </individualName>
+      <organizationName>Research Institute for Nature and Forest (INBO)</organizationName>
+      <electronicMailAddress>frank.huysentruyt@inbo.be</electronicMailAddress>
+      <userId directory="http://orcid.org/">0000-0002-3071-9126</userId>
+    </creator>
+    <creator>
+      <individualName>
+        <givenName>Leo</givenName>
+        <surName>Kehl</surName>
+      </individualName>
+      <electronicMailAddress>leo.kehl@tiho-hannover.de</electronicMailAddress>
+    </creator>
+    <creator>
+      <individualName>
+        <givenName>Liam</givenName>
+        <surName>Letheren</surName>
+      </individualName>
+      <electronicMailAddress>ljletheren@hotmail.co.uk</electronicMailAddress>
+    </creator>
+    <creator>
+      <individualName>
+        <givenName>Lydia</givenName>
+        <surName>Liebgott</surName>
+      </individualName>
+      <electronicMailAddress>lydia.liebgott@tiho-hannover.de</electronicMailAddress>
+    </creator>
+    <creator>
+      <individualName>
+        <givenName>Yorick</givenName>
+        <surName>Liefting</surName>
+      </individualName>
+      <organizationName>Wageningen University</organizationName>
+      <electronicMailAddress>yorick.liefting@wur.nl</electronicMailAddress>
+    </creator>
+    <creator>
+      <individualName>
+        <givenName>Jan</givenName>
+        <surName>Lodewijkx</surName>
+      </individualName>
+      <electronicMailAddress>j.lodewijkx@vmm.be</electronicMailAddress>
+    </creator>
+    <creator>
+      <individualName>
+        <givenName>Claudia</givenName>
+        <surName>Maistrelli</surName>
+      </individualName>
+      <electronicMailAddress>claudia.maistrelli@tiho-hannover.de</electronicMailAddress>
+    </creator>
+    <creator>
+      <individualName>
+        <givenName>Björn</givenName>
+        <surName>Matthies</surName>
+      </individualName>
+      <electronicMailAddress>bjoern.matthies@lwk-niedersachsen.de</electronicMailAddress>
+    </creator>
+    <creator>
+      <individualName>
+        <givenName>Kelly</givenName>
+        <surName>Meijvisch</surName>
+      </individualName>
+      <electronicMailAddress>kelly.meijvisch@outlook.be</electronicMailAddress>
+    </creator>
+    <creator>
+      <individualName>
+        <givenName>Dolf</givenName>
+        <surName>Moerkens</surName>
+      </individualName>
+      <organizationName>Unie van Waterschappen</organizationName>
+      <electronicMailAddress>dmoerkens@uvw.nl</electronicMailAddress>
+      <onlineUrl>https://www.uvw.nl/</onlineUrl>
+    </creator>
+    <creator>
+      <individualName>
+        <givenName>Axel</givenName>
+        <surName>Neukermans</surName>
+      </individualName>
+      <organizationName>Research Institute for Nature and Forest (INBO)</organizationName>
+      <electronicMailAddress>axel.neukermans@inbo.be</electronicMailAddress>
+      <userId directory="http://orcid.org/">0000-0003-0272-9180</userId>
+    </creator>
+    <creator>
+      <individualName>
+        <givenName>Kurt</givenName>
+        <surName>Schamp</surName>
+      </individualName>
+      <electronicMailAddress>kurt.schamp@inbo.be</electronicMailAddress>
+    </creator>
+    <creator>
+      <individualName>
+        <givenName>Dan</givenName>
+        <surName>Slootmaekers</surName>
+      </individualName>
+      <electronicMailAddress>d.slootmaekers@vmm.be</electronicMailAddress>
+    </creator>
+    <creator>
+      <individualName>
+        <givenName>Danny</givenName>
+        <surName>Van der beeck</surName>
+      </individualName>
+      <electronicMailAddress>daniel.vanderbeeck@gmail.com</electronicMailAddress>
+    </creator>
+    <creator>
+      <individualName>
+        <givenName>Peter</givenName>
+        <surName>Desmet</surName>
+      </individualName>
+      <organizationName>Research Institute for Nature and Forest (INBO)</organizationName>
+      <electronicMailAddress>peter.desmet@inbo.be</electronicMailAddress>
+      <userId directory="http://orcid.org/">0000-0002-8442-8025</userId>
+    </creator>
+    <metadataProvider>
+      <individualName>
+        <givenName>Emma</givenName>
+        <surName>Cartuyvels</surName>
+      </individualName>
+      <organizationName>Research Institute for Nature and Forest (INBO)</organizationName>
+      <electronicMailAddress>emma.cartuyvels@inbo.be</electronicMailAddress>
+      <userId directory="http://orcid.org/">0000-0001-7856-6360</userId>
+    </metadataProvider>
+    <associatedParty>
+      <individualName>
+        <givenName/>
+      </individualName>
+      <organizationName>Research Institute for Nature and Forest (INBO)</organizationName>
+      <onlineUrl>https://inbo.be</onlineUrl>
+    </associatedParty>
+    <pubDate>2022-07-08</pubDate>
+    <abstract>
+      <para><![CDATA[<span></span>This camera trap dataset is derived from the <a href="https://agouti.eu">Agouti</a> project <a href="https://lifemica.eu/">MICA - Muskrat and Coypu</a>. Data have been standardized to Darwin Core using the <a href="https://inbo.github.io/camtraptor/">camtraptor</a> R package and only include observations (and associated media) of animals. Excluded are records that document blank or unclassified media, vehicles and observations of humans. Geospatial coordinates are rounded to 0.001 degrees. The original dataset description follows.]]></para>
+      <para><![CDATA[<em>MICA - Muskrat and coypu camera trap observations in Belgium, the Netherlands and Germany</em> is an occurrence dataset published by the Research Institute of Nature and Forest (INBO). It is part of the LIFE project MICA, in which innovative techniques are tested for a more efficient control of muskrat and coypu populations, both invasive species. The dataset contains camera trap observations of muskrat and coypu, as well as many other observed species. Issues with the dataset can be reported at <a href="https://github.com/inbo/mica-occurrences/issues">https://github.com/inbo/mica-occurrences/issues</a>]]></para>
+      <para>We have released this dataset to the public domain under a Creative Commons Zero waiver. We would appreciate it if you follow the INBO norms for data use (https://www.inbo.be/en/norms-data-use) when using the data. If you have any questions regarding this dataset, don't hesitate to contact us via the contact information provided in the metadata or via opendata@inbo.be.</para>
+      <para>This dataset was collected using infrastructure provided by INBO and funded by Research Foundation - Flanders (FWO) as part of the Belgian contribution to LifeWatch. The data were collected as part of the MICA project, which received funding from the European Union’s LIFE Environment sub-programme under the grant agreement LIFE18 NAT/NL/001047. The dataset was published with funding from Stichting NLBIF - Netherlands Biodiversity Information Facility.</para>
+    </abstract>
+    <keywordSet>
+      <keyword>camera traps</keyword>
+      <keyword>public awareness campaign</keyword>
+      <keyword>flood protection</keyword>
+      <keyword>flood control</keyword>
+      <keyword>damage prevention</keyword>
+      <keyword>animal damage</keyword>
+      <keyword>pest control</keyword>
+      <keyword>invasive alien species</keyword>
+      <keyword>muskrat</keyword>
+      <keyword>coypu</keyword>
+      <keywordThesaurus>n/a</keywordThesaurus>
+    </keywordSet>
+    <intellectualRights>
+      <para>CC0-1.0</para>
+    </intellectualRights>
+    <distribution scope="document">
+      <online>
+        <url function="information">https://lifemica.eu/</url>
+      </online>
+    </distribution>
+    <coverage>
+      <geographicCoverage>
+        <geographicDescription>Belgium (Flanders), The Netherlands and Germany.</geographicDescription>
+        <boundingCoordinates>
+          <westBoundingCoordinate>3.5176</westBoundingCoordinate>
+          <eastBoundingCoordinate>8.3299</eastBoundingCoordinate>
+          <northBoundingCoordinate>53.4074</northBoundingCoordinate>
+          <southBoundingCoordinate>50.699</southBoundingCoordinate>
+        </boundingCoordinates>
+      </geographicCoverage>
+      <temporalCoverage>
+        <rangeOfDates>
+          <beginDate>
+            <calendarDate>2019-09-18</calendarDate>
+          </beginDate>
+          <endDate>
+            <calendarDate>2022-07-05</calendarDate>
+          </endDate>
+        </rangeOfDates>
+      </temporalCoverage>
+      <taxonomicCoverage>
+        <generalTaxonomicCoverage>The target species for this dataset are Ondatra zibethicus and Myocastor coypus, but many other species have been observed as well.</generalTaxonomicCoverage>
+        <taxonomicClassification>
+          <taxonRankName>Species</taxonRankName>
+          <taxonRankValue>Accipiter gentilis</taxonRankValue>
+        </taxonomicClassification>
+        <taxonomicClassification>
+          <taxonRankName>Species</taxonRankName>
+          <taxonRankValue>Acrocephalus schoenobaenus</taxonRankValue>
+        </taxonomicClassification>
+        <taxonomicClassification>
+          <taxonRankName>Species</taxonRankName>
+          <taxonRankValue>Aix galericulata</taxonRankValue>
+        </taxonomicClassification>
+        <taxonomicClassification>
+          <taxonRankName>Species</taxonRankName>
+          <taxonRankValue>Aix sponsa</taxonRankValue>
+        </taxonomicClassification>
+        <taxonomicClassification>
+          <taxonRankName>Species</taxonRankName>
+          <taxonRankValue>Alcedo atthis</taxonRankValue>
+        </taxonomicClassification>
+        <taxonomicClassification>
+          <taxonRankName>Species</taxonRankName>
+          <taxonRankValue>Alopochen aegyptiaca</taxonRankValue>
+        </taxonomicClassification>
+        <taxonomicClassification>
+          <taxonRankName>Species</taxonRankName>
+          <taxonRankValue>Anas americana</taxonRankValue>
+        </taxonomicClassification>
+        <taxonomicClassification>
+          <taxonRankName>Species</taxonRankName>
+          <taxonRankValue>Anas clypeata</taxonRankValue>
+        </taxonomicClassification>
+        <taxonomicClassification>
+          <taxonRankName>Species</taxonRankName>
+          <taxonRankValue>Anas crecca</taxonRankValue>
+        </taxonomicClassification>
+        <taxonomicClassification>
+          <taxonRankName>Species</taxonRankName>
+          <taxonRankValue>Anas penelope</taxonRankValue>
+        </taxonomicClassification>
+        <taxonomicClassification>
+          <taxonRankName>Species</taxonRankName>
+          <taxonRankValue>Anas platyrhynchos</taxonRankValue>
+        </taxonomicClassification>
+        <taxonomicClassification>
+          <taxonRankName>Species</taxonRankName>
+          <taxonRankValue>Anas strepera</taxonRankValue>
+        </taxonomicClassification>
+        <taxonomicClassification>
+          <taxonRankName>Species</taxonRankName>
+          <taxonRankValue>Anser anser</taxonRankValue>
+        </taxonomicClassification>
+        <taxonomicClassification>
+          <taxonRankName>Species</taxonRankName>
+          <taxonRankValue>Apodemus sylvaticus</taxonRankValue>
+        </taxonomicClassification>
+        <taxonomicClassification>
+          <taxonRankName>Species</taxonRankName>
+          <taxonRankValue>Ardea alba</taxonRankValue>
+        </taxonomicClassification>
+        <taxonomicClassification>
+          <taxonRankName>Species</taxonRankName>
+          <taxonRankValue>Ardea cinerea</taxonRankValue>
+        </taxonomicClassification>
+        <taxonomicClassification>
+          <taxonRankName>Species</taxonRankName>
+          <taxonRankValue>Arvicola amphibius</taxonRankValue>
+        </taxonomicClassification>
+        <taxonomicClassification>
+          <taxonRankName>Species</taxonRankName>
+          <taxonRankValue>Aythya fuligula</taxonRankValue>
+        </taxonomicClassification>
+        <taxonomicClassification>
+          <taxonRankName>Species</taxonRankName>
+          <taxonRankValue>Branta canadensis</taxonRankValue>
+        </taxonomicClassification>
+        <taxonomicClassification>
+          <taxonRankName>Species</taxonRankName>
+          <taxonRankValue>Capreolus capreolus</taxonRankValue>
+        </taxonomicClassification>
+        <taxonomicClassification>
+          <taxonRankName>Species</taxonRankName>
+          <taxonRankValue>Castor fiber</taxonRankValue>
+        </taxonomicClassification>
+        <taxonomicClassification>
+          <taxonRankName>Species</taxonRankName>
+          <taxonRankValue>Cervus elaphus</taxonRankValue>
+        </taxonomicClassification>
+        <taxonomicClassification>
+          <taxonRankName>Species</taxonRankName>
+          <taxonRankValue>Coloeus monedula</taxonRankValue>
+        </taxonomicClassification>
+        <taxonomicClassification>
+          <taxonRankName>Species</taxonRankName>
+          <taxonRankValue>Columba palumbus</taxonRankValue>
+        </taxonomicClassification>
+        <taxonomicClassification>
+          <taxonRankName>Species</taxonRankName>
+          <taxonRankValue>Corvus corax</taxonRankValue>
+        </taxonomicClassification>
+        <taxonomicClassification>
+          <taxonRankName>Species</taxonRankName>
+          <taxonRankValue>Corvus corone</taxonRankValue>
+        </taxonomicClassification>
+        <taxonomicClassification>
+          <taxonRankName>Species</taxonRankName>
+          <taxonRankValue>Cyanistes caeruleus</taxonRankValue>
+        </taxonomicClassification>
+        <taxonomicClassification>
+          <taxonRankName>Species</taxonRankName>
+          <taxonRankValue>Cygnus olor</taxonRankValue>
+        </taxonomicClassification>
+        <taxonomicClassification>
+          <taxonRankName>Species</taxonRankName>
+          <taxonRankValue>Cyprinus carpio</taxonRankValue>
+        </taxonomicClassification>
+        <taxonomicClassification>
+          <taxonRankName>Species</taxonRankName>
+          <taxonRankValue>Dendrocopos major</taxonRankValue>
+        </taxonomicClassification>
+        <taxonomicClassification>
+          <taxonRankName>Species</taxonRankName>
+          <taxonRankValue>Erinaceus europaeus</taxonRankValue>
+        </taxonomicClassification>
+        <taxonomicClassification>
+          <taxonRankName>Species</taxonRankName>
+          <taxonRankValue>Erithacus rubecula</taxonRankValue>
+        </taxonomicClassification>
+        <taxonomicClassification>
+          <taxonRankName>Species</taxonRankName>
+          <taxonRankValue>Felis catus</taxonRankValue>
+        </taxonomicClassification>
+        <taxonomicClassification>
+          <taxonRankName>Species</taxonRankName>
+          <taxonRankValue>Fringilla coelebs</taxonRankValue>
+        </taxonomicClassification>
+        <taxonomicClassification>
+          <taxonRankName>Species</taxonRankName>
+          <taxonRankValue>Fulica atra</taxonRankValue>
+        </taxonomicClassification>
+        <taxonomicClassification>
+          <taxonRankName>Species</taxonRankName>
+          <taxonRankValue>Gallinula chloropus</taxonRankValue>
+        </taxonomicClassification>
+        <taxonomicClassification>
+          <taxonRankName>Species</taxonRankName>
+          <taxonRankValue>Garrulus glandarius</taxonRankValue>
+        </taxonomicClassification>
+        <taxonomicClassification>
+          <taxonRankName>Species</taxonRankName>
+          <taxonRankValue>Homo sapiens</taxonRankValue>
+        </taxonomicClassification>
+        <taxonomicClassification>
+          <taxonRankName>Species</taxonRankName>
+          <taxonRankValue>Lepus europaeus</taxonRankValue>
+        </taxonomicClassification>
+        <taxonomicClassification>
+          <taxonRankName>Species</taxonRankName>
+          <taxonRankValue>Lutra lutra</taxonRankValue>
+        </taxonomicClassification>
+        <taxonomicClassification>
+          <taxonRankName>Species</taxonRankName>
+          <taxonRankValue>Martes foina</taxonRankValue>
+        </taxonomicClassification>
+        <taxonomicClassification>
+          <taxonRankName>Species</taxonRankName>
+          <taxonRankValue>Martes martes</taxonRankValue>
+        </taxonomicClassification>
+        <taxonomicClassification>
+          <taxonRankName>Species</taxonRankName>
+          <taxonRankValue>Meles meles</taxonRankValue>
+        </taxonomicClassification>
+        <taxonomicClassification>
+          <taxonRankName>Species</taxonRankName>
+          <taxonRankValue>Motacilla cinerea</taxonRankValue>
+        </taxonomicClassification>
+        <taxonomicClassification>
+          <taxonRankName>Species</taxonRankName>
+          <taxonRankValue>Muntiacus reevesi</taxonRankValue>
+        </taxonomicClassification>
+        <taxonomicClassification>
+          <taxonRankName>Species</taxonRankName>
+          <taxonRankValue>Mustela erminea</taxonRankValue>
+        </taxonomicClassification>
+        <taxonomicClassification>
+          <taxonRankName>Species</taxonRankName>
+          <taxonRankValue>Mustela putorius</taxonRankValue>
+        </taxonomicClassification>
+        <taxonomicClassification>
+          <taxonRankName>Species</taxonRankName>
+          <taxonRankValue>Myocastor coypus</taxonRankValue>
+        </taxonomicClassification>
+        <taxonomicClassification>
+          <taxonRankName>Species</taxonRankName>
+          <taxonRankValue>Ondatra zibethicus</taxonRankValue>
+        </taxonomicClassification>
+        <taxonomicClassification>
+          <taxonRankName>Species</taxonRankName>
+          <taxonRankValue>Oryctolagus cuniculus</taxonRankValue>
+        </taxonomicClassification>
+        <taxonomicClassification>
+          <taxonRankName>Species</taxonRankName>
+          <taxonRankValue>Ovis ammon</taxonRankValue>
+        </taxonomicClassification>
+        <taxonomicClassification>
+          <taxonRankName>Species</taxonRankName>
+          <taxonRankValue>Ovis aries</taxonRankValue>
+        </taxonomicClassification>
+        <taxonomicClassification>
+          <taxonRankName>Species</taxonRankName>
+          <taxonRankValue>Parus major</taxonRankValue>
+        </taxonomicClassification>
+        <taxonomicClassification>
+          <taxonRankName>Species</taxonRankName>
+          <taxonRankValue>Phalacrocorax carbo</taxonRankValue>
+        </taxonomicClassification>
+        <taxonomicClassification>
+          <taxonRankName>Species</taxonRankName>
+          <taxonRankValue>Phasianus colchicus</taxonRankValue>
+        </taxonomicClassification>
+        <taxonomicClassification>
+          <taxonRankName>Species</taxonRankName>
+          <taxonRankValue>Phoenicurus phoenicurus</taxonRankValue>
+        </taxonomicClassification>
+        <taxonomicClassification>
+          <taxonRankName>Species</taxonRankName>
+          <taxonRankValue>Pica pica</taxonRankValue>
+        </taxonomicClassification>
+        <taxonomicClassification>
+          <taxonRankName>Species</taxonRankName>
+          <taxonRankValue>Picus viridis</taxonRankValue>
+        </taxonomicClassification>
+        <taxonomicClassification>
+          <taxonRankName>Species</taxonRankName>
+          <taxonRankValue>Podiceps cristatus</taxonRankValue>
+        </taxonomicClassification>
+        <taxonomicClassification>
+          <taxonRankName>Species</taxonRankName>
+          <taxonRankValue>Procyon lotor</taxonRankValue>
+        </taxonomicClassification>
+        <taxonomicClassification>
+          <taxonRankName>Species</taxonRankName>
+          <taxonRankValue>Prunella modularis</taxonRankValue>
+        </taxonomicClassification>
+        <taxonomicClassification>
+          <taxonRankName>Species</taxonRankName>
+          <taxonRankValue>Rallus aquaticus</taxonRankValue>
+        </taxonomicClassification>
+        <taxonomicClassification>
+          <taxonRankName>Species</taxonRankName>
+          <taxonRankValue>Rattus norvegicus</taxonRankValue>
+        </taxonomicClassification>
+        <taxonomicClassification>
+          <taxonRankName>Species</taxonRankName>
+          <taxonRankValue>Sciurus vulgaris</taxonRankValue>
+        </taxonomicClassification>
+        <taxonomicClassification>
+          <taxonRankName>Species</taxonRankName>
+          <taxonRankValue>Scolopax rusticola</taxonRankValue>
+        </taxonomicClassification>
+        <taxonomicClassification>
+          <taxonRankName>Species</taxonRankName>
+          <taxonRankValue>Strix aluco</taxonRankValue>
+        </taxonomicClassification>
+        <taxonomicClassification>
+          <taxonRankName>Species</taxonRankName>
+          <taxonRankValue>Sus scrofa</taxonRankValue>
+        </taxonomicClassification>
+        <taxonomicClassification>
+          <taxonRankName>Species</taxonRankName>
+          <taxonRankValue>Sylvia atricapilla</taxonRankValue>
+        </taxonomicClassification>
+        <taxonomicClassification>
+          <taxonRankName>Species</taxonRankName>
+          <taxonRankValue>Tachybaptus ruficollis</taxonRankValue>
+        </taxonomicClassification>
+        <taxonomicClassification>
+          <taxonRankName>Species</taxonRankName>
+          <taxonRankValue>Tadorna ferruginea</taxonRankValue>
+        </taxonomicClassification>
+        <taxonomicClassification>
+          <taxonRankName>Species</taxonRankName>
+          <taxonRankValue>Tadorna tadorna</taxonRankValue>
+        </taxonomicClassification>
+        <taxonomicClassification>
+          <taxonRankName>Species</taxonRankName>
+          <taxonRankValue>Tringa ochropus</taxonRankValue>
+        </taxonomicClassification>
+        <taxonomicClassification>
+          <taxonRankName>Species</taxonRankName>
+          <taxonRankValue>Troglodytes troglodytes</taxonRankValue>
+        </taxonomicClassification>
+        <taxonomicClassification>
+          <taxonRankName>Species</taxonRankName>
+          <taxonRankValue>Turdus iliacus</taxonRankValue>
+        </taxonomicClassification>
+        <taxonomicClassification>
+          <taxonRankName>Species</taxonRankName>
+          <taxonRankValue>Turdus merula</taxonRankValue>
+        </taxonomicClassification>
+        <taxonomicClassification>
+          <taxonRankName>Species</taxonRankName>
+          <taxonRankValue>Turdus philomelos</taxonRankValue>
+        </taxonomicClassification>
+        <taxonomicClassification>
+          <taxonRankName>Species</taxonRankName>
+          <taxonRankValue>Tyto alba</taxonRankValue>
+        </taxonomicClassification>
+        <taxonomicClassification>
+          <taxonRankName>Species</taxonRankName>
+          <taxonRankValue>Vulpes vulpes</taxonRankValue>
+        </taxonomicClassification>
+      </taxonomicCoverage>
+    </coverage>
+    <contact>
+      <individualName>
+        <givenName>Emma</givenName>
+        <surName>Cartuyvels</surName>
+      </individualName>
+      <organizationName>Research Institute for Nature and Forest (INBO)</organizationName>
+      <electronicMailAddress>emma.cartuyvels@inbo.be</electronicMailAddress>
+      <userId directory="http://orcid.org/">0000-0001-7856-6360</userId>
+    </contact>
+    <methods>
+      <sampling>
+        <studyExtent>
+          <description>
+            <para>Four locations in Flanders and one in Germany were sampled using 26 camera traps in Flanders and 7 in Germany. These camera traps were located in areas where the presence of muskrat and/or coypu was suspected. The camera traps are motion triggered and therefore also collected images of other animals found in these locations.</para>
+          </description>
+        </studyExtent>
+        <samplingDescription>
+          <para>A standard protocol (https://lifemica.eu/wp-content/uploads/2021/03/Protocol-camera-traps.pdf) was followed to choose the location for the traps. The setup of camera traps was standardised for water habitat. Subsequently, 33 camera traps were deployed in four locations in Flanders and one in Germany. Once a month images were collected from the camera traps and uploaded to Agouti. Project members scored the images in Agouti.]]&gt;</para>
+        </samplingDescription>
+      </sampling>
+      <qualityControl>
+        <description>
+          <para>Data are collected using a predefined sampling protocol. All observations of muskrats, coypu, brown rats and European water voles are cross-validated by experienced project members.</para>
+        </description>
+      </qualityControl>
+    </methods>
+    <project id="LIFE18 NAT/NL/001047">
+      <title>MICA - Muskrat and Coypu</title>
+      <personnel>
+        <individualName>
+          <givenName>Emma</givenName>
+          <surName>Cartuyvels</surName>
+        </individualName>
+        <organizationName>Research Institute for Nature and Forest (INBO)</organizationName>
+        <electronicMailAddress>emma.cartuyvels@inbo.be</electronicMailAddress>
+        <userId directory="http://orcid.org/">0000-0001-7856-6360</userId>
+      </personnel>
+      <abstract>
+        <para>This project is part of the LIFE project MICA, in which innovative techniques are tested for a more efficient control of muskrat and coypu populations, both invasive species. Camera traps were located in areas where the presence of muskrat and/or coypu was suspected. The resulting data are published to Zenodo (https://doi.org/10.5281/zenodo.4893243) and GBIF (https://doi.org/10.15468/5tb6ze).</para>
+      </abstract>
+      <funding>
+        <para>LIFE programme</para>
+      </funding>
+      <studyAreaDescription>
+        <descriptor>
+          <descriptorValue>Belgium, the Netherlands, Germany</descriptorValue>
+        </descriptor>
+      </studyAreaDescription>
+      <designDescription>
+        <description>
+          <para>This project uses a targeted sampling design. Animals are unmarked and camera traps are triggered with motion detection and time lapse. Media are classified at sequence level.</para>
+        </description>
+      </designDescription>
+    </project>
+  </dataset>
+</eml:eml>
