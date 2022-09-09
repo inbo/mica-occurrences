@@ -13,353 +13,152 @@ knitr::opts_chunk$set(echo = TRUE, warning = FALSE, message = TRUE)
 Load libraries:
 
 ```{r message = FALSE}
-library(tidyverse)      # To do data science
-library(tidylog)        # To provide feedback on dplyr functions
-library(magrittr)       # To use %<>% pipes
-library(here)           # To find files
-library(janitor)        # To clean input data
-library(datapackage)    # To read the source data
+library(dplyr)
+library(here)
+library(camtraptor)
+library(EML)
 ```
 
-# Quick timezone conversion
-
-Most of the Darwin Core mapping is done by running queries in sqlite. But timezones get ignored when reading data into sqlite. R converts them nicely to UTC. So the following code reads, converts and writes the raw data files, which can then be uploaded in sqlite:
-
-```{r eval = FALSE}
-dp <- read_package("https://zenodo.org/record/4893244/files/datapackage.json")
-deployments <- read_resource(dp, "deployments")
-multimedia <- read_resource(dp, "multimedia")
-observations <- read_resource(dp, "observations")
-```
-
-```{r eval = FALSE}
-write_csv(deployments, here::here("datasets", "mica-agouti-occurrences", "data", "raw", "deployments.csv"), na = "")
-write_csv(multimedia, here::here("datasets", "mica-agouti-occurrences", "data", "raw", "multimedia.csv"), na = "")
-write_csv(observations, here::here("datasets", "mica-agouti-occurrences", "data", "raw", "observations.csv"), na = "")
-```
-
-# Read source data
-
-Data are exported from Agouti in the [Camtrap DP](https://gitlab.com/oscf/camtrap-dp) format. The main transformation to Darwin Core is done using the generic camtrap-dp to dwc guidelines in [dwc-for-biologging](https://github.com/tdwg/dwc-for-biologging/tree/master/derived/camtrap-dp). **We thus start from Darwin Core formatted files** (in `data/interim`), that we enhance mostly with static terms that are not yet included.
+## Read data
 
 ```{r}
-occurrence <- read_csv(here::here("datasets", "mica-agouti-occurrences", "data", "interim", "dwc_occurrence.csv"))
-multimedia <- read_csv(here::here("datasets", "mica-agouti-occurrences", "data", "interim", "dwc_multimedia.csv"))
+agouti_export <- "~/Downloads/mica-management-of-invasive-coypu-and-muskrat-in-europe-20220909104225/datapackage.json"
+package <- camtraptor::read_camtrap_dp(agouti_export)
 ```
 
-Preview data:
+## Round coordinates
+
+Round coordinates to 3 decimals to generalize location information in order prevent theft of active cameras, see <https://github.com/inbo/mica-occurrences/issues/6>. This results in a coordinate uncertainty of 187 m (157 + default 30).
 
 ```{r}
-occurrence %>% head()
+package <- camtraptor::round_coordinates(package, 3)
 ```
 
-# Darwin Core mapping
+## Create EML
 
-## Occurrence core
-
-Map the data to [Darwin Core Occurrence](http://rs.gbif.org/core/dwc_occurrence_2015-07-02.xml).
-
-### type
+Add missing `package` properties:
 
 ```{r}
-occurrence %<>% mutate(dwc_type = type)
+package$id <- "https://doi.org/10.15468/5tb6ze"
+package$title <- "MICA - Muskrat and coypu camera trap observations in Belgium, the Netherlands and Germany"
+package$rightsHolder <- "INBO"
+package$licenses <- list(
+  list(
+    scope = "data",
+    name = "CC0-1.0",
+    path = "https://creativecommons.org/publicdomain/zero/1.0/"
+  ),
+  list(
+    scope = "media",
+    name = "CC-BY",
+    path = "https://creativecommons.org/licenses/by/4.0/"
+  )
+)
+package$description <- c(
+  "<![CDATA[<em>MICA - Muskrat and coypu camera trap observations in Belgium, the Netherlands and Germany</em> is an occurrence dataset published by the Research Institute of Nature and Forest (INBO). It is part of the LIFE project MICA, in which innovative techniques are tested for a more efficient control of muskrat and coypu populations, both invasive species. The dataset contains camera trap observations of muskrat and coypu, as well as many other observed species. Issues with the dataset can be reported at <a href=\"https://github.com/inbo/mica-occurrences/issues\">https://github.com/inbo/mica-occurrences/issues</a>]]>",
+  "We have released this dataset to the public domain under a Creative Commons Zero waiver. We would appreciate it if you follow the INBO norms for data use (https://www.inbo.be/en/norms-data-use) when using the data. If you have any questions regarding this dataset, don't hesitate to contact us via the contact information provided in the metadata or via opendata@inbo.be.",
+  "This dataset was collected using infrastructure provided by INBO and funded by Research Foundation - Flanders (FWO) as part of the Belgian contribution to LifeWatch. The data were collected as part of the MICA project, which received funding from the European Union’s LIFE Environment sub-programme under the grant agreement LIFE18 NAT/NL/001047. The dataset was published with funding from Stichting NLBIF - Netherlands Biodiversity Information Facility."
+)
 ```
 
-### language
+Add missing authors:
 
 ```{r}
-occurrence %<>% mutate(dwc_language = "en") # NEW TERM
+package$contributors <- append(
+  package$contributors,
+  list(
+    list(
+      title = "Dimitri Brosens",
+      email = "dimitri.brosens@inbo.be",
+      role = "contributor",
+      path = "https://orcid.org/0000-0002-0846-9116",
+      organization = "Research Institute for Nature and Forest (INBO)"
+    ),
+    list(
+      title = "Kristof Baert",
+      email = "kristof.baert@inbo.be",
+      role = "contributor",
+      path = "https://orcid.org/0000-0003-2015-5731",
+      organization = "Research Institute for Nature and Forest (INBO)"
+    ),
+    list(
+      title = "Sander Devisscher",
+      email = "sander.devisscher@inbo.be",
+      role = "contributor",
+      path = "https://orcid.org/0000-0002-0846-9116",
+      organization = "Research Institute for Nature and Forest (INBO)"
+    ),
+    list(title = "Brecht Neukermans", role = "contributor"),
+    list(title = "Casper Herbots", role = "contributor"),
+    list(title = "Warre Baert", role = "contributor"),
+    list(title = "Wouter Franceus", role = "contributor"),
+    list(title = "Jelle Ronsijn", role = "contributor")
+  )
+)
 ```
 
-### license
+Run `write_eml()` function:
 
 ```{r}
-occurrence %<>% mutate(dwc_license = "http://creativecommons.org/publicdomain/zero/1.0/") # NEW TERM
+eml <- camtraptor::write_eml(
+  package = package,
+  directory = NULL,
+  creators = c("Emma Cartuyvels", "...", "Peter Desmet"),
+  keywords = c(
+    "camera traps",
+    "public awareness campaign",
+    "flood protection",
+    "flood control",
+    "damage prevention",
+    "animal damage",
+    "pest control",
+    "invasive alien species",
+    "muskrat",
+    "coypu"
+  )
+)
 ```
 
-### rightsHolder
+Add/update missing EML properties:
 
 ```{r}
-occurrence %<>% mutate(dwc_rightsHolder = "INBO") # NEW TERM
+# Geographic coverage
+eml$dataset$coverage$geographicCoverage$geographicDescription <-
+  "Belgium (Flanders), The Netherlands and Germany."
+
+# Taxonomic coverage
+eml$dataset$coverage$taxonomicCoverage$generalTaxonomicCoverage <-
+  "The target species for this dataset are Ondatra zibethicus and Myocastor coypus, but many other species have been observed as well."
+
+# Project
+eml$dataset$project$id <- "LIFE18 NAT/NL/001047"
+eml$dataset$project$funding$para <- "LIFE programme"
+eml$dataset$project$studyAreaDescription$descriptor$descriptorValue <- 
+  "Belgium, the Netherlands, Germany"
+
+# Sampling methods
+eml$dataset$methods$sampling$studyExtent$description$para <-
+  "Four locations in Flanders and one in Germany were sampled using 26 camera traps in Flanders and 7 in Germany. These camera traps were located in areas where the presence of muskrat and/or coypu was suspected. The camera traps are motion triggered and therefore also collected images of other animals found in these locations."
+eml$dataset$methods$sampling$samplingDescription$para <-
+  "A standard protocol (https://lifemica.eu/wp-content/uploads/2021/03/Protocol-camera-traps.pdf) was followed to choose the location for the traps. The setup of camera traps was standardised for water habitat. Subsequently, 33 camera traps were deployed in four locations in Flanders and one in Germany. Once a month images were collected from the camera traps and uploaded to Agouti. Project members scored the images in Agouti.]]>"
+eml$dataset$methods$qualityControl$description$para <-
+  "Data are collected using a predefined sampling protocol. All observations of muskrats, coypu, brown rats and European water voles are cross-validated by experienced project members."
+
+# Additional metadata
+eml$dataset$alternateIdentifier <- c(
+  "8a5cbaec-2839-4471-9e1d-98df301095dd", # Instead of DOI
+  "https://ipt.inbo.be/resource?r=mica-agouti-occurrences"
+)
 ```
 
-### accessRights
+Write eml to file:
 
 ```{r}
-occurrence %<>% mutate(dwc_accessRights = "http://www.inbo.be/en/norms-for-data-use") # NEW TERM
+EML::write_eml(eml, here::here("datasets", "mica-agouti-occurrences", "data", "processed", "eml.xml"))
 ```
 
-### datasetID
+## Create Darwin Core
 
 ```{r}
-occurrence %<>% mutate(dwc_datasetID = "https://doi.org/10.15468/5tb6ze") # NEW TERM
-```
-
-### institutionCode
-
-```{r}
-occurrence %<>% mutate(dwc_institutionCode = "INBO") # NEW TERM
-```
-
-### collectionCode
-
-```{r}
-occurrence %<>% mutate(dwc_collectionCode = "Agouti") # NEW TERM
-```
-
-### datasetName
-
-```{r}
-occurrence %<>% mutate(dwc_datasetName = "MICA - Muskrat and coypu camera trap observations in Belgium, the Netherlands and Germany") # NEW TERM
-```
-
-### basisOfRecord
-
-```{r}
-occurrence %<>% mutate(dwc_basisOfRecord = basisOfRecord)
-```
-
-### occurrenceID
-
-```{r}
-occurrence %<>% mutate(dwc_occurrenceID = occurrenceID)
-```
-
-### individualCount
-
-```{r}
-occurrence %<>% mutate(dwc_individualCount = individualCount)
-```
-
-### sex
-
-```{r}
-occurrence %<>% mutate(dwc_sex = sex)
-```
-
-### lifestage
-
-```{r}
-occurrence %<>% mutate(dwc_lifeStage = lifeStage)
-```
-
-### behavior
-
-```{r}
-# EXCLUDED: always empty
-```
-
-### occurrenceStatus
-
-```{r}
-occurrence %<>% mutate(dwc_occurrenceStatus = occurrenceStatus)
-```
-
-### organismID
-
-```{r}
-# EXLUCED: always empty
-```
-
-### eventID
-
-```{r}
-occurrence %<>% mutate(dwc_eventID = eventID)
-```
-
-### eventDate
-
-```{r}
-occurrence %<>% mutate(dwc_eventDate = eventDate)
-```
-
-### samplingProtocol
-
-```{r}
-occurrence %<>% mutate(dwc_samplingProtocol = samplingProtocol)
-```
-
-### eventRemarks
-
-```{r}
-# EXLUCED: not relevant
-```
-
-### locationID
-
-```{r}
-occurrence %<>% mutate(dwc_locationID = locationID)
-```
-
-### continent
-
-```{r}
-occurrence %<>% mutate(dwc_continent = "Europe") # NEW TERM
-```
-
-### locality
-
-```{r}
-occurrence %<>% mutate(dwc_locality = locality)
-```
-
-### decimalLatitude
-
-```{r}
-occurrence %<>% mutate(dwc_decimalLatitude = sprintf(
-  "%.3f",
-  round(decimalLatitude, digits = 3)
-))
-```
-
-### decimalLongitude
-
-```{r}
-occurrence %<>% mutate(dwc_decimalLongitude = sprintf(
-  "%.3f",
-  round(decimalLongitude, digits = 3)
-))
-```
-
-### geodeticDatum
-
-```{r}
-occurrence %<>% mutate(dwc_geodeticDatum = geodeticDatum)
-```
-
-### coordinateUncertaintyInMeters
-
-Coordinates are rounded to 3 decimals = 111m maximum, see <https://github.com/inbo/mica-occurrences/issues/6>.
-
-```{r}
-occurrence %<>% mutate(dwc_coordinateUncertaintyInMeters = "111") # NEW TERM
-```
-
-### identifiedBy
-
-```{r}
-occurrence %<>% mutate(dwc_identifiedBy = identifiedBy)
-```
-
-### dateIdentified
-
-```{r}
-occurrence %<>% mutate(dwc_dateIdentified = dateIdentified)
-```
-
-### identificationRemarks
-
-```{r}
-occurrence %<>% mutate(dwc_identificationRemarks = identificationRemarks)
-```
-
-### identificationVerificationStatus
-
-```{r}
-occurrence %<>% mutate(dwc_identificationVerificationStatus = identificationVerificationStatus)
-```
-
-### taxonID
-
-```{r}
-occurrence %<>% mutate(dwc_taxonID = taxonID)
-```
-
-### scientificName
-
-```{r}
-occurrence %<>% mutate(dwc_scientificName = scientificName)
-```
-
-### kingdom
-
-```{r}
-occurrence %<>% mutate(dwc_kingdom = kingdom)
-```
-
-### taxonRank
-
-```{r}
-occurrence %<>% mutate(dwc_taxonRank = case_when(
-  str_count(dwc_scientificName, " ") == 2 ~ "subspecies", # Including dogs
-  str_count(dwc_scientificName, " ") == 1 ~ "species",
-  dwc_scientificName %in% c("Anas", "Anser", "Ardea", "Equus", "Martes") ~ "genus",
-  dwc_scientificName %in% c("Columbidae", "Soricidae") ~ "family",
-  dwc_scientificName %in% c("Rodentia") ~ "order"
-)) # NEW TERM
-```
-
-### nomenclaturalCode
-
-```{r}
-occurrence %<>% mutate(dwc_nomenclaturalCode = "ICZN") # NEW TERM
-```
-
-## Multimedia extension
-
-Map the data to [Simple Multimedia extension](https://rs.gbif.org/extension/gbif/1.0/multimedia.xml).
-
-### occurrenceID
-
-```{r}
-multimedia %<>% mutate(dwc_occurrenceID = occurrenceID)
-```
-
-### type
-
-```{r}
-multimedia %<>% mutate(dwc_type = type)
-```
-
-### format
-
-```{r}
-multimedia %<>% mutate(dwc_format = format)
-```
-
-### identifier
-
-```{r}
-multimedia %<>% mutate(dwc_identifier = identifier)
-```
-
-### created
-
-```{r}
-multimedia %<>% mutate(dwc_created = created)
-```
-
-### license
-
-```{r}
-multimedia %<>% mutate(dwc_license = "https://creativecommons.org/licenses/by/4.0/") # NEW TERM
-```
-
-### rightsHolder
-
-```{r}
-multimedia %<>% mutate(dwc_rightsHolder = "INBO") # NEW TERM
-```
-
-# Post-processing
-
-Only keep the Darwin Core columns:
-
-```{r}
-occurrence %<>% select(starts_with("dwc_"))
-multimedia %<>% select(starts_with("dwc_"))
-```
-
-Drop the `dwc_` prefix:
-
-```{r}
-colnames(occurrence) <- str_remove(colnames(occurrence), "dwc_")
-colnames(multimedia) <- str_remove(colnames(multimedia), "dwc_")
-```
-
-Save to CSV:
-
-```{r}
-write_csv(occurrence, here::here("datasets", "mica-agouti-occurrences", "data", "processed", "occurrence.csv"), na = "")
-write_csv(multimedia, here::here("datasets", "mica-agouti-occurrences", "data", "processed", "multimedia.csv"), na = "")
+write_dwc(package, here::here("datasets", "mica-agouti-occurrences", "data", "processed"))
 ```

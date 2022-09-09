@@ -42,13 +42,9 @@ vignettes/*.pdf
 docs/
 
 # Data
-datasets/*/data/processed
-datasets/*/data/interim
-!datasets/something/data/processed/speciesList.csv
-
-# Mac OS X
-.DS_Store
-datasets/mica-tiho-occurrences/data/raw/Datas Coypu Lower Saxony.xlsx
+datasets/*/data/processed/*
+datasets/*/data/interim/*
+!datasets/*/data/processed/eml.xml
 *.xlsx
 *.geojson
 *.csv
@@ -56,3 +52,6 @@ datasets/mica-tiho-occurrences/data/raw/Datas Coypu Lower Saxony.xlsx
 *.txt
 *.gz
 occurrence.RData
+
+# Mac OS X
+.DS_Store
