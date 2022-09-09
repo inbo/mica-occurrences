@@ -64,24 +64,22 @@ package$description <- c(
 Add missing authors:
 
 ```{r}
-dimitri <- list(
-  title = "Dimitri Brosens",
-  email = "dimitri.brosens@inbo.be",
-  role = "contributor",
-  path = "https://orcid.org/0000-0002-0846-9116",
-  organization = "Research Institute for Nature and Forest (INBO)"
-)
-brecht <- list(
-  title = "Brecht Neukermans",
-  email = "",
-  role = "contributor",
-  path = "",
-  organization = ""
-)
-
 package$contributors <- append(
   package$contributors,
-  list(dimitri, brecht)
+  list(
+    list(
+      title = "Dimitri Brosens",
+      email = "dimitri.brosens@inbo.be",
+      role = "contributor",
+      path = "https://orcid.org/0000-0002-0846-9116",
+      organization = "Research Institute for Nature and Forest (INBO)"
+    ),
+    list(title = "Brecht Neukermans", role = "contributor"),
+    list(title = "Casper Herbots", role = "contributor"),
+    list(title = "Warre Baert", role = "contributor"),
+    list(title = "Wouter Franceus", role = "contributor"),
+    list(title = "Jelle Ronsijn", role = "contributor")
+  )
 )
 ```
 
