@@ -122,20 +122,33 @@ eml <- camtraptor::write_eml(
 Add/update missing EML properties:
 
 ```{r}
+# Geographic coverage
 eml$dataset$coverage$geographicCoverage$geographicDescription <-
   "Belgium (Flanders), The Netherlands and Germany."
+
+# Taxonomic coverage
 eml$dataset$coverage$taxonomicCoverage$generalTaxonomicCoverage <-
   "The target species for this dataset are Ondatra zibethicus and Myocastor coypus, but many other species have been observed as well."
+
+# Project
 eml$dataset$project$id <- "LIFE18 NAT/NL/001047"
 eml$dataset$project$funding$para <- "LIFE programme"
 eml$dataset$project$studyAreaDescription$descriptor$descriptorValue <- 
   "Belgium, the Netherlands, Germany"
+
+# Sampling methods
 eml$dataset$methods$sampling$studyExtent$description$para <-
   "Four locations in Flanders and one in Germany were sampled using 26 camera traps in Flanders and 7 in Germany. These camera traps were located in areas where the presence of muskrat and/or coypu was suspected. The camera traps are motion triggered and therefore also collected images of other animals found in these locations."
 eml$dataset$methods$sampling$samplingDescription$para <-
   "A standard protocol (https://lifemica.eu/wp-content/uploads/2021/03/Protocol-camera-traps.pdf) was followed to choose the location for the traps. The setup of camera traps was standardised for water habitat. Subsequently, 33 camera traps were deployed in four locations in Flanders and one in Germany. Once a month images were collected from the camera traps and uploaded to Agouti. Project members scored the images in Agouti.]]>"
 eml$dataset$methods$qualityControl$description$para <-
   "Data are collected using a predefined sampling protocol. All observations of muskrats, coypu, brown rats and European water voles are cross-validated by experienced project members."
+
+# Additional metadata
+eml$dataset$alternateIdentifier <- c(
+  "8a5cbaec-2839-4471-9e1d-98df301095dd", # Instead of DOI
+  "https://ipt.inbo.be/resource?r=mica-agouti-occurrences"
+)
 ```
 
 Write eml to file:

@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<eml:eml xmlns:eml="https://eml.ecoinformatics.org/eml-2.2.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:stmml="http://www.xml-cml.org/schema/stmml-1.2" packageId="4890aa88-5549-46e4-b117-4d7ca60d573f" system="uuid" xsi:schemaLocation="https://eml.ecoinformatics.org/eml-2.2.0 https://eml.ecoinformatics.org/eml-2.2.0/eml.xsd">
+<eml:eml xmlns:eml="https://eml.ecoinformatics.org/eml-2.2.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:stmml="http://www.xml-cml.org/schema/stmml-1.2" packageId="5df1134b-6ad3-4dbe-848a-4a5f545e194f" system="uuid" xsi:schemaLocation="https://eml.ecoinformatics.org/eml-2.2.0 https://eml.ecoinformatics.org/eml-2.2.0/eml.xsd">
   <dataset>
-    <alternateIdentifier>https://doi.org/10.15468/5tb6ze</alternateIdentifier>
+    <alternateIdentifier>8a5cbaec-2839-4471-9e1d-98df301095dd</alternateIdentifier>
+    <alternateIdentifier>https://ipt.inbo.be/resource?r=mica-agouti-occurrences</alternateIdentifier>
     <title>MICA - Muskrat and coypu camera trap observations in Belgium, the Netherlands and Germany</title>
     <creator>
       <individualName>
