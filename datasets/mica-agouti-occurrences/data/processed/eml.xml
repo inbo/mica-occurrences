@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<eml:eml xmlns:eml="https://eml.ecoinformatics.org/eml-2.2.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:stmml="http://www.xml-cml.org/schema/stmml-1.2" packageId="55e18180-4767-4477-9b26-6258cfa94551" system="uuid" xsi:schemaLocation="https://eml.ecoinformatics.org/eml-2.2.0 https://eml.ecoinformatics.org/eml-2.2.0/eml.xsd">
+<eml:eml xmlns:eml="https://eml.ecoinformatics.org/eml-2.2.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:stmml="http://www.xml-cml.org/schema/stmml-1.2" packageId="4890aa88-5549-46e4-b117-4d7ca60d573f" system="uuid" xsi:schemaLocation="https://eml.ecoinformatics.org/eml-2.2.0 https://eml.ecoinformatics.org/eml-2.2.0/eml.xsd">
   <dataset>
     <alternateIdentifier>https://doi.org/10.15468/5tb6ze</alternateIdentifier>
     <title>MICA - Muskrat and coypu camera trap observations in Belgium, the Netherlands and Germany</title>
@@ -20,6 +20,15 @@
       <organizationName>Research Institute for Nature and Forest (INBO)</organizationName>
       <electronicMailAddress>tim.adriaens@inbo.be</electronicMailAddress>
       <userId directory="http://orcid.org/">0000-0001-7268-4200</userId>
+    </creator>
+    <creator>
+      <individualName>
+        <givenName>Kristof</givenName>
+        <surName>Baert</surName>
+      </individualName>
+      <organizationName>Research Institute for Nature and Forest (INBO)</organizationName>
+      <electronicMailAddress>kristof.baert@inbo.be</electronicMailAddress>
+      <userId directory="http://orcid.org/">0000-0003-2015-5731</userId>
     </creator>
     <creator>
       <individualName>
@@ -56,6 +65,15 @@
         <surName>De Boer</surName>
       </individualName>
       <electronicMailAddress>adeboer@wetterskipfryslan.nl</electronicMailAddress>
+    </creator>
+    <creator>
+      <individualName>
+        <givenName>Sander</givenName>
+        <surName>Devisscher</surName>
+      </individualName>
+      <organizationName>Research Institute for Nature and Forest (INBO)</organizationName>
+      <electronicMailAddress>sander.devisscher@inbo.be</electronicMailAddress>
+      <userId directory="http://orcid.org/">0000-0002-0846-9116</userId>
     </creator>
     <creator>
       <individualName>
@@ -246,9 +264,9 @@
       <organizationName>Research Institute for Nature and Forest (INBO)</organizationName>
       <onlineUrl>https://inbo.be</onlineUrl>
     </associatedParty>
-    <pubDate>2022-07-08</pubDate>
+    <pubDate>2022-09-09</pubDate>
     <abstract>
-      <para><![CDATA[<span></span>This camera trap dataset is derived from the <a href="https://agouti.eu">Agouti</a> project <a href="https://lifemica.eu/">MICA - Muskrat and Coypu</a>. Data have been standardized to Darwin Core using the <a href="https://inbo.github.io/camtraptor/">camtraptor</a> R package and only include observations (and associated media) of animals. Excluded are records that document blank or unclassified media, vehicles and observations of humans. Geospatial coordinates are rounded to 0.001 degrees. The original dataset description follows.]]></para>
+      <para><![CDATA[<span></span>This camera trap dataset is derived from the <a href="https://agouti.eu">Agouti</a> project <em>MICA - Management of Invasive Coypu and muskrAt in Europe</em>. Data have been standardized to Darwin Core using the <a href="https://inbo.github.io/camtraptor/">camtraptor</a> R package and only include observations (and associated media) of animals. Excluded are records that document blank or unclassified media, vehicles and observations of humans. Geospatial coordinates are rounded to 0.001 degrees. The original dataset description follows.]]></para>
       <para><![CDATA[<em>MICA - Muskrat and coypu camera trap observations in Belgium, the Netherlands and Germany</em> is an occurrence dataset published by the Research Institute of Nature and Forest (INBO). It is part of the LIFE project MICA, in which innovative techniques are tested for a more efficient control of muskrat and coypu populations, both invasive species. The dataset contains camera trap observations of muskrat and coypu, as well as many other observed species. Issues with the dataset can be reported at <a href="https://github.com/inbo/mica-occurrences/issues">https://github.com/inbo/mica-occurrences/issues</a>]]></para>
       <para>We have released this dataset to the public domain under a Creative Commons Zero waiver. We would appreciate it if you follow the INBO norms for data use (https://www.inbo.be/en/norms-data-use) when using the data. If you have any questions regarding this dataset, don't hesitate to contact us via the contact information provided in the metadata or via opendata@inbo.be.</para>
       <para>This dataset was collected using infrastructure provided by INBO and funded by Research Foundation - Flanders (FWO) as part of the Belgian contribution to LifeWatch. The data were collected as part of the MICA project, which received funding from the European Union’s LIFE Environment sub-programme under the grant agreement LIFE18 NAT/NL/001047. The dataset was published with funding from Stichting NLBIF - Netherlands Biodiversity Information Facility.</para>
@@ -269,11 +287,6 @@
     <intellectualRights>
       <para>CC0-1.0</para>
     </intellectualRights>
-    <distribution scope="document">
-      <online>
-        <url function="information">https://lifemica.eu/</url>
-      </online>
-    </distribution>
     <coverage>
       <geographicCoverage>
         <geographicDescription>Belgium (Flanders), The Netherlands and Germany.</geographicDescription>
@@ -290,7 +303,7 @@
             <calendarDate>2019-09-18</calendarDate>
           </beginDate>
           <endDate>
-            <calendarDate>2022-07-05</calendarDate>
+            <calendarDate>2022-09-07</calendarDate>
           </endDate>
         </rangeOfDates>
       </temporalCoverage>
@@ -386,6 +399,10 @@
         </taxonomicClassification>
         <taxonomicClassification>
           <taxonRankName>Species</taxonRankName>
+          <taxonRankValue>Chroicocephalus ridibundus</taxonRankValue>
+        </taxonomicClassification>
+        <taxonomicClassification>
+          <taxonRankName>Species</taxonRankName>
           <taxonRankValue>Coloeus monedula</taxonRankValue>
         </taxonomicClassification>
         <taxonomicClassification>
@@ -415,6 +432,10 @@
         <taxonomicClassification>
           <taxonRankName>Species</taxonRankName>
           <taxonRankValue>Dendrocopos major</taxonRankValue>
+        </taxonomicClassification>
+        <taxonomicClassification>
+          <taxonRankName>Species</taxonRankName>
+          <taxonRankValue>Equus caballus</taxonRankValue>
         </taxonomicClassification>
         <taxonomicClassification>
           <taxonRankName>Species</taxonRankName>
@@ -637,7 +658,7 @@
       </qualityControl>
     </methods>
     <project id="LIFE18 NAT/NL/001047">
-      <title>MICA - Muskrat and Coypu</title>
+      <title>MICA - Management of Invasive Coypu and muskrAt in Europe</title>
       <personnel>
         <individualName>
           <givenName>Emma</givenName>
@@ -648,7 +669,7 @@
         <userId directory="http://orcid.org/">0000-0001-7856-6360</userId>
       </personnel>
       <abstract>
-        <para>This project is part of the LIFE project MICA, in which innovative techniques are tested for a more efficient control of muskrat and coypu populations, both invasive species. Camera traps were located in areas where the presence of muskrat and/or coypu was suspected. The resulting data are published to Zenodo (https://doi.org/10.5281/zenodo.4893243) and GBIF (https://doi.org/10.15468/5tb6ze).</para>
+        <para>Invasive alien species such as the coypu and muskrat pose a major threat to biodiversity and cost millions of euros annually. By feeding on rushes and reeds, these animals cause serious damage to the environment in which they live and endangered species suffer from habitat loss. The disappearance of reeds and digging in dikes represents a safety risk for humans in the lowland areas. With the LIFE project MICA (https://lifemica.eu), the partners from the participating countries want to develop a transnational plan for the management of coypu and muskrat populations in Europe and aim to reduce their population. The objective of an effective population control of coypu and muskrat is to protect lowlands from flooding, to prevent crop damage and loss of biodiversity. The objective of the project is to serve as a pilot and demonstration project in which ‘best practices’ are tested and new techniques are developed for a more efficient control of muskrat and coypu populations. By involving organisations from Belgium, Germany and the Netherlands, the project also promotes international cooperation and knowledge exchange in the field of muskrat and coypu management.</para>
       </abstract>
       <funding>
         <para>LIFE programme</para>

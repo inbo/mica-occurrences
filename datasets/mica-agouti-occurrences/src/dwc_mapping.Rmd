@@ -22,7 +22,7 @@ library(EML)
 ## Read data
 
 ```{r}
-agouti_export <- "~/Downloads/mica-muskrat-and-coypu-20220708094154/datapackage.json"
+agouti_export <- "~/Downloads/mica-management-of-invasive-coypu-and-muskrat-in-europe-20220909104225/datapackage.json"
 package <- camtraptor::read_camtrap_dp(agouti_export)
 ```
 
@@ -70,6 +70,20 @@ package$contributors <- append(
     list(
       title = "Dimitri Brosens",
       email = "dimitri.brosens@inbo.be",
+      role = "contributor",
+      path = "https://orcid.org/0000-0002-0846-9116",
+      organization = "Research Institute for Nature and Forest (INBO)"
+    ),
+    list(
+      title = "Kristof Baert",
+      email = "kristof.baert@inbo.be",
+      role = "contributor",
+      path = "https://orcid.org/0000-0003-2015-5731",
+      organization = "Research Institute for Nature and Forest (INBO)"
+    ),
+    list(
+      title = "Sander Devisscher",
+      email = "sander.devisscher@inbo.be",
       role = "contributor",
       path = "https://orcid.org/0000-0002-0846-9116",
       organization = "Research Institute for Nature and Forest (INBO)"
