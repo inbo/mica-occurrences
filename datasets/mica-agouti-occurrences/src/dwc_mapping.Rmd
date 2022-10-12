@@ -22,7 +22,7 @@ library(EML)
 ## Read data
 
 ```{r}
-agouti_export <- "~/Downloads/mica-management-of-invasive-coypu-and-muskrat-in-europe-20220909104225/datapackage.json"
+agouti_export <- "~/Downloads/mica-management-of-invasive-coypu-and-muskrat-in-europe-20221012105236/datapackage.json"
 package <- camtraptor::read_camtrap_dp(agouti_export)
 ```
 
@@ -61,6 +61,12 @@ package$description <- c(
 )
 ```
 
+Remove duplicate authors:
+
+```{r}
+package$contributors <- purrr::discard(package$contributors, ~.[["email"]] == "kelly.meijvisch@outlook.be")
+```
+
 Add missing authors:
 
 ```{r}
@@ -72,13 +78,6 @@ package$contributors <- append(
       email = "dimitri.brosens@inbo.be",
       role = "contributor",
       path = "https://orcid.org/0000-0002-0846-9116",
-      organization = "Research Institute for Nature and Forest (INBO)"
-    ),
-    list(
-      title = "Kristof Baert",
-      email = "kristof.baert@inbo.be",
-      role = "contributor",
-      path = "https://orcid.org/0000-0003-2015-5731",
       organization = "Research Institute for Nature and Forest (INBO)"
     ),
     list(
@@ -140,7 +139,7 @@ eml$dataset$project$studyAreaDescription$descriptor$descriptorValue <-
 eml$dataset$methods$sampling$studyExtent$description$para <-
   "Four locations in Flanders and one in Germany were sampled using 26 camera traps in Flanders and 7 in Germany. These camera traps were located in areas where the presence of muskrat and/or coypu was suspected. The camera traps are motion triggered and therefore also collected images of other animals found in these locations."
 eml$dataset$methods$sampling$samplingDescription$para <-
-  "A standard protocol (https://lifemica.eu/wp-content/uploads/2021/03/Protocol-camera-traps.pdf) was followed to choose the location for the traps. The setup of camera traps was standardised for water habitat. Subsequently, 33 camera traps were deployed in four locations in Flanders and one in Germany. Once a month images were collected from the camera traps and uploaded to Agouti. Project members scored the images in Agouti.]]>"
+  "A standard protocol (https://lifemica.eu/wp-content/uploads/2021/03/Protocol-camera-traps.pdf) was followed to choose the location for the traps. The setup of camera traps was standardised for water habitat. Subsequently, 33 camera traps were deployed in four locations in Flanders and one in Germany. Once a month images were collected from the camera traps and uploaded to Agouti. Project members scored the images in Agouti."
 eml$dataset$methods$qualityControl$description$para <-
   "Data are collected using a predefined sampling protocol. All observations of muskrats, coypu, brown rats and European water voles are cross-validated by experienced project members."
 

@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<eml:eml xmlns:eml="https://eml.ecoinformatics.org/eml-2.2.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:stmml="http://www.xml-cml.org/schema/stmml-1.2" packageId="5df1134b-6ad3-4dbe-848a-4a5f545e194f" system="uuid" xsi:schemaLocation="https://eml.ecoinformatics.org/eml-2.2.0 https://eml.ecoinformatics.org/eml-2.2.0/eml.xsd">
+<eml:eml xmlns:eml="https://eml.ecoinformatics.org/eml-2.2.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:stmml="http://www.xml-cml.org/schema/stmml-1.2" packageId="fbaec88e-177b-44fd-8063-0fb5e6c2902e" system="uuid" xsi:schemaLocation="https://eml.ecoinformatics.org/eml-2.2.0 https://eml.ecoinformatics.org/eml-2.2.0/eml.xsd">
   <dataset>
     <alternateIdentifier>8a5cbaec-2839-4471-9e1d-98df301095dd</alternateIdentifier>
     <alternateIdentifier>https://ipt.inbo.be/resource?r=mica-agouti-occurrences</alternateIdentifier>
@@ -58,7 +58,9 @@
         <givenName>Jim</givenName>
         <surName>Casaer</surName>
       </individualName>
+      <organizationName>Research Institute for Nature and Forest (INBO)</organizationName>
       <electronicMailAddress>jim.casaer@inbo.be</electronicMailAddress>
+      <userId directory="http://orcid.org/">0000-0001-6788-5876</userId>
     </creator>
     <creator>
       <individualName>
@@ -66,6 +68,13 @@
         <surName>De Boer</surName>
       </individualName>
       <electronicMailAddress>adeboer@wetterskipfryslan.nl</electronicMailAddress>
+    </creator>
+    <creator>
+      <individualName>
+        <givenName>Manon</givenName>
+        <surName>Debrabandere</surName>
+      </individualName>
+      <electronicMailAddress>manon.debrabandere@hotmail.com</electronicMailAddress>
     </creator>
     <creator>
       <individualName>
@@ -88,7 +97,8 @@
         <givenName>Silke</givenName>
         <surName>Dupont</surName>
       </individualName>
-      <electronicMailAddress>silke.dupont@student.odisee.be</electronicMailAddress>
+      <organizationName>Research Institute for Nature and Forest (INBO)</organizationName>
+      <electronicMailAddress>silke.dupont@inbo.be</electronicMailAddress>
     </creator>
     <creator>
       <individualName>
@@ -187,7 +197,7 @@
         <givenName>Kelly</givenName>
         <surName>Meijvisch</surName>
       </individualName>
-      <electronicMailAddress>kelly.meijvisch@outlook.be</electronicMailAddress>
+      <electronicMailAddress>kelly.meijvisch@inbo.be</electronicMailAddress>
     </creator>
     <creator>
       <individualName>
@@ -265,7 +275,7 @@
       <organizationName>Research Institute for Nature and Forest (INBO)</organizationName>
       <onlineUrl>https://inbo.be</onlineUrl>
     </associatedParty>
-    <pubDate>2022-09-09</pubDate>
+    <pubDate>2022-10-12</pubDate>
     <abstract>
       <para><![CDATA[<span></span>This camera trap dataset is derived from the <a href="https://agouti.eu">Agouti</a> project <em>MICA - Management of Invasive Coypu and muskrAt in Europe</em>. Data have been standardized to Darwin Core using the <a href="https://inbo.github.io/camtraptor/">camtraptor</a> R package and only include observations (and associated media) of animals. Excluded are records that document blank or unclassified media, vehicles and observations of humans. Geospatial coordinates are rounded to 0.001 degrees. The original dataset description follows.]]></para>
       <para><![CDATA[<em>MICA - Muskrat and coypu camera trap observations in Belgium, the Netherlands and Germany</em> is an occurrence dataset published by the Research Institute of Nature and Forest (INBO). It is part of the LIFE project MICA, in which innovative techniques are tested for a more efficient control of muskrat and coypu populations, both invasive species. The dataset contains camera trap observations of muskrat and coypu, as well as many other observed species. Issues with the dataset can be reported at <a href="https://github.com/inbo/mica-occurrences/issues">https://github.com/inbo/mica-occurrences/issues</a>]]></para>
@@ -304,7 +314,7 @@
             <calendarDate>2019-09-18</calendarDate>
           </beginDate>
           <endDate>
-            <calendarDate>2022-09-07</calendarDate>
+            <calendarDate>2022-10-03</calendarDate>
           </endDate>
         </rangeOfDates>
       </temporalCoverage>
@@ -320,11 +330,11 @@
         </taxonomicClassification>
         <taxonomicClassification>
           <taxonRankName>Species</taxonRankName>
-          <taxonRankValue>Aix galericulata</taxonRankValue>
+          <taxonRankValue>Acrocephalus scirpaceus</taxonRankValue>
         </taxonomicClassification>
         <taxonomicClassification>
           <taxonRankName>Species</taxonRankName>
-          <taxonRankValue>Aix sponsa</taxonRankValue>
+          <taxonRankValue>Aix galericulata</taxonRankValue>
         </taxonomicClassification>
         <taxonomicClassification>
           <taxonRankName>Species</taxonRankName>
@@ -336,19 +346,11 @@
         </taxonomicClassification>
         <taxonomicClassification>
           <taxonRankName>Species</taxonRankName>
-          <taxonRankValue>Anas americana</taxonRankValue>
-        </taxonomicClassification>
-        <taxonomicClassification>
-          <taxonRankName>Species</taxonRankName>
           <taxonRankValue>Anas clypeata</taxonRankValue>
         </taxonomicClassification>
         <taxonomicClassification>
           <taxonRankName>Species</taxonRankName>
           <taxonRankValue>Anas crecca</taxonRankValue>
-        </taxonomicClassification>
-        <taxonomicClassification>
-          <taxonRankName>Species</taxonRankName>
-          <taxonRankValue>Anas penelope</taxonRankValue>
         </taxonomicClassification>
         <taxonomicClassification>
           <taxonRankName>Species</taxonRankName>
@@ -388,6 +390,10 @@
         </taxonomicClassification>
         <taxonomicClassification>
           <taxonRankName>Species</taxonRankName>
+          <taxonRankValue>Cairina moschata</taxonRankValue>
+        </taxonomicClassification>
+        <taxonomicClassification>
+          <taxonRankName>Species</taxonRankName>
           <taxonRankValue>Capreolus capreolus</taxonRankValue>
         </taxonomicClassification>
         <taxonomicClassification>
@@ -405,6 +411,10 @@
         <taxonomicClassification>
           <taxonRankName>Species</taxonRankName>
           <taxonRankValue>Coloeus monedula</taxonRankValue>
+        </taxonomicClassification>
+        <taxonomicClassification>
+          <taxonRankName>Species</taxonRankName>
+          <taxonRankValue>Columba oenas</taxonRankValue>
         </taxonomicClassification>
         <taxonomicClassification>
           <taxonRankName>Species</taxonRankName>
@@ -456,6 +466,10 @@
         </taxonomicClassification>
         <taxonomicClassification>
           <taxonRankName>Species</taxonRankName>
+          <taxonRankValue>Fringilla montifringilla</taxonRankValue>
+        </taxonomicClassification>
+        <taxonomicClassification>
+          <taxonRankName>Species</taxonRankName>
           <taxonRankValue>Fulica atra</taxonRankValue>
         </taxonomicClassification>
         <taxonomicClassification>
@@ -473,6 +487,10 @@
         <taxonomicClassification>
           <taxonRankName>Species</taxonRankName>
           <taxonRankValue>Lepus europaeus</taxonRankValue>
+        </taxonomicClassification>
+        <taxonomicClassification>
+          <taxonRankName>Species</taxonRankName>
+          <taxonRankValue>Luscinia svecica</taxonRankValue>
         </taxonomicClassification>
         <taxonomicClassification>
           <taxonRankName>Species</taxonRankName>
@@ -496,11 +514,11 @@
         </taxonomicClassification>
         <taxonomicClassification>
           <taxonRankName>Species</taxonRankName>
-          <taxonRankValue>Muntiacus reevesi</taxonRankValue>
+          <taxonRankValue>Mustela erminea</taxonRankValue>
         </taxonomicClassification>
         <taxonomicClassification>
           <taxonRankName>Species</taxonRankName>
-          <taxonRankValue>Mustela erminea</taxonRankValue>
+          <taxonRankValue>Mustela nivalis</taxonRankValue>
         </taxonomicClassification>
         <taxonomicClassification>
           <taxonRankName>Species</taxonRankName>
@@ -512,15 +530,15 @@
         </taxonomicClassification>
         <taxonomicClassification>
           <taxonRankName>Species</taxonRankName>
+          <taxonRankValue>Myodes glareolus</taxonRankValue>
+        </taxonomicClassification>
+        <taxonomicClassification>
+          <taxonRankName>Species</taxonRankName>
           <taxonRankValue>Ondatra zibethicus</taxonRankValue>
         </taxonomicClassification>
         <taxonomicClassification>
           <taxonRankName>Species</taxonRankName>
           <taxonRankValue>Oryctolagus cuniculus</taxonRankValue>
-        </taxonomicClassification>
-        <taxonomicClassification>
-          <taxonRankName>Species</taxonRankName>
-          <taxonRankValue>Ovis ammon</taxonRankValue>
         </taxonomicClassification>
         <taxonomicClassification>
           <taxonRankName>Species</taxonRankName>
@@ -584,6 +602,10 @@
         </taxonomicClassification>
         <taxonomicClassification>
           <taxonRankName>Species</taxonRankName>
+          <taxonRankValue>Sturnus vulgaris</taxonRankValue>
+        </taxonomicClassification>
+        <taxonomicClassification>
+          <taxonRankName>Species</taxonRankName>
           <taxonRankValue>Sus scrofa</taxonRankValue>
         </taxonomicClassification>
         <taxonomicClassification>
@@ -597,10 +619,6 @@
         <taxonomicClassification>
           <taxonRankName>Species</taxonRankName>
           <taxonRankValue>Tadorna ferruginea</taxonRankValue>
-        </taxonomicClassification>
-        <taxonomicClassification>
-          <taxonRankName>Species</taxonRankName>
-          <taxonRankValue>Tadorna tadorna</taxonRankValue>
         </taxonomicClassification>
         <taxonomicClassification>
           <taxonRankName>Species</taxonRankName>
