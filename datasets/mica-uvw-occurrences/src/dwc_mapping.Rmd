@@ -436,10 +436,14 @@ occurrence %<>% mutate(scientificName = recode(CatchTypeName
                    , "Beverrat"  = "Myocastor coypus" 
                    , "Beverrat ram jong (<1jr)" = "Myocastor coypus"
                    , "Beverrat moer oud (>1jr)" = "Myocastor coypus"
+                   , "Beverrat moer oud (>1jr)" = "Myocastor coypus"
+                   , "Beverrat moer jong (<1jr)" = "Myocastor coypus"
+                   , "Beverrat onbekend"         = "Myocastor coypus"
                    , "Muskusrat ram oud (>1jr)" = "Ondatra zibethicus"
                    , "Muskusrat ram jong (<1jr)" = "Ondatra zibethicus"
                    , "Muskusrat moer oud (>1jr)" = "Ondatra zibethicus"
                    , "Muskusrat moer jong (<1jr)" = "Ondatra zibethicus"
+                   , "Muskusrat onbekend"         = "Ondatra zibethicus"
                                        ))
 ```
 
@@ -458,10 +462,13 @@ occurrence %<>% mutate(scientificNameAuthorship = recode(CatchTypeName
                   ,"Beverrat ram jong (<1jr)" = "Molina, 1782"
                   ,"Beverrat ram oud (>1jr)"  = "Molina, 1782"
                   ,"Beverrat moer oud (>1jr)"  = "Molina, 1782"
+                  ,"Beverrat moer jong (<1jr)" = "Molina, 1782"
+                  ,"Beverrat onbekend"         = "Molina, 1782"
                   ,"Muskusrat ram oud (>1jr)" = "Linnaeus, 1766"
                   ,"Muskusrat ram jong (<1jr)" = "Linnaeus, 1766"
                   ,"Muskusrat moer oud (>1jr)" = "Linnaeus, 1766"
                   ,"Muskusrat moer jong (<1jr)" = "Linnaeus, 1766"
+                  ,"Muskusrat onbekend"         = "Linnaeus, 1766"
                                        ))
 ```
 
@@ -474,10 +481,13 @@ occurrence %<>% mutate(verbatimScientificName = recode(CatchTypeName
                   , "Beverrat ram oud (>1jr)"  =   "Beverrat"
                   , "Beverrat ram jong (<1jr)" =   "Beverrat"
                   , "Beverrat moer oud (>1jr)" =   "Beverrat"
+                  , "Beverrat moer jong (<1jr)"=   "Beverrat"
+                  , "Beverrat onbekend"        =   "Beverrat"
                   , "Muskusrat ram oud (>1jr)" =   "Muskusrat"
                   , "Muskusrat ram jong (<1jr)" =  "Muskusrat"
                   , "Muskusrat moer oud (>1jr)" =  "Muskusrat"
                   , "Muskusrat moer jong (<1jr)" = "Muskusrat"
+                  , "Muskusrat onbekend"         = "Muskusrat"
                                        ))
 ```
 
