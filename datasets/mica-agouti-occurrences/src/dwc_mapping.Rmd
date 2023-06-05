@@ -25,13 +25,21 @@ library(EML)
 agouti_export <- "~/Downloads/mica-management-of-invasive-coypu-and-muskrat-in-europe-20230601061026/datapackage.json"
 package_raw <- camtraptor::read_camtrap_dp(agouti_export)
 ```
-
 ## Round coordinates
 
 Round coordinates to 3 decimals to generalize location information in order prevent theft of active cameras, see <https://github.com/inbo/mica-occurrences/issues/6>. This results in a coordinate uncertainty of 187 m (157 + default 30).
 
 ```{r}
 package <- camtraptor::round_coordinates(package_raw, 3)
+```
+
+## Clean data
+
+```{r}
+package$data$deployments <- 
+  package$data$deployments %>%
+  # Remove "null" from comments
+  mutate(comments = recode(comments, "null" = NA_character_))
 ```
 
 ## Create EML
