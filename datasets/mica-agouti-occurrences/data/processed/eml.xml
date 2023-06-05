@@ -64,6 +64,14 @@
     </creator>
     <creator>
       <individualName>
+        <givenName>Bram</givenName>
+        <surName>D'hondt</surName>
+      </individualName>
+      <organizationName>Research Institute for Nature and Forest (INBO)</organizationName>
+      <electronicMailAddress>bram.dhondt@inbo.be</electronicMailAddress>
+    </creator>
+    <creator>
+      <individualName>
         <givenName>Abel</givenName>
         <surName>De Boer</surName>
       </individualName>
@@ -102,6 +110,13 @@
     </creator>
     <creator>
       <individualName>
+        <givenName>Saida</givenName>
+        <surName>Feresin</surName>
+      </individualName>
+      <electronicMailAddress>saida.feresin@neemo.eu</electronicMailAddress>
+    </creator>
+    <creator>
+      <individualName>
         <givenName>Wouter</givenName>
         <surName>Franceus</surName>
       </individualName>
@@ -126,6 +141,13 @@
         <surName>Gethöffer</surName>
       </individualName>
       <electronicMailAddress>friederike.gethoeffer@tiho-hannover.de</electronicMailAddress>
+    </creator>
+    <creator>
+      <individualName>
+        <givenName>Jan</givenName>
+        <surName>Gouwy</surName>
+      </individualName>
+      <electronicMailAddress>jan.gouwy@inbo.be</electronicMailAddress>
     </creator>
     <creator>
       <individualName>
@@ -197,7 +219,7 @@
         <givenName>Kelly</givenName>
         <surName>Meijvisch</surName>
       </individualName>
-      <electronicMailAddress>kelly.meijvisch@inbo.be</electronicMailAddress>
+      <electronicMailAddress>kelly.meijvisch@outlook.be</electronicMailAddress>
     </creator>
     <creator>
       <individualName>
@@ -245,6 +267,13 @@
     </creator>
     <creator>
       <individualName>
+        <givenName>Linda</givenName>
+        <surName>Tiggelman</surName>
+      </individualName>
+      <electronicMailAddress>l.tiggelman@wsrl.nl</electronicMailAddress>
+    </creator>
+    <creator>
+      <individualName>
         <givenName>Danny</givenName>
         <surName>Van der beeck</surName>
       </individualName>
@@ -273,9 +302,9 @@
         <givenName/>
       </individualName>
       <organizationName>Research Institute for Nature and Forest (INBO)</organizationName>
-      <onlineUrl>https://inbo.be</onlineUrl>
+      <onlineUrl>https://www.inbo.be</onlineUrl>
     </associatedParty>
-    <pubDate>2022-10-12</pubDate>
+    <pubDate>2023-06-01</pubDate>
     <abstract>
       <para><![CDATA[<span></span>This camera trap dataset is derived from the <a href="https://agouti.eu">Agouti</a> project <em>MICA - Management of Invasive Coypu and muskrAt in Europe</em>. Data have been standardized to Darwin Core using the <a href="https://inbo.github.io/camtraptor/">camtraptor</a> R package and only include observations (and associated media) of animals. Excluded are records that document blank or unclassified media, vehicles and observations of humans. Geospatial coordinates are rounded to 0.001 degrees. The original dataset description follows.]]></para>
       <para><![CDATA[<em>MICA - Muskrat and coypu camera trap observations in Belgium, the Netherlands and Germany</em> is an occurrence dataset published by the Research Institute of Nature and Forest (INBO). It is part of the LIFE project MICA, in which innovative techniques are tested for a more efficient control of muskrat and coypu populations, both invasive species. The dataset contains camera trap observations of muskrat and coypu, as well as many other observed species. Issues with the dataset can be reported at <a href="https://github.com/inbo/mica-occurrences/issues">https://github.com/inbo/mica-occurrences/issues</a>]]></para>
@@ -314,7 +343,7 @@
             <calendarDate>2019-09-18</calendarDate>
           </beginDate>
           <endDate>
-            <calendarDate>2022-10-03</calendarDate>
+            <calendarDate>2023-05-02</calendarDate>
           </endDate>
         </rangeOfDates>
       </temporalCoverage>
@@ -354,6 +383,10 @@
         </taxonomicClassification>
         <taxonomicClassification>
           <taxonRankName>Species</taxonRankName>
+          <taxonRankValue>Anas penelope</taxonRankValue>
+        </taxonomicClassification>
+        <taxonomicClassification>
+          <taxonRankName>Species</taxonRankName>
           <taxonRankValue>Anas platyrhynchos</taxonRankValue>
         </taxonomicClassification>
         <taxonomicClassification>
@@ -383,6 +416,14 @@
         <taxonomicClassification>
           <taxonRankName>Species</taxonRankName>
           <taxonRankValue>Aythya fuligula</taxonRankValue>
+        </taxonomicClassification>
+        <taxonomicClassification>
+          <taxonRankName>Species</taxonRankName>
+          <taxonRankValue>Bos taurus</taxonRankValue>
+        </taxonomicClassification>
+        <taxonomicClassification>
+          <taxonRankName>Species</taxonRankName>
+          <taxonRankValue>Botaurus stellaris</taxonRankValue>
         </taxonomicClassification>
         <taxonomicClassification>
           <taxonRankName>Species</taxonRankName>
@@ -471,6 +512,10 @@
         <taxonomicClassification>
           <taxonRankName>Species</taxonRankName>
           <taxonRankValue>Fulica atra</taxonRankValue>
+        </taxonomicClassification>
+        <taxonomicClassification>
+          <taxonRankName>Species</taxonRankName>
+          <taxonRankValue>Gallinago gallinago</taxonRankValue>
         </taxonomicClassification>
         <taxonomicClassification>
           <taxonRankName>Species</taxonRankName>
@@ -622,6 +667,10 @@
         </taxonomicClassification>
         <taxonomicClassification>
           <taxonRankName>Species</taxonRankName>
+          <taxonRankValue>Tadorna tadorna</taxonRankValue>
+        </taxonomicClassification>
+        <taxonomicClassification>
+          <taxonRankName>Species</taxonRankName>
           <taxonRankValue>Tringa ochropus</taxonRankValue>
         </taxonomicClassification>
         <taxonomicClassification>
@@ -667,7 +716,7 @@
           </description>
         </studyExtent>
         <samplingDescription>
-          <para>A standard protocol (https://lifemica.eu/wp-content/uploads/2021/03/Protocol-camera-traps.pdf) was followed to choose the location for the traps. The setup of camera traps was standardised for water habitat. Subsequently, 33 camera traps were deployed in four locations in Flanders and one in Germany. Once a month images were collected from the camera traps and uploaded to Agouti. Project members scored the images in Agouti.]]&gt;</para>
+          <para>A standard protocol (https://lifemica.eu/wp-content/uploads/2021/03/Protocol-camera-traps.pdf) was followed to choose the location for the traps. The setup of camera traps was standardised for water habitat. Subsequently, 33 camera traps were deployed in four locations in Flanders and one in Germany. Once a month images were collected from the camera traps and uploaded to Agouti. Project members scored the images in Agouti.</para>
         </samplingDescription>
       </sampling>
       <qualityControl>
