@@ -69,8 +69,16 @@ package$description <- c(
 )
 ```
 
+Update authors:
 
 ```{r}
+contributors <- package$contributors
+purrr::pluck(
+  contributors[
+    purrr::map_lgl(package$contributors,
+    ~ purrr::pluck(.x, "title") == "saida feresin")
+  ], 1, "title"
+) <- "Saida Feresin"
 ```
 
 Add missing authors:
