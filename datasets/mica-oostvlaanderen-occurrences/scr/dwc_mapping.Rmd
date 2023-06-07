@@ -1,6 +1,6 @@
 ---
 title: "Darwin Core Mapping"
-subtitle: "MICA - Muskrat occurrences collected by RATO in East Flanders, Belgium"
+subtitle: "MICA - Muskrat occurrences collected in East Flanders, Belgium"
 author: "Dimitri Brosens"
 date: "`r Sys.Date()`"
 output:
@@ -58,9 +58,9 @@ File exported to csv
 #deze werkt
 #input_interim <- read_delim(file = here::here("datasets", "mica-rato-occurrences", "data", "raw", #"RATOgegevensbackoffice2020V2.txt"), ";", escape_double = FALSE, trim_ws = TRUE )
 
-input_interim_old <- read_delim(here::here("datasets", "mica-rato-occurrences", "data", "raw", "RATOgegevensbackoffice2020V2.txt" ), ";")
+input_interim <- read_delim(file = here::here("datasets", "mica-oostvlaanderen-occurrences", "data", "raw", "niet-rato_oostvl.txt" ), ";")
 
-input_interim <- read_delim(here::here("datasets", "mica-rato-occurrences", "data", "raw", "2022_vangsten_nov_2021_update.csv" ), ",")
+#input_interim <- read_delim(here::here("datasets", "mica-rato-occurrences", "data", "raw", "2022_vangsten_nov_2021_update.csv" ), ",")
 
 
 
