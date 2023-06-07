@@ -1,6 +1,6 @@
 ---
 title: "Darwin Core Mapping"
-subtitle: "MICA - Muskrat occurrences collected by RATO in East Flanders, Belgium"
+subtitle: "MICA - Muskrat occurrences collected by in West Flanders, Belgium"
 author: "Dimitri Brosens"
 date: "`r Sys.Date()`"
 output:
@@ -51,16 +51,17 @@ File exported to csv
 #input_interim <- read_csv(here::here("datasets", "mica-rato-occurrences", "data", "interim", "RATO_data_RAW_Refine.csv"))
 
 #datafile update 1
-#input_interim <- read_excel(here::here("datasets", "mica-rato-occurrences", #"data", "raw", "vangstenMURA1jan-20nov2020.xlsx"))
+
+input_interim <- read_excel(here::here("datasets", "mica-westvlaanderen-occurrences", "data", "raw", "registrations-15-7-2022-14_27_43.xlsx"))
 
 #input_interim <- read.csv2(here::here("datasets", "mica-rato-occurrences", "data", "raw", "RATOgegevensbackoffice2020V2.txt" #), sep = ";")
 
 #deze werkt
 #input_interim <- read_delim(file = here::here("datasets", "mica-rato-occurrences", "data", "raw", #"RATOgegevensbackoffice2020V2.txt"), ";", escape_double = FALSE, trim_ws = TRUE )
 
-input_interim_old <- read_delim(here::here("datasets", "mica-rato-occurrences", "data", "raw", "RATOgegevensbackoffice2020V2.txt" ), ";")
+#input_interim_old <- read_delim(here::here("datasets", "mica-rato-occurrences", "data", "raw", "RATOgegevensbackoffice2020V2.txt" ), ";")
 
-input_interim <- read_delim(here::here("datasets", "mica-rato-occurrences", "data", "raw", "2022_vangsten_nov_2021_update.csv" ), ",")
+#input_interim <- read_delim(here::here("datasets", "mica-rato-occurrences", "data", "raw", "2022_vangsten_nov_2021_update.csv" ), ",")
 
 
 
@@ -105,8 +106,8 @@ We want to keep the original verbatim Coordinates
 The original X,Y will be used for creating decimalLatitude and decimalLongitude
 
 ```{r}
-input_interim %<>% mutate(verbatimLongitude = x) %>%
-                   mutate(verbatimLatitude = y) 
+input_interim %<>% mutate(verbatimLongitude = x1) %>%
+                   mutate(verbatimLatitude = y1) 
                    
 ```
 
@@ -116,7 +117,7 @@ Create spatial dataframe and define the CRS (31370 is Belgian Lambert 72)
 We indicate the x,y columns as coordinates and define the coordinate system
 
 ```{r}
-input_interim = st_as_sf(input_interim, coords = c("x","y"), crs = 31370 , agr = "constant" )
+input_interim = st_as_sf(input_interim, coords = c("x1","y1"), crs = 31370 , agr = "constant" )
 input_interim %>% head(n = 5)
 ```
 
@@ -212,7 +213,7 @@ Start with record-level terms which contain metadata about the dataset (which is
 ### datasetID
 
 ```{r}
-occurrence %<>% mutate(datasetID = "https://doi.org/10.15468/5fps96")
+occurrence %<>% mutate(datasetID = "https://doi.org/10.15468/XXXXX")
 ```
 
 ### add row numbers to genrate occurrenceID unique
@@ -245,7 +246,7 @@ occurrence %<>% mutate(license = "http://creativecommons.org/publicdomain/zero/1
 ### rightsHolder
 
 ```{r}
-occurrence %<>% mutate(rightsHolder = "RATO") # e.g. "INBO"
+occurrence %<>% mutate(rightsHolder = "Province of West Flanders") # e.g. "INBO"
 ```
 ### accessRights
 
@@ -268,7 +269,7 @@ occurrence %<>% mutate(institutionCode = "INBO") # e.g. "INBO"
 ### datasetName
 
 ```{r}
-occurrence %<>% mutate(datasetName = "MICA - Muskrat occurrences collected by RATO in East Flanders, Belgium") # e.g. "Checklist of non-native freshwater fishes in Flanders, Belgium"
+occurrence %<>% mutate(datasetName = "MICA - Muskrat occurrences collected in West Flanders, Belgium") # e.g. "Checklist of non-native freshwater fishes in Flanders, Belgium"
 ```
 
 The following terms contain information about the taxon:
@@ -287,14 +288,14 @@ occurrence %<>% mutate(basisOfRecord = "HumanObservation")
 
 ```{r}
 occurrence %<>% rename(occurrenceID = 'id') %>%
-                mutate(occurrenceID = str_c("MICA:RATO:", occurrenceID, ":", ID_row))
+                mutate(occurrenceID = str_c("MICA:W-VL:", occurrenceID, ":", ID_row))
   
 ```
 
 ### recordedBy
 
 ```{r}
-occurrence %<>% mutate(recordedBy = 'RATO')
+occurrence %<>% mutate(recordedBy = 'Province of West Flanders')
 ```
 
 ### individualCount
@@ -303,6 +304,7 @@ occurrence %<>% mutate(recordedBy = 'RATO')
 occurrence %<>%  rename(individualCount= 'action_amount') 
                 
 ```
+
 ```{r}
 
 
@@ -386,7 +388,7 @@ eventDate already ok in source file (should be)
 
 #occurrence %<>% ymd(date)
 
-occurrence %<>% mutate(eventDate = dmy(date))
+occurrence %<>% mutate(eventDate = date)
 # mutate(eventDate = as_date(ymd(date))) # , format = "%Y-%m-%d")) 
 
 head(occurrence, n = 5)
@@ -473,7 +475,7 @@ occurrence %<>%
 ### identifiedBy
 
 ```{r}
-occurrence %<>% mutate(identifiedBy = 'RATO')
+occurrence %<>% mutate(identifiedBy = 'PRovince of West Flanders')
 ```
 
 ### scientificName 
@@ -589,5 +591,5 @@ occurrence %>% head()
 Save to CSV:
 
 ```{r}
-write_csv(occurrence, here::here("datasets", "mica-rato-occurrences", "data", "processed", "occurrence.csv"), na = "")
+write_csv(occurrence, here::here("datasets", "mica-westvlaanderen-occurrences", "data", "processed", "occurrence.csv"), na = "")
 ```
