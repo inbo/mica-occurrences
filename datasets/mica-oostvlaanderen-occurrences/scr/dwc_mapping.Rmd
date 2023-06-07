@@ -212,7 +212,7 @@ Start with record-level terms which contain metadata about the dataset (which is
 ### datasetID
 
 ```{r}
-occurrence %<>% mutate(datasetID = "https://doi.org/10.15468/5fps96")
+occurrence %<>% mutate(datasetID = "https://doi.org/10.15468/****")
 ```
 
 ### add row numbers to genrate occurrenceID unique
@@ -245,7 +245,7 @@ occurrence %<>% mutate(license = "http://creativecommons.org/publicdomain/zero/1
 ### rightsHolder
 
 ```{r}
-occurrence %<>% mutate(rightsHolder = "RATO") # e.g. "INBO"
+occurrence %<>% mutate(rightsHolder = "East Flanders") # e.g. "INBO"
 ```
 ### accessRights
 
@@ -268,7 +268,7 @@ occurrence %<>% mutate(institutionCode = "INBO") # e.g. "INBO"
 ### datasetName
 
 ```{r}
-occurrence %<>% mutate(datasetName = "MICA - Muskrat occurrences collected by RATO in East Flanders, Belgium") # e.g. "Checklist of non-native freshwater fishes in Flanders, Belgium"
+occurrence %<>% mutate(datasetName = "MICA - Muskrat occurrences collected in East Flanders, Belgium") # e.g. "Checklist of non-native freshwater fishes in Flanders, Belgium"
 ```
 
 The following terms contain information about the taxon:
