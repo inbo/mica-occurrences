@@ -57,7 +57,7 @@ input_data %<>%
 
 # Retrieve scientific names based on the vernacular name
 
-The raw data does not contain scientific names. We use the GBOF backbone taxonomy to retrieve scientific names based on vernacular names. Manual actions are still needed as the returned information might not be 100% correct.
+The raw data does not contain scientific names. We use the GBiF backbone taxonomy to retrieve scientific names based on vernacular names. Manual actions are still needed as the returned information might not be 100% correct.
 
 See original vernacular names:
 
