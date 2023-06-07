@@ -22,16 +22,24 @@ library(EML)
 ## Read data
 
 ```{r}
-agouti_export <- "~/Downloads/mica-management-of-invasive-coypu-and-muskrat-in-europe-20220909104225/datapackage.json"
-package <- camtraptor::read_camtrap_dp(agouti_export)
+agouti_export <- "~/Downloads/mica-management-of-invasive-coypu-and-muskrat-in-europe-20230601061026/datapackage.json"
+package_raw <- camtraptor::read_camtrap_dp(agouti_export)
 ```
-
 ## Round coordinates
 
 Round coordinates to 3 decimals to generalize location information in order prevent theft of active cameras, see <https://github.com/inbo/mica-occurrences/issues/6>. This results in a coordinate uncertainty of 187 m (157 + default 30).
 
 ```{r}
-package <- camtraptor::round_coordinates(package, 3)
+package <- camtraptor::round_coordinates(package_raw, 3)
+```
+
+## Clean data
+
+```{r}
+package$data$deployments <- 
+  package$data$deployments %>%
+  # Remove "null" from comments
+  mutate(comments = recode(comments, "null" = NA_character_))
 ```
 
 ## Create EML
@@ -50,15 +58,27 @@ package$licenses <- list(
   ),
   list(
     scope = "media",
-    name = "CC-BY",
+    name = "CC-BY-4.0",
     path = "https://creativecommons.org/licenses/by/4.0/"
   )
 )
 package$description <- c(
-  "<![CDATA[<em>MICA - Muskrat and coypu camera trap observations in Belgium, the Netherlands and Germany</em> is an occurrence dataset published by the Research Institute of Nature and Forest (INBO). It is part of the LIFE project MICA, in which innovative techniques are tested for a more efficient control of muskrat and coypu populations, both invasive species. The dataset contains camera trap observations of muskrat and coypu, as well as many other observed species. Issues with the dataset can be reported at <a href=\"https://github.com/inbo/mica-occurrences/issues\">https://github.com/inbo/mica-occurrences/issues</a>]]>",
+  "<em>MICA - Muskrat and coypu camera trap observations in Belgium, the Netherlands and Germany</em> is an occurrence dataset published by the Research Institute of Nature and Forest (INBO). It is part of the LIFE project MICA, in which innovative techniques are tested for a more efficient control of muskrat and coypu populations, both invasive species. The dataset contains camera trap observations of muskrat and coypu, as well as many other observed species. Issues with the dataset can be reported at <a href=\"https://github.com/inbo/mica-occurrences/issues\">https://github.com/inbo/mica-occurrences/issues</a>",
   "We have released this dataset to the public domain under a Creative Commons Zero waiver. We would appreciate it if you follow the INBO norms for data use (https://www.inbo.be/en/norms-data-use) when using the data. If you have any questions regarding this dataset, don't hesitate to contact us via the contact information provided in the metadata or via opendata@inbo.be.",
   "This dataset was collected using infrastructure provided by INBO and funded by Research Foundation - Flanders (FWO) as part of the Belgian contribution to LifeWatch. The data were collected as part of the MICA project, which received funding from the European Union’s LIFE Environment sub-programme under the grant agreement LIFE18 NAT/NL/001047. The dataset was published with funding from Stichting NLBIF - Netherlands Biodiversity Information Facility."
 )
+```
+
+Update authors:
+
+```{r}
+contributors <- package$contributors
+purrr::pluck(
+  contributors[
+    purrr::map_lgl(package$contributors,
+    ~ purrr::pluck(.x, "title") == "saida feresin")
+  ], 1, "title"
+) <- "Saida Feresin"
 ```
 
 Add missing authors:
@@ -72,13 +92,6 @@ package$contributors <- append(
       email = "dimitri.brosens@inbo.be",
       role = "contributor",
       path = "https://orcid.org/0000-0002-0846-9116",
-      organization = "Research Institute for Nature and Forest (INBO)"
-    ),
-    list(
-      title = "Kristof Baert",
-      email = "kristof.baert@inbo.be",
-      role = "contributor",
-      path = "https://orcid.org/0000-0003-2015-5731",
       organization = "Research Institute for Nature and Forest (INBO)"
     ),
     list(
@@ -140,7 +153,7 @@ eml$dataset$project$studyAreaDescription$descriptor$descriptorValue <-
 eml$dataset$methods$sampling$studyExtent$description$para <-
   "Four locations in Flanders and one in Germany were sampled using 26 camera traps in Flanders and 7 in Germany. These camera traps were located in areas where the presence of muskrat and/or coypu was suspected. The camera traps are motion triggered and therefore also collected images of other animals found in these locations."
 eml$dataset$methods$sampling$samplingDescription$para <-
-  "A standard protocol (https://lifemica.eu/wp-content/uploads/2021/03/Protocol-camera-traps.pdf) was followed to choose the location for the traps. The setup of camera traps was standardised for water habitat. Subsequently, 33 camera traps were deployed in four locations in Flanders and one in Germany. Once a month images were collected from the camera traps and uploaded to Agouti. Project members scored the images in Agouti.]]>"
+  "A standard protocol (https://lifemica.eu/wp-content/uploads/2021/03/Protocol-camera-traps.pdf) was followed to choose the location for the traps. The setup of camera traps was standardised for water habitat. Subsequently, 33 camera traps were deployed in four locations in Flanders and one in Germany. Once a month images were collected from the camera traps and uploaded to Agouti. Project members scored the images in Agouti."
 eml$dataset$methods$qualityControl$description$para <-
   "Data are collected using a predefined sampling protocol. All observations of muskrats, coypu, brown rats and European water voles are cross-validated by experienced project members."
 
