@@ -262,7 +262,7 @@ occurrence %<>% mutate(accessRights = "http://www.inbo.be/en/norms-for-data-use"
 ### institutionCode
 
 ```{r}
-occurrence %<>% mutate(institutionCode = "INBO") # e.g. "INBO"
+occurrence %<>% mutate(institutionCode = "Province of East Flanders") # e.g. "INBO"
 ```
 
 ### datasetName
@@ -287,14 +287,14 @@ occurrence %<>% mutate(basisOfRecord = "HumanObservation")
 
 ```{r}
 occurrence %<>% rename(occurrenceID = 'id') %>%
-                mutate(occurrenceID = str_c("MICA:RATO:", occurrenceID, ":", ID_row))
+                mutate(occurrenceID = str_c("MICA:OVL.:", occurrenceID, ":", ID_row))
   
 ```
 
 ### recordedBy
 
 ```{r}
-occurrence %<>% mutate(recordedBy = 'RATO')
+occurrence %<>% mutate(recordedBy = 'Province of East Flanders')
 ```
 
 ### individualCount
@@ -589,5 +589,5 @@ occurrence %>% head()
 Save to CSV:
 
 ```{r}
-write_csv(occurrence, here::here("datasets", "mica-rato-occurrences", "data", "processed", "occurrence.csv"), na = "")
+write_csv(occurrence, here::here("datasets", "mica-oostvlaanderen-occurrences", "data", "processed", "occurrence.csv"), na = "")
 ```
