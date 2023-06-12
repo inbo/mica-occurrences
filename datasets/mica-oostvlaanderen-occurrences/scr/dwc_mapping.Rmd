@@ -46,6 +46,20 @@ some columns renamed to DwC term
 File exported to csv
 
 ```{r}
+csv_files <- list.files(here::here("datasets", "mica-oostvlaanderen-occurrences", "data", "raw"), pattern = "*.txt$", full.names = TRUE)
+
+```
+
+```{r}
+data <- lapply(csv_files, read_csv2) %>% bind_rows()
+```
+
+```{r}
+input_interim <- data
+```
+
+
+```{r eval=FALSE, include=FALSE}
 
 #datafile V1
 #input_interim <- read_csv(here::here("datasets", "mica-rato-occurrences", "data", "interim", "RATO_data_RAW_Refine.csv"))
@@ -473,7 +487,7 @@ occurrence %<>%
 ### identifiedBy
 
 ```{r}
-occurrence %<>% mutate(identifiedBy = 'RATO')
+occurrence %<>% mutate(identifiedBy = 'O-VL')
 ```
 
 ### scientificName 
