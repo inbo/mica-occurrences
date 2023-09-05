@@ -45,6 +45,26 @@ Obsolete columns removed
 some columns renamed to DwC term
 File exported to csv
 
+
+```{r}
+csv_files <- list.files(here::here("datasets", "mica-westvlaanderen-occurrences", "data", "raw"), pattern = "*.xlsx$", full.names = TRUE)
+
+```
+
+```{r}
+data <- lapply(csv_files, read_excel) %>% bind_rows()
+```
+
+
+```{r}
+#data <- bind_rows(csv_files)
+```
+
+```{r}
+input_interim <- data
+```
+
+
 ```{r}
 
 #datafile V1
@@ -52,7 +72,7 @@ File exported to csv
 
 #datafile update 1
 
-input_interim <- read_excel(here::here("datasets", "mica-westvlaanderen-occurrences", "data", "raw", "registrations-15-7-2022-14_27_43.xlsx"))
+#input_interim <- read_excel(here::here("datasets", "mica-westvlaanderen-occurrences", "data", "raw", #"registrations-15-7-2022-14_27_43.xlsx"))
 
 #input_interim <- read.csv2(here::here("datasets", "mica-rato-occurrences", "data", "raw", "RATOgegevensbackoffice2020V2.txt" #), sep = ";")
 
