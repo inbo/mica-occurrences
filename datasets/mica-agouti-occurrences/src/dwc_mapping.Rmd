@@ -22,7 +22,7 @@ library(EML)
 ## Read data
 
 ```{r}
-agouti_export <- "~/Downloads/mica-management-of-invasive-coypu-and-muskrat-in-europe-20230601061026/datapackage.json"
+agouti_export <- "~/Downloads/mica-management-of-invasive-coypu-and-muskrat-in-europe-20231120153217/datapackage.json"
 package_raw <- camtraptor::read_camtrap_dp(agouti_export)
 ```
 ## Round coordinates
@@ -31,15 +31,6 @@ Round coordinates to 3 decimals to generalize location information in order prev
 
 ```{r}
 package <- camtraptor::round_coordinates(package_raw, 3)
-```
-
-## Clean data
-
-```{r}
-package$data$deployments <- 
-  package$data$deployments %>%
-  # Remove "null" from comments
-  mutate(comments = recode(comments, "null" = NA_character_))
 ```
 
 ## Create EML
@@ -73,19 +64,37 @@ Update authors:
 
 ```{r}
 contributors <- package$contributors
-purrr::pluck(
-  contributors[
-    purrr::map_lgl(package$contributors,
-    ~ purrr::pluck(.x, "title") == "saida feresin")
-  ], 1, "title"
-) <- "Saida Feresin"
-```
+# Add missing organization to contributors from INBO
+add_org <- c("Jan Gouwy", "Kristof Baert", "Kurt Schamp", "Sanne Van Donink")
+contributors <- purrr::map(contributors, function(x) {
+  if (x$title %in% add_org) {
+    x$organization <- "Research Institute for Nature and Forest (INBO)"
+  }
+  return(x)
+})
 
-Add missing authors:
+# Add ORCID
+contributors <- purrr::map(contributors, function(x) {
+  if (x$title == "Kristof Baert") {
+    x$path <- "https://orcid.org/0000-0003-2015-5731"
+  }
+  return(x)
+})
 
-```{r}
-package$contributors <- append(
-  package$contributors,
+# Remove saida (project auditor)
+contributors <- purrr::map(contributors, function(x) {
+  if (x$title == "saida feresin") {
+    x <- NULL
+  }
+  return(x)
+})
+
+# Remove last contributor (rightsHolder)
+contributors[length(contributors)] <- NULL
+
+# Add missing authors
+contributors <- append(
+  contributors,
   list(
     list(
       title = "Dimitri Brosens",
@@ -108,6 +117,9 @@ package$contributors <- append(
     list(title = "Jelle Ronsijn", role = "contributor")
   )
 )
+
+# Add contributors back to package
+package$contributors <- contributors
 ```
 
 Run `write_eml()` function:
