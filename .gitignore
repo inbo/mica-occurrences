@@ -50,6 +50,7 @@ datasets/*/data/interim/*
 *.zip
 *.txt
 *.gz
+*.csv
 occurrence.RData
 
 # Mac OS X
