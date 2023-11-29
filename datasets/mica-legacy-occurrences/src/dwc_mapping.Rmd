@@ -238,7 +238,7 @@ The following terms contain information about the taxon:
 ### occurrenceID
 
 ```{r}
-occurrence %<>% mutate(dwc_occurrenceID = paste0("INBO:MUSK:L:OCC:", X1))
+occurrence %<>% mutate(dwc_occurrenceID = paste0("INBO:MUSK:L:OCC:", row_number()))
 ```
 
 ### recordedBy

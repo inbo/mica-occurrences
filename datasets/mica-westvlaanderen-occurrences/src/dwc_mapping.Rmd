@@ -495,7 +495,7 @@ occurrence %<>%
 ### identifiedBy
 
 ```{r}
-occurrence %<>% mutate(identifiedBy = 'PRovince of West Flanders')
+occurrence %<>% mutate(identifiedBy = 'Province of West Flanders')
 ```
 
 ### scientificName 
