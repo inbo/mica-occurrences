@@ -47,7 +47,6 @@ datasets/*/data/interim/*
 !datasets/*/data/processed/eml.xml
 *.xlsx
 *.geojson
-*.csv
 *.zip
 *.txt
 *.gz
