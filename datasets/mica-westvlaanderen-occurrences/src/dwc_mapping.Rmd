@@ -34,6 +34,8 @@ library(leaflet)        # coordinate transformation
 library(widgetframe)    # coordinate transformation
 library(sf)             # coordinate transformation
 library(lubridate)      # for the date
+library(ggplot2)        # for map
+library(mapview)
 ```
 
 # Read source data
@@ -126,12 +128,12 @@ We want to keep the original verbatim Coordinates
 The original X,Y will be used for creating decimalLatitude and decimalLongitude
 
 ```{r}
-input_interim %<>% mutate(verbatimLongitud = (x/100000000000)) %>%
+input_interim %<>% mutate(verbatimLongitud = (x/1000000000000)) %>%
                    mutate(verbatimLatitud = (y/100000000000)) 
                    
 ```
 ```{r}
-input_interim %<>% mutate(verbatimLongitude = (x/100000000000)) %>%
+input_interim %<>% mutate(verbatimLongitude = (x/1000000000000)) %>%
                    mutate(verbatimLatitude = (y/100000000000)) 
                    
 ```
@@ -620,3 +622,34 @@ Save to CSV:
 ```{r}
 write_csv(occurrence, here::here("datasets", "mica-westvlaanderen-occurrences", "data", "processed", "occurrence.csv"), na = "")
 ```
+
+
+Visualize data on a map
+
+```{r}
+occurrenceMap <- occurrence
+```
+
+```{r}
+occurrenceMap$decimalLatitude <- as.numeric(occurrenceMap$decimalLatitude)
+```
+
+```{r}
+occurrenceMap$decimalLongitude <- as.numeric(occurrenceMap$decimalLongitude)
+```
+
+```{r}
+head(occurrenceMap)
+```
+
+
+
+```{r}
+
+
+head(occurrence)
+
+mapview(occurrenceMap, xcol = "decimalLongitude", ycol = "decimalLatitude", crs = 4269, grid = FALSE)
+
+```
+
