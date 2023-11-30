@@ -126,10 +126,17 @@ We want to keep the original verbatim Coordinates
 The original X,Y will be used for creating decimalLatitude and decimalLongitude
 
 ```{r}
-input_interim %<>% mutate(verbatimLongitude = x1) %>%
-                   mutate(verbatimLatitude = y1) 
+input_interim %<>% mutate(verbatimLongitud = (x/100000000000)) %>%
+                   mutate(verbatimLatitud = (y/100000000000)) 
                    
 ```
+```{r}
+input_interim %<>% mutate(verbatimLongitude = (x/100000000000)) %>%
+                   mutate(verbatimLatitude = (y/100000000000)) 
+                   
+```
+
+
 
 ### Create a spacial dataframe
 
@@ -137,7 +144,7 @@ Create spatial dataframe and define the CRS (31370 is Belgian Lambert 72)
 We indicate the x,y columns as coordinates and define the coordinate system
 
 ```{r}
-input_interim = st_as_sf(input_interim, coords = c("x1","y1"), crs = 31370 , agr = "constant" )
+input_interim = st_as_sf(input_interim, coords = c("verbatimLongitud","verbatimLatitud"), crs = 31370 , agr = "constant" )
 input_interim %>% head(n = 5)
 ```
 
