@@ -128,13 +128,44 @@ We want to keep the original verbatim Coordinates
 The original X,Y will be used for creating decimalLatitude and decimalLongitude
 
 ```{r}
-input_interim %<>% mutate(verbatimLongitud = (x/1000000000000)) %>%
-                   mutate(verbatimLatitud = (y/100000000000)) 
+input_interim$x <- as.character(input_interim$x)
+```
+
+```{r}
+input_interim$x <- substr(input_interim$x, 1, 5)
+```
+
+```{r}
+input_interim$x <- as.numeric(input_interim$x)
+```
+
+
+```{r}
+input_interim$y <- as.character(input_interim$y)
+```
+
+```{r}
+input_interim$y <- substr(input_interim$y, 1, 6)
+```
+
+```{r}
+input_interim$y <- as.numeric(input_interim$y)
+```
+
+
+
+
+
+
+
+```{r}
+input_interim %<>% mutate(verbatimLongitud = (x)) %>%
+                   mutate(verbatimLatitud = (y)) 
                    
 ```
 ```{r}
-input_interim %<>% mutate(verbatimLongitude = (x/1000000000000)) %>%
-                   mutate(verbatimLatitude = (y/100000000000)) 
+input_interim %<>% mutate(verbatimLongitude = (x)) %>%
+                   mutate(verbatimLatitude = (y)) 
                    
 ```
 
