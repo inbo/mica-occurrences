@@ -15,9 +15,9 @@ Title (and GitHub directory) | IPT | GBIF
 [MICA - Muskrat occurrences collected by VMM in Flanders, Belgium](datasets/mica-vmm-occurrences) | [mica-vmm-occurrences](https://ipt.inbo.be/resource?r=mica-vmm-occurrences) | <https://doi.org/10.15468/gwzwk4>
 [RATO - daily operations commissioned by the province East Flanders, Belgium](https://github.com/riparias/rato-occurrences) | [rato-occurrences](https://ipt.inbo.be/resource?r=rato-occurrences) | <https://doi.org/10.15468/fw2rbx>
 [Mica - Muskrat, Raccoon and Coypu occurrences collected by ITAW in Germany](datasets/mica-itaw-occurrences) | [mica-itaw-occurrences](https://ipt.inbo.be/resource?r=mica-itaw-occurrences) | <https://doi.org/10.15468/qzcu4s>
-[Muskrat trapping data in the Netherlands 1987 – 2014] | [hwh_muskrat_1987-2014](http://ipt.nlbif.nl/resource?r=hwh_muskrat_1987-2014) | <https://doi.org/10.15468/ytr96y>
+Muskrat trapping data in the Netherlands 1987 – 2014 | [hwh_muskrat_1987-2014](http://ipt.nlbif.nl/resource?r=hwh_muskrat_1987-2014) | <https://doi.org/10.15468/ytr96y>
 [VMM - Rat control occurrences in Flanders, Belgium](https://github.com/riparias/vmm-rattenapp-occurrences) | [vmm-rattenapp-occurrences](https://ipt.inbo.be/resource?r=vmm-rattenapp-occurrences) | <https://doi.org/10.15468/wquzva>
-
+[MICA - Muskrat occurrences collected in West Flanders, Belgium](datasets/mica-westvlaanderen-occurrences) | [Mica West Vlaanderen](https://ipt.inbo.be/resource?r=mica-wvl-occurrences) | <https://doi.org/10.15468/kpzkx3>
 
 ## Repo structure
 
