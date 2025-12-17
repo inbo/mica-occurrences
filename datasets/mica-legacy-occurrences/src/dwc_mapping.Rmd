@@ -346,6 +346,12 @@ occurrence %<>% mutate(dwc_decimalLongitude = Lat) # Long, because flipped in so
 occurrence %<>% mutate(dwc_geodeticDatum = "WGS84")
 ```
 
+```{r}
+occurrence %<>% mutate(dwc_verbatimCoordinateSystem = "WGS84")
+```
+
+
+
 ### coordinateUncertaintyInMeters
 
 ```{r}
@@ -365,6 +371,12 @@ occurrence %<>% mutate(dwc_georeferenceRemarks = case_when(
   TRUE ~ NA_character_
 ))
 ```
+
+
+```{r}
+occurrence %<>% mutate(dwc_identificationVerificationStatus = "validated")
+```
+
 
 ### kingdom
 

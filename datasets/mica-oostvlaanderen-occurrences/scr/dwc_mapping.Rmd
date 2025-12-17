@@ -414,7 +414,7 @@ occurrence %<>%
   rename(decimalLatitude = Y) %>%
   mutate(geodeticDatum = "WGS84") %>%
   mutate(coordinateUncertaintyInMeters = "30") %>%
-  mutate(verbatimCoordinateSystem = "Lambert coordinates") %>%
+  mutate(verbatimCoordinateSystem = "Belgian Lambert 72") %>%
   mutate(verbatimSRS = "Belgian Datum 1972") %>%
   mutate(countryCode = "BE")  %>%            
   mutate(continent = "Europe")
@@ -552,6 +552,13 @@ occurrence %<>%
                                        ))
 head(occurrence, n = 5)
 ```
+## identification
+
+```{r}
+occurrence %<>% mutate(identificationVerificationStatus = "validated") # e.g. "ICZN"
+```
+
+
 
 ```{r eval=FALSE, include=FALSE}
 

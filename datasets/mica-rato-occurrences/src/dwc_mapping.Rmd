@@ -400,8 +400,8 @@ occurrence %<>%
   rename(decimalLatitude = Y) %>%
   mutate(geodeticDatum = "WGS84") %>%
   mutate(coordinateUncertaintyInMeters = "30") %>%
-  mutate(verbatimCoordinateSystem = "Lambert coordinates") %>%
-  mutate(verbatimSRS = "Belgian Datum 1972") %>%
+  mutate(verbatimCoordinateSystem = "Belgian Lambert 72") %>%
+  mutate(verbatimSRS = "Belgium Date 1972") %>%
   mutate(countryCode = "BE")  %>%            
   mutate(continent = "Europe")
 ```
@@ -475,6 +475,10 @@ occurrence %<>%
 ```{r}
 occurrence %<>% mutate(identifiedBy = 'RATO')
 ```
+```{r}
+occurrence %<>% mutate(identificationVerificationStatus = 'validated')
+```
+
 
 ### scientificName 
 
