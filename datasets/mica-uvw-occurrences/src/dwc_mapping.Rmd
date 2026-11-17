@@ -51,7 +51,12 @@ csv_files <- list.files(here::here("datasets", "mica-uvw-occurrences", "data", "
 ```
 
 ```{r}
-data <- lapply(csv_files, read_csv2) %>% bind_rows()
+data <- csv_files %>% 
+  lapply(function(file) {
+    read_csv2(file) %>% 
+      rename(any_of(c(ID = "iD")))
+  }) %>% 
+  bind_rows()
 ```
 
 
@@ -551,7 +556,7 @@ occurrence %>% tail()
 Save to CSV:
 
 ```{r}
-write_csv(occurrence, here::here("datasets/mica-uvw-occurrences", "data", "processed", "occurrence.csv"))
+write_csv(occurrence, here::here("datasets/mica-uvw-occurrences", "data", "processed", "occurrence2.csv"))
 
 
 
